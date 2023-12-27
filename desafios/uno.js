@@ -96,10 +96,12 @@ console.log("---BUSCAR PRODUCTO POR CODE---");
 //console.log(misProductos.getProductById("AAA"));
 console.log(misProductos.getProductById("code6"));
 console.log(misProductos.getProductById("CODE6"));
-/*
+
+
 //Datos de test: comprobar que id sea único.
 console.log("-----------");
-console.log("---ÚNICO---");
-console.log("¿Es único AAA? " + misProductos.idEsUnico("AAA"));
-console.log("¿Es único Bat1? " + misProductos.idEsUnico("Bat1"));
-*/
+console.log("---TESTE CODE ÚNICO---");
+console.log("¿Existe el code AAA? " + !misProductos.idEsUnico("AAA"));
+console.log("¿Existe el code code1? " + !misProductos.idEsUnico("code1"));
+console.log("¿Existe el code Bat1? " + !misProductos.idEsUnico("Bat1"));
+console.log("¿Existe el code code5? " + !misProductos.idEsUnico("code5"));
