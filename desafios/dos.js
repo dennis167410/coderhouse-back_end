@@ -36,11 +36,23 @@ class ProductoManager{
     }
 
 
-    modificarProducto(unCode){
+    modificarProducto(unCode, title, description, price, thumbnail, stock){
+       let p = this.getProductById2(unCode);
 
+        console.log("Producto = " +p.title + " " + p.description);
+        
+        if(!this.esVacio(title)) p.title = title;
+        
+        if(!this.esVacio(description)) p.description = description;
+        
+        if(!this.esVacio(price)) p.price = price;
+        
+        if(!this.esVacio(thumbnail)) p.thumbnail = thumbnail;
+        
+        if(stock > 0) p.stock = stock;
+
+        return "¡Producto modificado con éxito!"
     }
-
-
 
     getProducts(){
         this.productos.forEach(unP => console.log(unP));
@@ -50,12 +62,21 @@ class ProductoManager{
         let retorno = "Not found";
         this.productos.forEach(unP => {
             if(unP.code.toLowerCase() === unCode.toLowerCase()){
-               retorno = unP.code + " " + unP.title + " " + unP.description;
+               retorno = unP.code + " " + unP.title + " " + unP.description + " " + unP.price + " " + unP.stock;
             }
         });
         return retorno;
     }
     
+    getProductById2(unCode){
+        let retorno = "Not found";
+        this.productos.forEach(unP => {
+            if(unP.code.toLowerCase() === unCode.toLowerCase()){
+               retorno = unP;
+            }
+        });
+        return retorno;
+    }
 
 
 
@@ -108,6 +129,12 @@ console.log("---BUSCAR PRODUCTO POR CODE---");
 console.log(misProductos.getProductById("code6"));
 console.log(misProductos.getProductById("CODE6"));
 
+console.log("--------------------");
+console.log("--- MODIFICAR PRODUCTO ---");
+//console.log(misProductos.modificarProducto("CODE6", "", "", 400, "", 0))
+console.log(misProductos.modificarProducto("CODE6", "", "", 400, "", 10))
+console.log(misProductos.getProducts());
+//console.log(misProductos.modificarProducto("CODE6", title, description, price, thumbnail, stock))
 
 //Datos de test: comprobar que id sea único.
 console.log("-----------");
