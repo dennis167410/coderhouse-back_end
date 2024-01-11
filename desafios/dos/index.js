@@ -50,11 +50,14 @@ const entregableDos = async () => {
             stock:4
         };
         */
-        
-      /* console.log("--- CREAR PRODUCTO ---");
+       console.log("--- LISTAR TODOS LOS PRODUCTOS ---");
+       let respuesta = await entregable.getProducts();
+       console.log(respuesta)
+
+       console.log("--- CREAR PRODUCTO ---");
        const nuevoProducto = await entregable.addProduct(producto);
        console.log(nuevoProducto);
-      */
+      
 
         /*
         console.log("-----------");
