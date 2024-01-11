@@ -10,8 +10,13 @@ class ProductoManager{
     }
 
     async addProduct(product){
-                   
+         
      try{
+
+        if(this.esVacio(product.title) || this.esVacio(product.description) || this.esVacio(product.thumbnail) || product.price < 0 || product.stock < 0){
+            return "Datos Vacíos y/o valores negativos";
+        } 
+
         const todosLosProductos = await this.getProducts();
         const ultimoId = todosLosProductos.length === 0 ? 1 : todosLosProductos.productos[todosLosProductos.productos.length-1].id + 1;
         const nuevoProducto = {id: ultimoId, ...product};
@@ -58,61 +63,43 @@ class ProductoManager{
     }
 
     async deleteProduct(unCode){
+        try{
+
+        if(this.esVacio(unCode)){
+            return "Datos vacíos.";
+        } 
 
         let respuesta = await this.getProducts();
-
-        respuesta.productos = respuesta.productos.filter((unProducto) => unProducto.code !== unCode)
-
-       /* console.log("AUX = ");
-        console.log(aux);
-        */
-          
+        respuesta.productos = respuesta.productos.filter((unProducto) => unProducto.code !== unCode)          
         await fs.writeFile(this.pathBD, '{"productos": '+ JSON.stringify(respuesta.productos)+'}')
-        
-
         return "Producto eliminado."
+        }catch(error){
+            console.log("Error al eliminar el producto.");
+        }
     }
 
 
     async updateProduct(unCode, title, description, price, thumbnail, stock){
      try{
-       // let respuesta = await this.getProductById(unCode);
- 
-      
+        let r = "Not found";
+
         let respuesta = await this.getProducts();
- 
-        //let indice = respuesta.productos.findIndex(unObjeto => unObjeto.code === unCode.toLowerCase());
-       // let indice = respuesta.productos.length
+        respuesta.productos.forEach((unProducto)=>{
+            //console.log("CODE = " + unProducto.code + " --- " + unCode)
+            if(unProducto.code === unCode){
+                if(!this.esVacio(title)) unProducto.title = title;
+                if(!this.esVacio(description)) unProducto.description = description;
+                if(price > 0) unProducto.price = price;
+                if(!this.esVacio(thumbnail)) unProducto.thumbnail = thumbnail;
+                if(stock > 0) unProducto.stock = stock;
+
+                r = "¡Producto modificado con éxito!"
             
-       // console.log("Indice = " + indice);
+            }    
+        })          
 
-        console.log(respuesta.productos[0].title)
-
-         console.log("Producto = " +respuesta.productos[2].title);
-         
-         //if(!this.esVacio(title)) respuesta.productos[indice].title = title;
-         
-        // await fs.writeFile(this.pathBD, JSON.stringify(respuesta.productos))
-
-
-         /*fs.writeFile(process.cwd()+"/prueba2.txt", "Nueva línea del archivo", (err)=>{
-            if(err){
-                console.log(err)
-            }
-        })*/
-
-      //   console.log("Producto modificado = " +respuesta.productos[indice].title);
-
-         /*if(!this.esVacio(description)) respuesta.productos[indice].title = description;
-         
-         if(!this.esVacio(price)) respuesta.productos[indice].title = price;
-         
-         if(!this.esVacio(thumbnail)) respuesta.productos[indice].title = thumbnail;
-         
-         if(stock > 0) respuesta.productos[indice].title = stock;
-        */
-
-         return "¡Producto modificado con éxito!"
+        await fs.writeFile(this.pathBD, '{"productos": '+ JSON.stringify(respuesta.productos)+'}')
+        return r;
      }catch(error){
         console.log(error)
      }
