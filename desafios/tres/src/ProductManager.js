@@ -27,8 +27,7 @@ class ProductManager{
         
         if(misProductos.length === 0) return "Archivo vacío";
 
-        misProductos.productos.forEach(unP => { 
-            console.log("Pid = " + unPid + " - " + unP.id)  
+        misProductos.productos.forEach(unP => {  
            //  if(unP.code.toLowerCase() === unCode.toLowerCase()){
             if(unP.id == unPid){
                retorno = unP;
