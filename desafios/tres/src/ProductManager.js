@@ -20,15 +20,17 @@ class ProductManager{
         }
     }
 
-    async getProductById(unCode){
+    async getProductById(unPid){
         try{
         let retorno = "Not found";
         let misProductos = await this.getProducts();
         
         if(misProductos.length === 0) return "Archivo vacío";
 
-        misProductos.productos.forEach(unP => {   
-            if(unP.code.toLowerCase() === unCode.toLowerCase()){
+        misProductos.productos.forEach(unP => { 
+            console.log("Pid = " + unPid + " - " + unP.id)  
+           //  if(unP.code.toLowerCase() === unCode.toLowerCase()){
+            if(unP.id == unPid){
                retorno = unP;
             }
         });

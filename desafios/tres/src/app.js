@@ -10,7 +10,6 @@ app.use(express.urlencoded({extends: true}));
 // Ejemplo: http://localhost:6500/products?limit=5
 app.get("/products", async(request, response) =>{
     const {limit} = request.query;
-    console.log("Limit = " + limit)
     const misProductos = await listarTodosLosProductos();
     
     if(!limit) return response.json({message: "Productos ", misProductos})
@@ -38,7 +37,6 @@ const listarTodosLosProductos = async () => {
  }
 
 app.get("/products/:pid", async(request, response) =>{
-    //console.log("Parámetro en el request = " + request.params.pid)
     const miProducto = await buscarProductoPorPID(request.params.pid);
     response.json({message: "Producto ", miProducto}) 
 })
@@ -49,11 +47,7 @@ const buscarProductoPorPID = async (unId) => {
         const ProductManager = require("./ProductManager.js");
         const entregable = new ProductManager();
         let respuesta = await entregable.getProductById(unId);
-        
-        console.log(respuesta)
-
         return respuesta;
-
     }catch(error){
         console.log(error)
     }
