@@ -1,0 +1,28 @@
+{
+"usuarios":[
+{
+    "id": 1,
+    "nombre": "Anto",
+    "apellido": "Ferreria",
+    "edad": 32,
+    "correo": "anto@correo.com",
+    "sexo": "f"
+},
+{
+    "id": 2,
+    "nombre": "Ale",
+    "apellido": "Paz",
+    "edad": 37,
+    "correo": "alepaz@correo.com",
+    "sexo": "f"
+},
+{
+    "id": 3,
+    "nombre": "Miguel",
+    "apellido": "Ferreria",
+    "edad": 30,
+    "correo": "miguel@correo.com",
+    "sexo": "m"
+}
+]
+}

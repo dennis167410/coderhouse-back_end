@@ -1,0 +1,20 @@
+{
+    "pets":[
+    {
+        "id": 1,
+        "nombre": "Toby",
+        "especie": "Perro",
+        "edad": 2,
+        "duenio": "",
+        "sexo": "f"
+    },
+    {
+        "id": 2,
+        "nombre": "Lola",
+        "especie": "Loro",
+        "edad": 1,
+        "duenio": "",
+        "sexo": "m"
+    }
+    ]
+    }
