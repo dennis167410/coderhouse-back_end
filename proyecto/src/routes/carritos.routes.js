@@ -65,7 +65,7 @@ router.post("/", async(req, res) => {
                 {
                     "id": 3,
                     "quantity:": 1
-                }
+                },
                 {
                     "id": 7,
                     "quantity:": 2
@@ -91,8 +91,32 @@ router.post("/", async(req, res) => {
 ///////////////////////////////////////
 
 router.post("/:cid/product/:pid", async(req, res) => {
+   const cid = req.params.cid;
+   const pid = req.params.pid;
+  // console.log("BODY = " , req.body)
+   const carrito = req.body;
+   const unaCantidad = carrito.producto[0].quantity;
 
-    
+   console.log("Cantidad = " + unaCantidad);
+  /* console.log("CARRITO ", carrito)
+   console.log("Producto = " + carrito.producto[0].id + " Cantidad = " + carrito.producto[0].quantity)
+*/
+
+    try{
+        const Carrito = require("../entidad/Carrito.js");
+        const entregable = new Carrito();
+        let respuesta = await entregable.updateCart(cid, pid, unaCantidad); 
+       
+        if(respuesta === null){
+            return res.json({ok: false, message: "Error al intentar actualizar el carrito"}); 
+        }
+        
+        return res.json({ok: true, message: "_____", Carrito: respuesta});
+        
+    }catch(error){
+        console.log(error)
+    }
+
 })
 
 ///////////////////////////////////////

@@ -63,6 +63,46 @@ async getCartById(unCid){
    }
    } 
 
+/////////////////////////////////////////////////////////////////
+
+async updateCart(unCid, unPid, unaCantidad){
+    try{
+       let r = "Not found";
+       let existe = false;
+       let losCarritos = await this.getCarritos();
+       losCarritos.carritos.forEach(unC => {  
+        if(unC.id == unCid){
+            console.log("Encontrado el carrito")
+            console.log(unC)
+            unC.productos.forEach(unP => {
+                console.log(unP.id + " - " + unPid);
+                if(unP.id == unPid){
+                  unP.quantity += unaCantidad;
+                r = "Producto actualizado en el carrito."
+                console.log("Carrito acualizado")
+                existe = true;
+                }
+            })
+        }
+    });
+
+        if(!existe){
+            const nuevoProducto = {id: Number(unPid), quantity: unaCantidad};
+            losCarritos.carritos.forEach(unC => {  
+            if(unC.id == unCid){
+            unC.productos.push(nuevoProducto);
+            console.log("Producto agregado al carrito")
+            r = "Producto agregado al carrito";
+        }
+        });
+        }
+
+       await fs.writeFile('./src/base_de_datos/bd_carritos.json', '{"carritos": '+ JSON.stringify(losCarritos.carritos)+'}')
+       return r;
+    }catch(error){
+       console.log(error)
+    }
+    }
 
 
 }

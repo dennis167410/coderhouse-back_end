@@ -97,19 +97,13 @@ router.put('/:pid', async(req, res) => {
     
     const unId =  req.params.pid;;
 
-/*    console.log('Id = '+ unId);
-    console.log('QUERY PARAMS = ', req.query);
-
-    console.log(`Id: ${unId} Titulo ${title} Descripción: ${description} Precio: ${price} Status: ${status} Stock: ${stock} Cat: ${category} Imagen: ${thumbnail}`)
-*/
-
      try{
         const ProductManager = require("../entidad/ProductManager.js");
         const entregable = new ProductManager();
         let respuesta = await entregable.updateProduct(unId, title, description, price, status, stock, category, thumbnail); 
        
         if(respuesta === null){
-            return res.json({ok: false, message: "Error al intentar crear el producto"}); 
+            return res.json({ok: false, message: "Error al intentar actualizar el producto"}); 
         }
         
         return res.json({ok: true, message: "_____", producto: respuesta});
