@@ -12,11 +12,11 @@ class Carrito{
 
    async getCarritos(){
     try{
-        const todosLosCarritos = await fs.readFile("./src/base_de_datos/bd_carritos.json", "utf-8");
+        const todosLosCarritos = await fs.readFile("./src/base_de_datos/carritos.json", "utf-8");
         return JSON.parse(todosLosCarritos);
     }catch(error){
         console.log("El archivo no existe.");
-        await fs.writeFile("./src/base_de_datos/bd_carritos.json", "[]");
+        await fs.writeFile("./src/base_de_datos/carritos.json", "[]");
         return [];
     }
 }
@@ -53,10 +53,10 @@ async getCartById(unCid){
 
        todosLosCarritos.carritos.push(nuevoProductoAlCarrito);
 
-       await fs.writeFile("./src/base_de_datos/bd_carritos.json", JSON.stringify(todosLosCarritos))
+       await fs.writeFile("./src/base_de_datos/carritos.json", JSON.stringify(todosLosCarritos))
 
        console.log("Bien = " + nuevoCarrito)
-       return nuevoCarrito; // Lo cambiaré por true
+       return nuevoCarrito; 
 
    }catch(error){
        return "Error al crear el carrito.";
@@ -79,7 +79,7 @@ async updateCart(unCid, unPid, unaCantidad){
                 if(unP.id == unPid){
                   unP.quantity += unaCantidad;
                 r = "Producto actualizado en el carrito."
-                console.log("Carrito acualizado")
+                console.log("Carrito actualizado.")
                 existe = true;
                 }
             })
@@ -97,7 +97,7 @@ async updateCart(unCid, unPid, unaCantidad){
         });
         }
 
-       await fs.writeFile('./src/base_de_datos/bd_carritos.json', '{"carritos": '+ JSON.stringify(losCarritos.carritos)+'}')
+       await fs.writeFile('./src/base_de_datos/carritos.json', '{"carritos": '+ JSON.stringify(losCarritos.carritos)+'}')
        return r;
     }catch(error){
        console.log(error)

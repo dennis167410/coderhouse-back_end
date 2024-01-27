@@ -65,11 +65,9 @@ router.post("/", async(req, res) => {
             "status": true,
             "stock": 120,
             "category": "cat1",
-            "thumbnail": "img/p2.jpg"
+            "thumbnails": ["ruta1", "ruta2"]
         }
     */  
-
-   // console.log("Nuevo Producto = ", product)
 
     const ProductManager = require("../entidad/ProductManager.js");
     const entregable = new ProductManager();
@@ -89,8 +87,8 @@ router.post("/", async(req, res) => {
 ////////////////////////////////////////////////////////
 
 //router.put('/:pid/:title/:description/:price/:status/:stock/:category/:thumbnail', async(req, res) => {
-// PUT localhost:8080/api/products/2?titulo="El señor" 
-// PUT localhost:8080/api/products/2?titulo="El señor"&stock=30   
+// PUT localhost:8080/api/products/1?title=Titulo actualizado del producto id 1
+// PUT localhost:8080/api/products/2?title=producto 2 actualizado&stock=30   
 router.put('/:pid', async(req, res) => {
     
     const {title, description, price, status, stock, category, thumbnail} = req.query; 
@@ -118,9 +116,7 @@ router.put('/:pid', async(req, res) => {
 router.delete("/:pid", async(req, res) => {
 
     const miProducto = req.params.pid;
-  
-   // console.log("PID a eliminar = " + miProducto);
-    
+
     try{
     const ProductManager = require("../entidad/ProductManager.js");
     const entregable = new ProductManager();

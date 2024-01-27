@@ -11,11 +11,11 @@ class ProductManager{
 
     async getProducts(){
         try{
-            const todosLosProductos = await fs.readFile("./src/base_de_datos/bd_productos.json", "utf-8");
+            const todosLosProductos = await fs.readFile("./src/base_de_datos/productos.json", "utf-8");
             return JSON.parse(todosLosProductos);
         }catch(error){
             console.log("El archivo no existe.");
-            await fs.writeFile("./src/base_de_datos/bd_productos.json", "[]");
+            await fs.writeFile("./src/base_de_datos/productos.json", "[]");
             return [];
         }
     }
@@ -29,7 +29,6 @@ class ProductManager{
         if(misProductos.length === 0) return "Archivo vacío";
 
         misProductos.productos.forEach(unP => {  
-           //  if(unP.code.toLowerCase() === unCode.toLowerCase()){
             if(unP.id == unPid){
                retorno = unP;
             }
@@ -78,9 +77,10 @@ class ProductManager{
     async addProduct(product){
          
         try{
-   
-           if(this.esVacio(product.title) || this.esVacio(product.description) || this.esVacio(product.thumbnail) || product.price < 0 || product.stock < 0){
-              // return "Datos Vacíos y/o valores negativos";
+           product.price = Number(product.price)
+           product.stock = Number(product.stock)
+
+           if(this.esVacio(product.title) || this.esVacio(product.description) || Number(product.price < 0) || Number(product.stock) < 0){
               return null;
            }
    
@@ -92,7 +92,7 @@ class ProductManager{
    
            todosLosProductos.productos.push(nuevoProducto);
    
-           await fs.writeFile("./src/base_de_datos/bd_productos.json", JSON.stringify(todosLosProductos))
+           await fs.writeFile("./src/base_de_datos/productos.json", JSON.stringify(todosLosProductos))
    
            return nuevoProducto;
    
@@ -112,7 +112,7 @@ class ProductManager{
 
         let respuesta = await this.getProducts();
         respuesta.productos = respuesta.productos.filter((unProducto) => unProducto.id != unId)          
-        await fs.writeFile("./src/base_de_datos/bd_productos.json", '{"productos": '+ JSON.stringify(respuesta.productos)+'}')
+        await fs.writeFile("./src/base_de_datos/productos.json", '{"productos": '+ JSON.stringify(respuesta.productos)+'}')
         return "Producto eliminado."
         }catch(error){
             console.log("Error al eliminar el producto.");
@@ -141,7 +141,7 @@ class ProductManager{
             }    
         })          
 
-        await fs.writeFile('./src/base_de_datos/bd_productos.json', '{"productos": '+ JSON.stringify(respuesta.productos)+'}')
+        await fs.writeFile('./src/base_de_datos/productos.json', '{"productos": '+ JSON.stringify(respuesta.productos)+'}')
         return r;
      }catch(error){
         console.log(error)

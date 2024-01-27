@@ -57,23 +57,23 @@ router.post("/", async(req, res) => {
     const product = req.body;
     
     try{
-        // POSMAN:
+        // POSMAN - body:
         /*
          {
-            "id": 1,
             "productos": [
                 {
-                    "id": 3,
-                    "quantity:": 1
+                    "id": 1,
+                    "quantity": 100
                 },
                 {
-                    "id": 7,
-                    "quantity:": 2
+                    "id": 3,
+                    "quantity": 20
                 }
             ]
         }
         */
-     
+
+       
     const Carrito = require("../entidad/Carrito.js");
     const entregable = new Carrito();
     let respuesta = await entregable.addCarrito(product); 
@@ -89,20 +89,25 @@ router.post("/", async(req, res) => {
     })
 
 ///////////////////////////////////////
-
+// POST localhost:8080/api/carts/5/product/1
+// POST localhost:8080/api/carts/5/product/7
 router.post("/:cid/product/:pid", async(req, res) => {
+
+//POSMAN
+/*
+    {
+    "product": {
+        "quantity": 4
+                }
+    }
+*/
    const cid = req.params.cid;
    const pid = req.params.pid;
-  // console.log("BODY = " , req.body)
-   const carrito = req.body;
-   const unaCantidad = carrito.producto[0].quantity;
+   const product = req.body;
+   console.log(req.body)
+   const unaCantidad = product.product.quantity;
 
-   console.log("Cantidad = " + unaCantidad);
-  /* console.log("CARRITO ", carrito)
-   console.log("Producto = " + carrito.producto[0].id + " Cantidad = " + carrito.producto[0].quantity)
-*/
-
-    try{
+   try{
         const Carrito = require("../entidad/Carrito.js");
         const entregable = new Carrito();
         let respuesta = await entregable.updateCart(cid, pid, unaCantidad); 
