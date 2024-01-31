@@ -7,12 +7,15 @@ router.get("/", async(request, response) =>{
     const {limit} = request.query;
     const misProductos = await listarTodosLosProductos();
     
-    if(!limit) return response.json({message: "Productos ", misProductos})
+    //response.render('home', {name: misProductos})
+
+    if(!limit) return response.render('home', {name: misProductos}); //return response.json({message: "Productos ", misProductos})
     
     if(misProductos){
         if(misProductos.length > 0){
             const primerosNElementos = misProductos.slice(0,limit);
-            response.json({message: "Primeros "+ limit + " productos ", primerosNElementos})
+           return response.render('home', {name: primerosNElementos})
+          //  response.json({message: "Primeros "+ limit + " productos ", primerosNElementos})
         }
     }else{
         response.send({error: "No existen productos para mostrar."});
@@ -30,7 +33,18 @@ const listarTodosLosProductos = async () => {
     }
  }
 
-////////////////////
+/////////////////////////////////////////////////////////
+
+// Websocket:
+/*router.get('/realtimeproducts', (req, res) => {
+    res.render('index')
+})*/
+/*
+io.on("connection", (socket) => {
+    console.log('Nuevo cliente conectado: ', socket.id);
+})*/
+
+/////////////////////////////////////////////////////////
 
 router.get("/:pid", async(request, response) =>{
     const miProducto = await buscarProductoPorPID(request.params.pid);
