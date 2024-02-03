@@ -6,8 +6,6 @@ const router = Router();
 router.get("/", async(request, response) =>{
     const {limit} = request.query;
     const misProductos = await listarTodosLosProductos();
-    
-    //response.render('home', {name: misProductos})
 
     if(!limit) return response.render('home', {name: misProductos}); //return response.json({message: "Productos ", misProductos})
     
@@ -43,7 +41,12 @@ const listarTodosLosProductos = async () => {
 io.on("connection", (socket) => {
     console.log('Nuevo cliente conectado: ', socket.id);
 })*/
+// Cuando lo necesites en este caso el controlador puede hacerlo de la siguiente manera:
 
+/*
+const io = req.app.get('socketio');
+io.emit('mensajeTodosLosProdictos', "Nuevo mensje desde el fornt");
+*/
 /////////////////////////////////////////////////////////
 
 router.get("/:pid", async(request, response) =>{

@@ -1,3 +1,60 @@
 <div>
-    <h1>Hola entrega 2 del proyecto, desde la vista</h1>   
+    <h1>Registrar Producto</h1>
+    <form id="form-products">
+        <label>Título:
+            <input type="text" id="title">
+        </label>
+        <label>Descripción:
+            <input type="text" id="description">
+        </label>
+        <label>Precio:
+            <input type="text" id="price">
+        </label>
+        <label>Status:
+            <input type="text" id="status">
+        </label>
+        <label>Stock:
+            <input type="number" id="stock">
+        </label>
+          <label>Categoria:
+            <input type="text" id="category">
+        </label>
+          <label>Ruta al archivo de imagenes:
+            <input type="text" id="ruta">
+        </label>
+
+        <input type="submit" value="Registrar">
+    </form>   
+</div>
+
+<hr>
+
+
+<div>
+    <form id="form-productsDelete">
+        <label for="input">Producto a eliminar: </label>
+        <input type="text" id="input" placeholder="Ingrese el número de Id.">
+        <input type="submit" value="Eliminar">
+    </form>   
+</div>
+
+<hr>
+
+<div>
+    <h2>Todos los productos</h2>
+   <table border="1">
+    <caption>Productos registrados</caption>
+    <thead>
+        <tr>
+            <th> Id. </th>
+            <th> Título </th>
+            <th> Descripción </th>
+            <th> Precio </th>
+            <th> Stock </th>
+        </tr>
+    </thead>
+    
+    <tbody id="listaDeProducts">
+    </tbody>
+</table>
 </div>
