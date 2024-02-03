@@ -1,13 +1,8 @@
-/*const form = document.getElementById('form-msg');
-const mensaje = document.getElementById('all-mensajes');
-*/
-console.log("Hola, websocket para el proyecto, de la vista que debe ser")
-
 const socket = io();
-
 
 const form = document.getElementById('form-products');
 const formProductoEliminar = document.getElementById('form-productsDelete');
+
 const productos = document.getElementById('listaDeProducts');
 
 
@@ -20,15 +15,14 @@ form.addEventListener('submit', (e) => {
     let status = this.document.querySelector("#status").value;
     let stock = this.document.querySelector("#stock").value;
     let category = this.document.querySelector("#category").value;
-    let ruta = this.document.querySelector("#ruta").value;
-
+    let ruta = "";
     console.log(title);
     console.log(description);
     console.log(price);
     console.log(status);
     console.log(stock);
     console.log(category);
-    console.log(ruta);
+
 
     let dato = {title, description, price, status, stock, category, ruta};
     socket.emit('crear_producto', dato);   

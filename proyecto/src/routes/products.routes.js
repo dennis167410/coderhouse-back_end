@@ -2,6 +2,7 @@ const {Router} = require('express');
 
 const router = Router();
 
+
 // Ejemplo: http://localhost:8080/api/products?limit=5
 router.get("/", async(request, response) =>{
     const {limit} = request.query;
@@ -31,22 +32,7 @@ const listarTodosLosProductos = async () => {
     }
  }
 
-/////////////////////////////////////////////////////////
 
-// Websocket:
-/*router.get('/realtimeproducts', (req, res) => {
-    res.render('index')
-})*/
-/*
-io.on("connection", (socket) => {
-    console.log('Nuevo cliente conectado: ', socket.id);
-})*/
-// Cuando lo necesites en este caso el controlador puede hacerlo de la siguiente manera:
-
-/*
-const io = req.app.get('socketio');
-io.emit('mensajeTodosLosProdictos', "Nuevo mensje desde el fornt");
-*/
 /////////////////////////////////////////////////////////
 
 router.get("/:pid", async(request, response) =>{
