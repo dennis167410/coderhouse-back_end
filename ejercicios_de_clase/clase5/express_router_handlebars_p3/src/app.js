@@ -11,7 +11,6 @@ const API_PREFIX = "api";
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
-
 const users=[
     {
         id: 1,
