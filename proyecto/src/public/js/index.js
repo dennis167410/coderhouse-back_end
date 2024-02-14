@@ -49,14 +49,17 @@ formProductoEliminar.addEventListener("submit", (e) => {
 })
 }
 
-socket.on("todos", (data) => {
+/*socket.on("todos", (data) => {
     console.log("Todos los Productos: ", data);
 
-})
+})*/
 
-socket.on('tProducts', (data) => {
+//socket.on('tProducts', (data) => {
+socket.on('todos', (data) => {
+
+    console.log("Todos los Productos: ", data.productos);
     let p = "";
-    data.forEach(unP => {
+    data.productos.forEach(unP => {
        p+= `<tr>
                 <td>${unP.id}</td>
                 <td>${unP.title}</td>

@@ -4,7 +4,12 @@ const path = require('path');
 const {Server} = require('socket.io');
 const productsRoutes = require('./routes/products.routes');
 const carsRoutes = require('./routes/carritos.routes');
-const configureSocket = require('./routes/products.routes.js');
+const pruebaRoutes = require('./routes/prueba.routes');
+
+//const configureSocket = require('./routes/products.routes.js');
+const websocket = require('./websocket.js');
+const mongoose = require('mongoose');
+
 
 const PORT = 8080;
 const app = express();
@@ -23,6 +28,22 @@ app.engine("handlebars", handlebars.engine());
 app.set('views', path.join(`${__dirname}/views`));
 app.set("view engine", "handlebars");
 
+// Creo conexión con mongoDB:
+const DB_HOST = "localhost";
+const DB_PORT = 27017;
+const DB_NAME = "coder_proyecto2024";
+const connection = mongoose.connect(
+    `mongodb://${DB_HOST}:${DB_PORT}/${DB_NAME}`
+).then((conn) => {
+    //console.log("Conectado a MondoDB... ", conn);
+    console.log("Conectado a MondoDB... ");
+}).catch((error) => {
+   // console.log("Error de conexión... ", error);
+    console.log("Error de conexión... ");
+})
+
+
+
 ////////////////////////////
 
 // WebSocket:
@@ -30,34 +51,17 @@ app.set("view engine", "handlebars");
     res.render('realTimeProducts')   
 })
 
+////////////////////////////////////////////////////
 
-io.on("connection", async (socket) => {
-    console.log('Nuevo cliente conectado: ', socket.id);
-
-    const ProductManager = require("./entidad/ProductManager.js");
-    const entregable = new ProductManager();
-    let respuesta = await entregable.getProducts();
-
-    socket.emit('todos',respuesta.productos)
-
-    io.emit('tProducts', respuesta.productos)
-
-    socket.on('eliminar_producto', (data) => {
-        let resp =  entregable.deleteProduct(Number(data));
-        console.log(resp);
-    })
-
-    socket.on('crear_producto', (p) =>{
-        let resp =  entregable.addProduct(p);
-    }) 
-})
-
+websocket(io);
 
 ///////////////////////////////////////
 
+app.use(`/${API_PREFIX}/prueba`, pruebaRoutes);
+
+
 // PRODUCTS ROUTES: /api/products
 app.use(`/${API_PREFIX}/products`, productsRoutes);
-//app.use('/realtimeproducts', productsRoutes);
 
 // Carrito ROUTES: /api/cars
 app.use(`/${API_PREFIX}/carts`, carsRoutes);
