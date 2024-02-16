@@ -5,8 +5,9 @@ const {Server} = require('socket.io');
 const productsRoutes = require('./routes/products.routes');
 const carsRoutes = require('./routes/carritos.routes');
 const pruebaRoutes = require('./routes/prueba.routes');
-
 const cartsRouters = require('./routes/carts.routes.js');
+
+//const messagesRoutes = require('./routes/messages.routes.js');
 
 //const configureSocket = require('./routes/products.routes.js');
 const websocket = require('./websocket.js');
@@ -61,6 +62,10 @@ const connection = mongoose.connect(
  app.get('/realtimeproducts', async(req, res) => {
     res.render('realTimeProducts')   
 })
+
+app.use(`/${API_PREFIX}/messages`, async(req, res) => {
+    res.render('chat')   
+});
 
 ////////////////////////////////////////////////////
 
