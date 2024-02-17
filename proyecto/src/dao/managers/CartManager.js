@@ -20,6 +20,23 @@ class CartManager {
             console.log("Error: ", error);
         }
     }
+
+    getCartById = async (unCid) => {
+        try{
+            const cart = await cartModel.findOne({_id: unCid});
+            return cart;
+        }catch(error){
+            console.log("Error: ", error);
+        }
+    
+    }
+
+    updateCart = async (unCid, unPid, unaCantidad)=> {
+
+    }
+
+
+
 }
 
 module.exports = CartManager;

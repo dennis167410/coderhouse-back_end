@@ -1,6 +1,5 @@
 const mongoose = require ('mongoose');
 
-//const collectionName = 'productos';
 const collectionName = 'products';
 
 const productSchema = mongoose.Schema({
@@ -15,7 +14,7 @@ const productSchema = mongoose.Schema({
     code: {
         type:String,
         required: true,
-       // unique: true    
+        //unique: true    
     },
     price:{
         type:Number,

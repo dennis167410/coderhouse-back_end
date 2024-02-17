@@ -22,7 +22,7 @@ router.get("/", async(request, response) =>{
 
 const listarTodosLosCarritos = async () => {
     try{
-        const Carrito = require("../entidad/Carrito.js");
+        const Carrito = require("../dao/manager_fs/Carrito.js");
         const entregable = new Carrito();
         let respuesta = await entregable.getCarritos();
         return respuesta.carritos;
@@ -41,7 +41,7 @@ router.get("/:cid", async(request, response) =>{
 const buscarCartPorCID = async (unId) => {
 
     try{
-        const Carrito = require("../entidad/Carrito.js");
+        const Carrito = require("../dao/manager_fs/Carrito.js");
         const entregable = new Carrito();
         let respuesta = await entregable.getCartById(unId);
         return respuesta;
@@ -74,7 +74,7 @@ router.post("/", async(req, res) => {
         */
 
        
-    const Carrito = require("../entidad/Carrito.js");
+    const Carrito = require("../dao/manager_fs/Carrito.js");
     const entregable = new Carrito();
     let respuesta = await entregable.addCarrito(product); 
    
@@ -108,7 +108,7 @@ router.post("/:cid/product/:pid", async(req, res) => {
    const unaCantidad = product.product.quantity;
 
    try{
-        const Carrito = require("../entidad/Carrito.js");
+        const Carrito = require("../dao/manager_fs/Carrito.js");
         const entregable = new Carrito();
         let respuesta = await entregable.updateCart(cid, pid, unaCantidad); 
        

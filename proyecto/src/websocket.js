@@ -1,6 +1,6 @@
 //const ProductManager = require('./entidad/ProductManager.js');
 
-const messageModel = require('./model/message.model.js');
+const messageModel = require('./dao/model/message.model.js');
 
 
 const mensajes = [];

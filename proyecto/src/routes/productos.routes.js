@@ -23,7 +23,7 @@ router.get("/", async(request, response) =>{
 
 const listarTodosLosProductos = async () => {
     try{
-        const ProductManager = require("../entidad/ProductManager.js");
+        const ProductManager = require("../dao/manager_fs/ProductManager.js");
         const entregable = new ProductManager();
         let respuesta = await entregable.getProducts();
         return respuesta.productos;
@@ -43,7 +43,7 @@ router.get("/:pid", async(request, response) =>{
 const buscarProductoPorPID = async (unId) => {
 
     try{
-        const ProductManager = require("../entidad/ProductManager.js");
+        const ProductManager = require("../dao/manager_fs/ProductManager.js");
         const entregable = new ProductManager();
         let respuesta = await entregable.getProductById(unId);
         return respuesta;
@@ -72,7 +72,7 @@ router.post("/", async(req, res) => {
         }
     */  
 
-    const ProductManager = require("../entidad/ProductManager.js");
+    const ProductManager = require("../dao/manager_fs/ProductManager.js");
     const entregable = new ProductManager();
     let respuesta = await entregable.addProduct(product); 
    
@@ -99,7 +99,7 @@ router.put('/:pid', async(req, res) => {
     const unId =  req.params.pid;;
 
      try{
-        const ProductManager = require("../entidad/ProductManager.js");
+        const ProductManager = require("../dao/manager_fs/ProductManager.js");
         const entregable = new ProductManager();
         let respuesta = await entregable.updateProduct(unId, title, description, price, status, stock, category, thumbnail); 
        
@@ -121,7 +121,7 @@ router.delete("/:pid", async(req, res) => {
     const miProducto = req.params.pid;
 
     try{
-    const ProductManager = require("../entidad/ProductManager.js");
+    const ProductManager = require("../dao/manager_fs/ProductManager.js");
     const entregable = new ProductManager();
     let respuesta = await entregable.deleteProduct(miProducto); 
    
