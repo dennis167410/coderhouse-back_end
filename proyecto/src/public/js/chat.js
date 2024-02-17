@@ -59,7 +59,7 @@ socket.on("mensajes", (data) => {
   let logs="";
 
   data.forEach(msg => {
-    logs += `<p>email: ${msg.email} mensaje: ${msg.message} </p>`
+    logs += `<p>email: ${msg.user} mensaje: ${msg.message} </p>`
   })
      message.innerHTML = logs;    
  });

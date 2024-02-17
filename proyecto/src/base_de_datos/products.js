@@ -1,9 +1,9 @@
 const productData = [
     {
         id: 1, 
-        title :"Producto 1", 
-        description:"Producto 1", 
-        code:"code1",
+        title :"Producto 13", 
+        description:"Producto 13", 
+        code:"code13",
         price:550,
         status:true,
         stock:120,
@@ -12,9 +12,9 @@ const productData = [
     },
     {
         id:2,
-        title:"Producto 2",
-        description:"Producto 2",
-        code:"code2",
+        title:"Producto 14",
+        description:"Producto 14",
+        code:"code14",
         price:100,
         status:true,
         stock:134,
@@ -23,9 +23,9 @@ const productData = [
     },
     {
         id:3,
-        title:"Producto 3",
-        description:"Producto 3",
-        code:"code3",
+        title:"Producto 15",
+        description:"Producto 15",
+        code:"code15",
         price:6,
         status:true,
         stock:120,
@@ -34,9 +34,9 @@ const productData = [
     },
     {
         id:4,
-        title:"Producto 4",
-        description:"Producto 4",
-        code:"code4",
+        title:"Producto 16",
+        description:"Producto 16",
+        code:"code16",
         price:60,
         status:true,
         stock:10,
@@ -46,9 +46,9 @@ const productData = [
 
     {
         id:5,
-        title:"Producto 5",
-        description:"Producto 5",
-        code:"code5",
+        title:"Producto 17",
+        description:"Producto 17",
+        code:"code17",
         price:80,
         status:true,
         stock:30,
@@ -58,9 +58,9 @@ const productData = [
 
     {
         id:6,
-        title:"Producto 6",
-        description:"Producto 6",
-        code:"code6",
+        title:"Producto 18",
+        description:"Producto 18",
+        code:"code18",
         price:80,
         status:true,
         stock:2,

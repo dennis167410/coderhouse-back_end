@@ -1,4 +1,4 @@
-const ProductManager = require('./entidad/ProductManager.js');
+//const ProductManager = require('./entidad/ProductManager.js');
 
 const messageModel = require('./model/message.model.js');
 
@@ -11,10 +11,9 @@ module.exports = (io) => {
         console.log("Nueva conexión ", socket.id);
 
         socket.on('mensaje', (data) => {
-            console.log(data.input)
             const m = {
-                user: socket.id,
-                email: data.email,
+               // user: socket.id,
+                user: data.email,
                 message: data.input
             }
                    
@@ -22,13 +21,10 @@ module.exports = (io) => {
            
             messageModel.insertMany(m);
 
-            io.emit("mensajes", mensajes);
-
-         
+            io.emit("mensajes", mensajes);       
         })
  
         socket.on("nuevo-usuario", (data) => {
-            console.log("llego")
             socket.broadcast.emit("nuevo-usuario",data)
         })
 
