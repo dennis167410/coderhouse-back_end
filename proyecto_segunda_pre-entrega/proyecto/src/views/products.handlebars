@@ -1,0 +1,24 @@
+
+<div>
+    <h1>Lista de productos</h1>
+
+{{#each products}}
+   <p> Id.: {{this.id}} Título: {{this.title}} Descripción: {{this.description}} Precio: {{this.price}} Categoria: {{this.category}} <button>Agregar al carrito</button></p>
+{{/each}}
+
+
+</div>
+
+<div>
+    <p>Página actual {{page}}</p>
+</div>
+
+<div>
+{{#if hasPrevPage}}
+    <a href="/api/views/products?page={{prevPage}}"><button>Anterior</button></a>
+{{/if}}
+
+{{#if hasNextPage}}
+    <a href="/api/views/products?page={{nextPage}}"><button>Siguiente</button></a>
+{{/if}}
+</div>
