@@ -4,14 +4,32 @@ const CartManager = require ('../dao/managers/CartManager.js');
 
 const router = Router();
 
+// Crea un carrito vacio:
 router.post('/', async (req, resp) =>{
+    try{
+        const cartBody = req.body;
+        const cartManager = new CartManager();
+        const newCart = await cartManager.addCarts1(cartBody); 
+       
+        return resp.json({
+            message: 'Nuevo carrito agregado.',
+            cart: newCart
+
+        }) 
+    }catch(error){
+        console.log("Error... ", error)
+    }
+})
+
+// Agrega un producto al carrito
+router.post('/agregar', async (req, resp) =>{
     try{
         const cartData2 = req.body;
         const cartManager = new CartManager();
-        const result = await cartManager.addCarts(cartData2); 
+        const result = await cartManager.addCart2(cartData2); 
        
         return resp.json({
-            message: 'Exitosa inserción masiva.',
+            message: 'Productos agregados al carrito.',
             prueba: result
 
         }) 
@@ -53,42 +71,152 @@ router.get("/:cid", async(req, res) =>{
             })
         }
 
-        return res
-        .status(500)
-        .json({
-            ok: true,
-            message: 'Carrito...',
-            cart,
-        })
+        const formatoDelDocumento = cart.products.map(doc => {
+            return {
+                id: doc.id,
+                quantity: doc.quantity,
+            };
+        });
+
+
+        return res.render('carts', {misProductos: formatoDelDocumento}) 
+       
     }catch(error){
         console.log("Error... ", error)
     }
 })
 
+//Si el documento no existe, se insertará en el array products, de lo contrario se le sumará la cantidad
+/* Agrega el producto al arreglo “products” del carrito seleccionado. */
 router.post("/:cid/product/:pid", async(req, res) => {
-
-    //POSMAN
+ //POSMAN
     /*
-        {
-        "product": {
-            "quantity": 4
-                    }
+      {
+        "quantity": 4
         }
     */
-      /* const cid = req.params.cid;
-       const pid = req.params.pid;
-       const product = req.body;
-       const unaCantidad = product.product.quantity;
-    */
-    //   try{
-           
-            return res.json({ok: true, message: "En construcción."}); 
-            
-      //  }catch(error){
-        //    console.log(error)
-       // }
+    try{
+    const cId =  req.params.cid;
+    const pId =  req.params.pid;
+
+    const product = req.body;
+
+    const unaCantidad = product.quantity;
+
+    const cartManager = new CartManager();
+    const respuesta = await cartManager.updateCart(cId, pId, unaCantidad); 
     
+    if(respuesta === null){
+        return res.json({ok: false, message: "Error al intentar actualizar el carrito"}); 
+    }
+    
+    return res.json({ok: true, message: "_____", Carrito: respuesta});
+
+    }catch(error){
+
+    }
+   
+    return res.json({ok: true, message: "En construcción."}); 
+      
     })
+
+    ///////////////////////////////////////////////////
+
+    /*
+    DELETE api/carts/:cid/products/:pid
+    deberá eliminar del carrito el producto seleccionado.
+    */
+    router.delete("/:cid/products/:pid", async(req, res) =>{
+        try{
+            const cId =  req.params.cid;
+            const pId =  req.params.pid;
+        
+            const cartManager = new CartManager();
+            const respuesta = await cartManager.deleteProductByCart(cId, pId); 
+            
+            if(respuesta === null){
+                return res.json({ok: false, message: "Error al intentar eliminar el producto del carrito."}); 
+            }
+            
+            return res.json({ok: true, message: "_____", Carrito: respuesta});
+        
+            }catch(error){
+                console.log(error)
+            }
+    })  
+
+    //////////////////////////////////////////////////
+
+    /* DELETE api/carts/:cid deberá
+    eliminar todos los productos del carrito
+    */
+    // NO ESTÁ TESTEADO
+    router.delete("/:cid", async(req, res) =>{
+        try{
+            const cId =  req.params.cid;
+        
+            const cartManager = new CartManager();
+            const respuesta = await cartManager.deleteAllProductByCartId(cId); 
+            
+            if(respuesta === null){
+                return res.json({ok: false, message: "Error al intentar vaciar el carrito."}); 
+            }
+            
+            return res.json({ok: true, message: "_____", Carrito: respuesta});
+        
+            }catch(error){
+                console.log(error)
+            }
+    })  
+   
+   ///////////////////////////////////////////////////////////////
+
+   /* PUT api/carts/:cid 
+   deberá actualizar el carrito con un arreglo de productos con el formato especificado arriba.
+   */
+   
+
+
+   ///////////////////////////////////////////////////////////////
+
+   /* PUT api/carts/:cid/products/:pid
+    Deberá poder actualizar SÓLO la cantidad de ejemplares del producto por cualquier cantidad pasada desde req.body.
+    Si el producto no existe le agrega el producto con la cantidad, de lo contrario incrementa su cantidad.
+    */
+    router.put("/:cid/products/:pid", async(req, res) => {
+        //POSMAN
+           /*
+             {
+               "quantity": 4
+               }
+           */
+           try{
+           const cId =  req.params.cid;
+           const pId =  req.params.pid;
+       
+           const product = req.body;
+       
+           const unaCantidad = product.quantity;
+       
+           const cartManager = new CartManager();
+           const respuesta = await cartManager.updateCart(cId, pId, unaCantidad); 
+           
+           if(respuesta === null){
+               return res.json({ok: false, message: "Error al intentar actualizar el carrito"}); 
+           }
+           
+           return res.json({ok: true, message: "_____", Carrito: respuesta});
+       
+           }catch(error){
+       
+           }
+          
+           return res.json({ok: true, message: "En construcción."}); 
+             
+           })
+
+
+   
 
 
 module.exports = router;

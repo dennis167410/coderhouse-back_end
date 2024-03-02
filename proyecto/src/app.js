@@ -10,6 +10,15 @@ const cartsRouters = require('./routes/carts.routes.js');
 const websocket = require('./websocket.js');
 const mongoose = require('mongoose');
 const displayRoutes = require('express-routemap');
+const viewRoutes = require('./routes/view.routes.js');
+
+const cookieParser = require('cookie-parser');
+const cookiesRoutes = require('./routes/cookies.routes');
+const session = require('express-session');
+const sessionRoutes = require("./routes/session.routes");
+const authMdw = require('./middleware/auth.middleware.js');
+const mongoStore = require("connect-mongo");
+
 
 const PORT = 8080;
 const app = express();
@@ -22,10 +31,17 @@ const io = new Server(httpServer);
 
 
 const API_PREFIX = "api";
+const COOKIE_SIGN = "debeEstarEnUnaVariableDeEntorno";
+const SECRET_SESSION = "secretSession";
+
 
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.use(express.static(path.join(__dirname, '/public')));
+
+
+//Configuración cookie parser:
+app.use(cookieParser(COOKIE_SIGN));
 
 //Configuración handlebars:
 app.engine("handlebars", handlebars.engine());
@@ -40,7 +56,9 @@ const DB_NAME = "coder_proyecto2024";
 
 const DB_NAME = "ecommerce";
 
-const connection = mongoose.connect(
+const MONGO_URL =  `mongodb+srv://dennismrodriguezc:ojosbonitos1982@cluster0.x29xjxm.mongodb.net/${DB_NAME}`;
+
+/*const connection = mongoose.connect(
     `mongodb+srv://dennismrodriguezc:ojosbonitos1982@cluster0.x29xjxm.mongodb.net/${DB_NAME}`
    // `mongodb://${DB_HOST}:${DB_PORT}/${DB_NAME}`
 ).then((conn) => {
@@ -48,7 +66,20 @@ const connection = mongoose.connect(
 }).catch((error) => {
   
     console.log("Error de conexión... ");
-})
+})*/
+
+app.use(
+    session({
+        store: mongoStore.create({
+            mongoUrl: MONGO_URL,
+            mongoOptions: {useNewUrlParser:true, useUnifiedTopology:true},
+            ttl:60*3600 // Tiempo de vida de la sesion.
+        }),
+        secret: SECRET_SESSION,
+        resave: false,
+        saveUninitialized: false,
+    })
+    );
 
 ////////////////////////////
 
@@ -67,8 +98,33 @@ websocket(io);
 
 ///////////////////////////////////////
 
+mongoose
+.connect(MONGO_URL)
+.then((conn) =>{
+    console.log("CONECTADO A MONGO")
+})
+.catch((err) =>{
+    console.log("Error al intentar conectarse a mongo.")
+})
+
+
+app.use(`/api/views`, viewRoutes);
+app.use(`/api/cookies`, cookiesRoutes);
+app.use(`/api/session`, sessionRoutes); // Inicio de ruta pública.
+
+app.use("/api/private/",authMdw, (req, res) => {
+    const username = req.session.user;
+    return res.json({
+        message: `Ruta protegida, tu eres el usuario ${username}`, 
+    });
+    });
+
+
 //MongoDB
 app.use(`/${API_PREFIX}/products`, productsRoutes);
+app.use(`/${API_PREFIX}/views`, viewRoutes);
+
+
 app.use(`/${API_PREFIX}/carts`, cartsRouters);
 
 ////////////////////////////////////////////////////
@@ -77,7 +133,7 @@ app.use(`/${API_PREFIX}/carts`, cartsRouters);
 // PRODUCTS ROUTES: /api/products
 app.use(`/${API_PREFIX}/productos`, productosRoutes);
 // Carrito ROUTES: /api/cars
-app.use(`/${API_PREFIX}/carrrito`, carritoRoutes);
+app.use(`/${API_PREFIX}/carrito`, carritoRoutes);
 
 /*
 app.listen(PORT, () => {
