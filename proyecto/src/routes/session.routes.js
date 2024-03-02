@@ -20,7 +20,6 @@ router.post("/register", async(req, res) => {
             email, 
             age, 
             password,
-            rol:"usuario"
         };
 
         const newUser = await userModel.create(addUser);
@@ -31,12 +30,13 @@ router.post("/register", async(req, res) => {
         .json({message: "Error al intentar crear el usuario."})
         }
 
+
         // Session del usuario:
         req.session.user = {email, firstName: first_name, lastName: last_name}
         return res.redirect('/api/views/login');
 
     }catch(error){
-        console.log("Aca Error... " + error)
+        console.log("Error... " + error)
     }
 })
 
@@ -50,19 +50,24 @@ router.post("/login", async(req, res) => {
 
         if(findUser.password !== password) return res.json({message: "Error, contraseña incorrecta."})
 
-        let miRol = null
-        if(findUser.rol==="admin"){
-            miRol = "(admin)";
-        }else{
-            miRol="";
-        }
-
         req.session.user = {
             ...findUser,
             password: null    
         };
-       
-    return res.redirect('/api/views/products/?first_name=' + (req.session?.user?.first_name || findUser.first_name) + '&last_name=' + (req.session?.user?.last_name || findUser.last_name) + '&email=' + (req.session?.user?.email || findUser.email) + '&age=' + (req.session?.user?.age || findUser.age) + '&rol='+miRol);
+    
+        let admin = false;
+      if(findUser.email === "adminCoder@coder.com" && findUser.password === "adminCod3r123"){
+        admin = true;
+      }
+
+      if(admin){
+        req.session.user.rol = "admin"
+      }else{
+        req.session.user.rol = "usuario"
+      }
+
+
+    return res.redirect('/api/views/products/?first_name=' + (req.session?.user?.first_name || findUser.first_name) + '&last_name=' + (req.session?.user?.last_name || findUser.last_name) + '&email=' + (req.session?.user?.email || findUser.email) + '&age=' + (req.session?.user?.age || findUser.age) + '&rol='+req.session?.user?.rol);
 
     }catch(error){
         console.log("Error de login... " + error)

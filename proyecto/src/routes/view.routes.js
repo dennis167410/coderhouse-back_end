@@ -21,7 +21,7 @@ router.get("/profile",authMdw ,async(req, res) => {
     });
 })
 
-router.get("/products", async (req, res) => {
+router.get("/products", authMdw, async (req, res) => {
     const {limit=10, page=1, sort, query, first_name, last_name, email, rol} = req.query;
 
     const productManager = new ProductManager();

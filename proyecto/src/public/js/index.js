@@ -16,13 +16,7 @@ form.addEventListener('submit', (e) => {
     let stock = this.document.querySelector("#stock").value;
     let category = this.document.querySelector("#category").value;
     let ruta = "";
-   /* console.log(title);
-    console.log(description);
-    console.log(price);
-    console.log(status);
-    console.log(stock);
-    console.log(category);
-*/
+
 
     let dato = {title, description, price, status, stock, category, ruta};
     socket.emit('crear_producto', dato);   
@@ -48,11 +42,6 @@ formProductoEliminar.addEventListener("submit", (e) => {
     this.document.getElementById("input").value = "";
 })
 }
-
-/*socket.on("todos", (data) => {
-    console.log("Todos los Productos: ", data);
-
-})*/
 
 //socket.on('tProducts', (data) => {
 socket.on('todos', (data) => {
