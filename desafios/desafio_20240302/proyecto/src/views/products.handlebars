@@ -1,0 +1,34 @@
+<div>
+    <h1>Hola, {{this.first_name}} {{this.last_name}} {{this.email}} {{this.rol}}</h1>
+    <div>
+        <form action="/api/session/logout" method="get">
+            <button type="submit">logout</button>
+        </form>
+    </div>
+    
+</div>
+
+
+<div>
+    <h2>Lista de productos</h2>
+
+{{#each products}}
+   <p> Id.: {{this.id}} Título: {{this.title}} Descripción: {{this.description}} Precio: {{this.price}} Categoria: {{this.category}} <button>Agregar al carrito</button></p>
+{{/each}}
+
+
+</div>
+
+<div>
+    <p>Página actual {{page}}</p>
+</div>
+
+<div>
+{{#if hasPrevPage}}
+    <a href="/api/views/products?page={{prevPage}}"><button>Anterior</button></a>
+{{/if}}
+
+{{#if hasNextPage}}
+    <a href="/api/views/products?page={{nextPage}}"><button>Siguiente</button></a>
+{{/if}}
+</div>
