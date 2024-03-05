@@ -20,17 +20,49 @@ class CartManager {
         try{
             const {cartId, productId, quantity} = cartsData;
             let cart = await cartModel.findOne({_id: cartId});
-
-            cart.products.push({product: productId, quantity});
-            const r = await cartModel.updateOne({_id:cartId}, cart)
-            //const carts = await cartModel.insertMany(cartsData)
-       
+            cart.products.push({ product: productId, quantity });
+            const r = await cart.save();
 
            return r;
         }catch(error){
             console.log("Error: ", error);
         }
     }
+
+
+    // Crea el carrito con productos pasados por el body:
+    /*{
+        "products": [
+            {
+                "id": "65d0331cd7671692a60e8136",
+                "quantity": 1
+            },
+            {
+                "id": "65d0d850b03d37dd4d779c03",
+                "quantity": 2
+            }
+        ]
+    }
+    */
+    
+    addCart3 = async (cartData) => {
+        try {
+
+            let newCart = await cartModel.create({});
+            const {products} = cartData;
+
+            products.forEach(unP=>{
+                newCart.products.push({product: unP.id, quantity: unP.quantity})
+            });
+
+            const r = await cartModel.updateOne({_id:newCart._id}, newCart)
+            return r;
+        } catch (error) {
+            console.error('Error al crear el carrito:', error);
+            
+        }
+    };
+    
 
 /////////////////////////////////////////////////////////////
 
@@ -47,7 +79,7 @@ class CartManager {
    
     getCartById = async (unCid) => {
         try{
-            const cart = await cartModel.findOne({_id: unCid});
+            const cart = await cartModel.findOne({_id: unCid}).populate('products.product');
             return cart;
         }catch(error){
             console.log("Error: ", error);
@@ -89,9 +121,10 @@ deleteProductByCart = async (cId, unPid)=> {
       );
 }
 
+
 deleteAllProductByCartId = async (cId)=> {
     await cartModel.updateOne(
-        { _d: cId },
+        { _id: cId },
         { $set: { products: [] } }
       );
 }
