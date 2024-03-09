@@ -4,7 +4,6 @@ const passport = require("passport");
 const ProductManager = require ('../dao/managers/ProductManager.js');
 const authMdw = require('../middleware/auth.middleware')
 
-
 const router = Router();
 
 router.get("/login", async(req, res) => {
@@ -21,12 +20,13 @@ router.post("/login",
 
 router.get("/faillogin", async (req, res) => {
     res.send({error: "Fallo la estrategia de login."});
- })
+})
 
 
 router.get("/register", async(req, res) => {
     res.render("register");
-})
+}
+); 
 
 router.post("/register", passport.authenticate("registro", { 
     successRedirect:"/failregister",
@@ -38,8 +38,6 @@ router.post("/register", passport.authenticate("registro", {
 router.get("/failregister", async (req, res) => {
     res.send({error: "Fallo la estrategia de registro."});
 })
-
-
 
 router.get("/recover", async(req, res) => {
     res.render("recover");

@@ -1,10 +1,11 @@
 const {Router} = require("express");
+const userModel = require("../dao/model/user.model");
+
+const {createHash, isValidPasswd} = require("../utils/encrypt"); 
 const passport = require("passport");
 
-const userModel = require("../dao/model/user.model");
-const {createHash, isValidPasswd} = require("../utils/encrypt"); 
-
 const router = Router();
+
 
 router.get(
     "/github",
@@ -14,28 +15,22 @@ router.get(
   
   router.get(
     "/github/callback",
-    passport.authenticate("github", { failureRedirect: "/login" }),
+    passport.authenticate("github", { failureRedirect: "/api/views/login" }),
     async (req, res) => {
-      try {
+      try { 
         req.session.user = req.user;
-        res.redirect("/profile");
+        console.log("GITHUB = " , req.user)
+        return res.redirect('/api/views/products/?first_name=' + (req.session?.user?.first_name) + '&last_name=' + (req.session?.user?.last_name) + '&email=' + (req.session?.user?.email) + '&age=' + (req.session?.user?.age) + '&rol='+req.session?.user?.rol);
+        //res.redirect("/profile");
       } catch (error) {
         console.log("🚀 ~ file: session.routes.js:115 ~ error:", error);
       }
     }
   );
 
-
-
-router.get("/logout", async(req, res) => {
-    req.session.destroy(error => {
-        if(!error) return res.redirect('/api/views/login');
-        return res.send({message: "logout error", body: error});
-    })
-})
-
 router.post("/register", async(req, res) => {
     try{
+        console.log("SESSION")
         const {first_name, last_name, email, age, password} = req.body;
 
         const passwordHasheado = await createHash(password);
@@ -46,7 +41,7 @@ router.post("/register", async(req, res) => {
             email, 
             age, 
             password: passwordHasheado,
-        };
+        }; 
 
         const newUser = await userModel.create(addUser);
 
@@ -55,7 +50,6 @@ router.post("/register", async(req, res) => {
         .status(500)
         .json({message: "Error al intentar crear el usuario."})
         }
-
 
         // Session del usuario:
         req.session.user = {email, firstName: first_name, lastName: last_name}
@@ -77,13 +71,14 @@ router.post("/login", async(req, res) => {
         const esValidaLaContrasenia = await isValidPasswd(password, findUser.password);
 
         if(!esValidaLaContrasenia) return res.json({message: "Error, contraseña incorrecta."})
-        // if(findUser.password !== password) return res.json({message: "Error, contraseña incorrecta."})
+        //if(findUser.password !== password) return res.json({message: "Error, contraseña incorrecta."})
 
+        //No es la mejor sulución, hacer un middleware pre de mongo para mejorar:
         delete findUser.password;
 
         req.session.user = {
             ...findUser,
-            password: null    
+            //password: null    
         };
     
         let admin = false;
@@ -106,9 +101,19 @@ router.post("/login", async(req, res) => {
     }
 })
 
+router.get("/logout", async(req, res) => {
+    req.session.destroy(error => {
+        if(!error) return res.redirect('/api/views/login');
+        return res.send({message: "logout error", body: error});
+    })
+})
+
+
 router.post("/recover-psw", async (req, res) => {
     try{
         const {new_password, email} = req.body;
+
+        console.log("Línea 93_BODY = ", req.body)
 
         const newPasswdHasheado = await createHash(new_password);
         const user = await userModel.findOne({email});
@@ -123,14 +128,13 @@ router.post("/recover-psw", async (req, res) => {
         if(!updateUser){
             return res.json({message: "Problemas al actualizar la contraseña."})
         }
-        res.redirect('/api/views/login');
-       // return res.render("login");
+
+        return res.render("login");
 
     }catch(error){
 
     }
 })
-
 
 module.exports = router;
 

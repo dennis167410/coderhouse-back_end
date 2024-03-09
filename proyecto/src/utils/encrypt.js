@@ -1,8 +1,8 @@
 const bcrypt = require('bcrypt');
 
 const createHash = async (unaContrasenia) => {
- const salt =  await bcrypt.genSalt();  
-return await bcrypt.hashSync(unaContrasenia, salt); 
+ const salt =  await bcrypt.genSalt();  // SALT:  Que tantas veces se aplicará el algoritmo de hasheo.
+return await bcrypt.hashSync(unaContrasenia, salt); // Retornara una contraseña totalmente hasheada.
 }
 
 const isValidPasswd = async (unaContrasenia, contraseniaEncriptada) => {

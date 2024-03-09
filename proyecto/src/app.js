@@ -2,23 +2,24 @@ const express = require('express');
 const handlebars = require('express-handlebars');
 const path = require('path');
 const {Server} = require('socket.io');
+const mongoose = require('mongoose');
+const displayRoutes = require('express-routemap');
+const cookieParser = require('cookie-parser');
+const session = require('express-session');
+const mongoStore = require("connect-mongo");
+const passport = require("passport");
+
 const productosRoutes = require('./routes/productos.routes');
 const carritoRoutes = require('./routes/carritos.routes');
 const productsRoutes = require('./routes/products.routes.js');
 const cartsRouters = require('./routes/carts.routes.js');
+const viewRoutes = require('./routes/view.routes.js');
+const cookiesRoutes = require('./routes/cookies.routes');
+const sessionRoutes = require("./routes/session.routes");
 
 const websocket = require('./websocket.js');
-const mongoose = require('mongoose');
-const displayRoutes = require('express-routemap');
-const viewRoutes = require('./routes/view.routes.js');
-
-const cookieParser = require('cookie-parser');
-const cookiesRoutes = require('./routes/cookies.routes');
-const session = require('express-session');
-const sessionRoutes = require("./routes/session.routes");
 const authMdw = require('./middleware/auth.middleware.js');
-const mongoStore = require("connect-mongo");
-
+const initializePassport = require("./config/passport.config.js");
 
 const PORT = 8080;
 const app = express();
@@ -43,30 +44,9 @@ app.use(express.static(path.join(__dirname, '/public')));
 //Configuración cookie parser:
 app.use(cookieParser(COOKIE_SIGN));
 
-//Configuración handlebars:
-app.engine("handlebars", handlebars.engine());
-app.set('views', path.join(`${__dirname}/views`));
-app.set("view engine", "handlebars");
-
-// Creo conexión con mongoDB:
-/*const DB_HOST = "localhost";
-const DB_PORT = 27017;
-const DB_NAME = "coder_proyecto2024";
-*/
-
 const DB_NAME = "ecommerce";
 
 const MONGO_URL =  `mongodb+srv://dennismrodriguezc:ojosbonitos1982@cluster0.x29xjxm.mongodb.net/${DB_NAME}`;
-
-/*const connection = mongoose.connect(
-    `mongodb+srv://dennismrodriguezc:ojosbonitos1982@cluster0.x29xjxm.mongodb.net/${DB_NAME}`
-   // `mongodb://${DB_HOST}:${DB_PORT}/${DB_NAME}`
-).then((conn) => {
-     console.log("Conectado a MondoDB... ");
-}).catch((error) => {
-  
-    console.log("Error de conexión... ");
-})*/
 
 app.use(
     session({
@@ -80,6 +60,18 @@ app.use(
         saveUninitialized: false,
     })
     );
+
+// Para ejecutar passport
+initializePassport();
+app.use(passport.initialize());
+//app.use(passport.session());
+
+
+//Configuración handlebars:
+app.engine("handlebars", handlebars.engine());
+app.set('views', path.join(`${__dirname}/views`));
+app.set("view engine", "handlebars");
+
 
 ////////////////////////////
 
