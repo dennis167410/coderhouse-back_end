@@ -1,12 +1,49 @@
 const passport = require("passport");
 const local = require("passport-local");
+const GithubStrategy = require("passport-github2");
+
 const userModel = require("../dao/model/user.model");
 const {createHash, isValidPasswd} = require("../utils/encrypt"); 
 
 const localStrategy = local.Strategy
 
+const GITHUB_CLIENT_ID="caab06585e8913060dec";
+const GITHUB_CLIENT_SECRET="0f25e64320407aa38f98160433eba18e033888a0";
+
 const initializePassport = () => {
     console.log("ENTRO")
+
+    passport.use("github", new GithubStrategy({
+        clientID:GITHUB_CLIENT_ID,
+        clientSecret: GITHUB_CLIENT_SECRET,
+        callbackURL: "http://localhost:8080/api/session/github/callback"
+    },
+    async (accessToken, refreshToken, profile, done) => {
+        console.log("PROFILE = ",profile);
+
+        try{
+            let user = await userModel.findOne({email: profile._json?.email});
+
+            if(!user){
+                let addNewUser = {
+                    first_name: profile._json.name,
+                    last_name: "",
+                    email: profile._json.email,
+                    age: 0,
+                    password: ""
+                };
+                let newUser = await userModel.create(addNewUser);
+                done(null, newUser);
+            }else{
+                //ya existe el usuario:
+                done(null, false);
+            }
+        }catch(error){
+            console.log("Error línea 35: ", error);
+            done(error);
+        }
+    }));
+
     passport.use(
         "registro", 
         new localStrategy (

@@ -1,9 +1,31 @@
 const {Router} = require("express");
+const passport = require("passport");
 
 const userModel = require("../dao/model/user.model");
 const {createHash, isValidPasswd} = require("../utils/encrypt"); 
 
 const router = Router();
+
+router.get(
+    "/github",
+    passport.authenticate("github", { scope: ["user:email"] }),
+    async (req, res) => {}
+  );
+  
+  router.get(
+    "/github/callback",
+    passport.authenticate("github", { failureRedirect: "/login" }),
+    async (req, res) => {
+      try {
+        req.session.user = req.user;
+        res.redirect("/profile");
+      } catch (error) {
+        console.log("🚀 ~ file: session.routes.js:115 ~ error:", error);
+      }
+    }
+  );
+
+
 
 router.get("/logout", async(req, res) => {
     req.session.destroy(error => {
