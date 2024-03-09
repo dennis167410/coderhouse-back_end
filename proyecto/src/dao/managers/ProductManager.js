@@ -95,17 +95,25 @@ class ProductManager {
 
     updateProduct = async (pId, datos) => { 
         try{
-            const product = await productModel.updateOne(
+            /*const product = await productModel.updateOne(
                 {
                 _id: pId,
                 },
                 {
-                $set: datos
+                $set: {...datos}
                 }
-            );
-            return product;
+            );*/
+            
+            await productModel.updateOne(
+                {_id: pId},
+                {$set: {...datos}}
+                )
+           return await productModel.findById(pId)
+           
+           //     return product;
         }catch(error){
-            console.log("Error " + error);
+            //console.log("Error " + error);
+            throw new Error(error);
         }
     }
 

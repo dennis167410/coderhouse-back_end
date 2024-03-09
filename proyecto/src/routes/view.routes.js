@@ -1,4 +1,6 @@
 const {Router} = require('express');
+const passport = require("passport");
+
 const ProductManager = require ('../dao/managers/ProductManager.js');
 const authMdw = require('../middleware/auth.middleware')
 
@@ -9,8 +11,38 @@ router.get("/login", async(req, res) => {
     res.render("login");
 })
 
+router.post("/login", 
+    passport.authenticate("login", {
+    successRedirect:"/",
+    failureRedirect: "/faillogin",
+    failureFlash: true,
+    })
+    );
+
+router.get("/faillogin", async (req, res) => {
+    res.send({error: "Fallo la estrategia de login."});
+ })
+
+
 router.get("/register", async(req, res) => {
     res.render("register");
+})
+
+router.post("/register", passport.authenticate("registro", { 
+    successRedirect:"/failregister",
+    failureRedirect: "/failregister",
+    failureFlash: true,
+})
+);
+
+router.get("/failregister", async (req, res) => {
+    res.send({error: "Fallo la estrategia de registro."});
+})
+
+
+
+router.get("/recover", async(req, res) => {
+    res.render("recover");
 })
 
 // A esta ruta solo pueden ingresar usuarios autenticados:

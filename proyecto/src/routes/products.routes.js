@@ -16,7 +16,6 @@ router.post('/', async (req, resp) =>{
         return resp.json({
             message: result,
             
-
         }) 
     }catch(error){
         console.log("Error... ", error)
@@ -182,6 +181,7 @@ router.delete("/:pid", async(req, res) => {
 })
 
 
+router.put('/:pid', async(req, res) => {
 /*
 POSMAN:
    PUT localhost:8080/api/products/65ceb99486869118617b2cef
@@ -191,10 +191,7 @@ En el body:
         "price": 10, 
         "stock": 10
     }
-
 */
-router.put('/:pid', async(req, res) => {
-
     try{
         const productId =  req.params.pid;
 

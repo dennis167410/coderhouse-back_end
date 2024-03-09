@@ -1,5 +1,7 @@
 const {Router} = require("express");
+
 const userModel = require("../dao/model/user.model");
+const {createHash, isValidPasswd} = require("../utils/encrypt"); 
 
 const router = Router();
 
@@ -14,12 +16,14 @@ router.post("/register", async(req, res) => {
     try{
         const {first_name, last_name, email, age, password} = req.body;
 
+        const passwordHasheado = await createHash(password);
+
         const addUser = {
             first_name, 
             last_name, 
             email, 
             age, 
-            password,
+            password: passwordHasheado,
         };
 
         const newUser = await userModel.create(addUser);
@@ -48,7 +52,12 @@ router.post("/login", async(req, res) => {
         
         if(!findUser) return res.json({message: "Error, el usuario no está registrado."})
 
-        if(findUser.password !== password) return res.json({message: "Error, contraseña incorrecta."})
+        const esValidaLaContrasenia = await isValidPasswd(password, findUser.password);
+
+        if(!esValidaLaContrasenia) return res.json({message: "Error, contraseña incorrecta."})
+        // if(findUser.password !== password) return res.json({message: "Error, contraseña incorrecta."})
+
+        delete findUser.password;
 
         req.session.user = {
             ...findUser,
@@ -74,6 +83,32 @@ router.post("/login", async(req, res) => {
 
     }
 })
+
+router.post("/recover-psw", async (req, res) => {
+    try{
+        const {new_password, email} = req.body;
+
+        const newPasswdHasheado = await createHash(new_password);
+        const user = await userModel.findOne({email});
+
+        if(!user){
+            return res
+            .status(401)
+            .json({message: "Las credenciales no son válidas o son erroneas."});
+        }
+
+        const updateUser = await userModel.findByIdAndUpdate(user._id, {password: newPasswdHasheado});
+        if(!updateUser){
+            return res.json({message: "Problemas al actualizar la contraseña."})
+        }
+        res.redirect('/api/views/login');
+       // return res.render("login");
+
+    }catch(error){
+
+    }
+})
+
 
 module.exports = router;
 

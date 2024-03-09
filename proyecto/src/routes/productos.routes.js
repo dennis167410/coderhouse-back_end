@@ -13,9 +13,16 @@ router.get("/", async(request, response) =>{
     if(misProductos){
         if(misProductos.length > 0){
             const primerosNElementos = misProductos.slice(0,limit);
-           return response.render('home', {name: primerosNElementos})
-          //  response.json({message: "Primeros "+ limit + " productos ", primerosNElementos})
-        }
+          // return response.render('home', {name: primerosNElementos})
+        return response.json({message: "Primeros "+ limit + " productos ", primerosNElementos})
+    /*
+    Si hay para revisar, es que remplazaste el /api/products anterior, que devolvia una respuesta JSON, 
+    por un render de una plantilla de handlebars. La idea es que puedas seguir manteniendo el /api/products como lo tenias anteriormente, 
+    con una respuesta JSON, y que en la ruta raiz "/" o en la ruta "/home" sin el prefijo "api" puedas renderizar el archivo de home.handlebars, 
+    asi tenes una version que renderiza la plantilla de handlebars y otra que responde como una API en formato JSON
+    */    
+    
+    }
     }else{
         response.send({error: "No existen productos para mostrar."});
     }
