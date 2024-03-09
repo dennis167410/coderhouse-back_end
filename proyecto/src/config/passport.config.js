@@ -15,7 +15,7 @@ const initializePassport = () => {
         callbackURL: "http://localhost:8080/api/session/github/callback"
     },
     async (accessToken, refreshToken, profile, done) => {
-        console.log("PROFILE = ",profile);
+        //console.log("PROFILE = ",profile);
 
         try{
             //console.log("PROFILE._json?.email = ", profile._json?.email)
@@ -50,11 +50,10 @@ const initializePassport = () => {
     },
         async (req, username, password, done) => {
             const {first_name, last_name, email, age} = req.body;
-            console.log("REGISTER STRATEGY")
+        
             try{
                 let user = await userModel.findOne({email});
-                console.log("Linea 23 -> user: ", user);
-
+                
                 if(user){
                     // El usuario existe.
                     return done(null, false);
@@ -108,7 +107,6 @@ const initializePassport = () => {
             return done(null, user)
 
         }catch(error){
-            console.log("Error (linea 77) ", error);
             return done(error);
         }
     }

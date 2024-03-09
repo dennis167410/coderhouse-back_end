@@ -19,9 +19,20 @@ router.get(
     async (req, res) => {
       try { 
         req.session.user = req.user;
-        console.log("GITHUB = " , req.user)
-        return res.redirect('/api/views/products/?first_name=' + (req.session?.user?.first_name) + '&last_name=' + (req.session?.user?.last_name) + '&email=' + (req.session?.user?.email) + '&age=' + (req.session?.user?.age) + '&rol='+req.session?.user?.rol);
-        //res.redirect("/profile");
+       // console.log("GITHUB = " , req.user)
+       console.log("USUARIO = ", req.session.user.email)
+       let admin = false;
+       if(req.session?.user?.email === "adminCoder@coder.com"){
+         admin = true;
+       }
+ 
+       if(admin){
+         req.session.user.rol = "admin"
+       }else{
+         req.session.user.rol = "usuario"
+       }
+
+       return res.redirect('/api/views/products/?first_name=' + (req.session?.user?.first_name) + '&last_name=' + (req.session?.user?.last_name) + '&email=' + (req.session?.user?.email) + '&age=' + (req.session?.user?.age) + '&rol='+req.session?.user?.rol);
       } catch (error) {
         console.log("🚀 ~ file: session.routes.js:115 ~ error:", error);
       }
@@ -73,7 +84,7 @@ router.post("/login", async(req, res) => {
         if(!esValidaLaContrasenia) return res.json({message: "Error, contraseña incorrecta."})
         //if(findUser.password !== password) return res.json({message: "Error, contraseña incorrecta."})
 
-        //No es la mejor sulución, hacer un middleware pre de mongo para mejorar:
+        //Hacer un middleware pre de mongo para mejorar:
         delete findUser.password;
 
         req.session.user = {
@@ -82,7 +93,8 @@ router.post("/login", async(req, res) => {
         };
     
         let admin = false;
-      if(findUser.email === "adminCoder@coder.com" && findUser.password === "adminCod3r123"){
+        const contraseniaAdmin = await isValidPasswd("adminCod3r123", findUser.password);
+      if(findUser.email === "adminCoder@coder.com" && contraseniaAdmin){
         admin = true;
       }
 
