@@ -20,14 +20,19 @@ const initializePassport = () => {
         try{
             //console.log("PROFILE._json?.email = ", profile._json?.email)
             let user = await userModel.findOne({email: profile._json?.email});
-          //  console.log("USER = ", user)
+            //console.log("USER en mongo= ", user)
+
+            if(user){
+                return done(null, user);
+            }
+
             if(!user){
                 let addNewUser = {
                     first_name: profile._json.login,
                     last_name: "",
                     email: profile._json.email,
                     age: 0,
-                    password: ""
+                    password: null
                 };
                 let newUser = await userModel.create(addNewUser);
                 done(null, newUser);
@@ -53,7 +58,6 @@ const initializePassport = () => {
         
             try{
                 let user = await userModel.findOne({email});
-                
                 if(user){
                     // El usuario existe.
                     return done(null, false);
