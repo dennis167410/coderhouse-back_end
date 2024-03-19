@@ -18,10 +18,10 @@ router.post("/login",
     })
     );
 
+
 router.get("/faillogin", async (req, res) => {
     res.send({error: "Fallo la estrategia de login."});
 })
-
 
 router.get("/register", async(req, res) => {
     res.render("register");

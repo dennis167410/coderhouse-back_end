@@ -9,6 +9,7 @@ const session = require('express-session');
 const mongoStore = require("connect-mongo");
 const passport = require("passport");
 
+//RUTAS
 const productosRoutes = require('./routes/productos.routes');
 const carritoRoutes = require('./routes/carritos.routes');
 const productsRoutes = require('./routes/products.routes.js');
@@ -16,10 +17,14 @@ const cartsRouters = require('./routes/carts.routes.js');
 const viewRoutes = require('./routes/view.routes.js');
 const cookiesRoutes = require('./routes/cookies.routes');
 const sessionRoutes = require("./routes/session.routes");
+const authRoutes = require("./routes/auth.routes.js");
+const usersRoutes = require('./routes/user.routes.js');
 
+//ARCHIVOS DE CONFIGURACIÓN
 const websocket = require('./websocket.js');
 const authMdw = require('./middleware/auth.middleware.js');
 const initializePassport = require("./config/passport.config.js");
+const { rejects } = require('assert');
 
 const PORT = 8080;
 const app = express();
@@ -34,7 +39,6 @@ const io = new Server(httpServer);
 const API_PREFIX = "api";
 const COOKIE_SIGN = "debeEstarEnUnaVariableDeEntorno";
 const SECRET_SESSION = "secretSession";
-
 
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
@@ -65,7 +69,6 @@ app.use(
 initializePassport();
 app.use(passport.initialize());
 //app.use(passport.session());
-
 
 //Configuración handlebars:
 app.engine("handlebars", handlebars.engine());
@@ -112,12 +115,13 @@ app.use("/api/private/",authMdw, (req, res) => {
     });
 
 
-//MongoDB
+app.use(`/${API_PREFIX}/auth`, authRoutes);
 app.use(`/${API_PREFIX}/products`, productsRoutes);
-app.use(`/${API_PREFIX}/views`, viewRoutes);
-
+app.use(`/`, viewRoutes);
+//app.use(`/${API_PREFIX}/views`, viewRoutes);
 
 app.use(`/${API_PREFIX}/carts`, cartsRouters);
+app.use(`/${API_PREFIX}/user`, usersRoutes);
 
 ////////////////////////////////////////////////////
 

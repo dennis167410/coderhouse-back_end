@@ -15,7 +15,7 @@ router.get(
   
   router.get(
     "/github/callback",
-    passport.authenticate("github", { failureRedirect: "/api/views/login" }),
+    passport.authenticate("github", { failureRedirect: "/login" }),
     async (req, res) => {
       try { 
         req.session.user = req.user;
@@ -32,7 +32,7 @@ router.get(
          req.session.user.rol = "usuario"
        }
 
-       return res.redirect('/api/views/products/?first_name=' + (req.session?.user?.first_name) + '&last_name=' + (req.session?.user?.last_name) + '&email=' + (req.session?.user?.email) + '&age=' + (req.session?.user?.age) + '&rol='+req.session?.user?.rol);
+       return res.redirect('/products/?first_name=' + (req.session?.user?.first_name) + '&last_name=' + (req.session?.user?.last_name) + '&email=' + (req.session?.user?.email) + '&age=' + (req.session?.user?.age) + '&rol='+req.session?.user?.rol);
       } catch (error) {
         console.log("🚀 ~ file: session.routes.js:115 ~ error:", error);
       }
@@ -64,7 +64,7 @@ router.post("/register", async(req, res) => {
 
         // Session del usuario:
         req.session.user = {email, firstName: first_name, lastName: last_name}
-        return res.redirect('/api/views/login');
+        return res.redirect('/login');
 
     }catch(error){
         console.log("Error... " + error)
@@ -105,7 +105,7 @@ router.post("/login", async(req, res) => {
       }
 
 
-    return res.redirect('/api/views/products/?first_name=' + (req.session?.user?.first_name || findUser.first_name) + '&last_name=' + (req.session?.user?.last_name || findUser.last_name) + '&email=' + (req.session?.user?.email || findUser.email) + '&age=' + (req.session?.user?.age || findUser.age) + '&rol='+req.session?.user?.rol);
+    return res.redirect('/products/?first_name=' + (req.session?.user?.first_name || findUser.first_name) + '&last_name=' + (req.session?.user?.last_name || findUser.last_name) + '&email=' + (req.session?.user?.email || findUser.email) + '&age=' + (req.session?.user?.age || findUser.age) + '&rol='+req.session?.user?.rol);
 
     }catch(error){
         console.log("Error de login... " + error)
@@ -115,7 +115,7 @@ router.post("/login", async(req, res) => {
 
 router.get("/logout", async(req, res) => {
     req.session.destroy(error => {
-        if(!error) return res.redirect('/api/views/login');
+        if(!error) return res.redirect('/login');
         return res.send({message: "logout error", body: error});
     })
 })
