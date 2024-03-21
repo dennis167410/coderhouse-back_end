@@ -35,5 +35,9 @@ const userSchema = new mongoose.Schema({
 
 });
 
+userSchema.pre("find", function (){
+    this.populate("carts.cart");
+})
+
 const userModel = mongoose.model(collection, userSchema);
 module.exports = userModel;

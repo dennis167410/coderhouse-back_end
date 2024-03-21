@@ -1,14 +1,47 @@
 const passport = require("passport");
 const GithubStrategy = require("passport-github2");
 const local = require("passport-local");
+const jwt = require('passport-jwt');
+
 const userModel = require("../dao/model/user.model");
+const {SECRET_JWT} = require('../utils/jwt');
 
 const GITHUB_CLIENT_ID="caab06585e8913060dec";
 const GITHUB_CLIENT_SECRET="0f25e64320407aa38f98160433eba18e033888a0";
 
+const JWTStrategy = jwt.Strategy;
+const ExtractJWT = jwt.ExtractJwt;
+
 const localStrategy = local.Strategy
 
+
 const initializePassport = () => {
+
+    passport.use('jwt', new JWTStrategy({
+        jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
+        secretOrKey: SECRET_JWT,
+    },
+        async (jwtPayload, done) => {
+            console.log("jwtPaylod ", jwtPayload.user.email);
+
+                try{
+                  //  let user = await userModel.findOne({email: jwtPayload.user.email});
+
+                    //console.log("user ", user);
+                    /*if(!user){
+                        return done(null, false);
+                    }*/
+                    return done(null, jwtPayload);
+                }catch(error){
+                    console.log("Error, ", error);
+                    return done(error);
+                }
+
+        }
+    )
+    );
+
+
     passport.use("github", new GithubStrategy({
         clientID:GITHUB_CLIENT_ID,
         clientSecret: GITHUB_CLIENT_SECRET,

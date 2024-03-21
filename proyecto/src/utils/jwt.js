@@ -1,6 +1,6 @@
 const jwt = require("jsonwebtoken");
 
-const SECRET_JWT = "CLAVEEs3p3rs3cr3t4S1s1";
+const SECRET_JWT = "CLAVEs3p3rs3cr3t4S1s1";
 
 //Configuración jwt
 const generateJWT = (user) =>{

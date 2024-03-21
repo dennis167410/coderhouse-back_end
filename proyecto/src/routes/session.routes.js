@@ -20,6 +20,8 @@ router.get(
       try { 
         req.session.user = req.user;
        // console.log("GITHUB = " , req.user)
+
+// FALTA: Controlar datos nulos
        console.log("USUARIO = ", req.session.user.email)
        let admin = false;
        if(req.session?.user?.email === "adminCoder@coder.com"){
@@ -43,6 +45,9 @@ router.post("/register", async(req, res) => {
     try{
         console.log("SESSION")
         const {first_name, last_name, email, age, password} = req.body;
+
+        // FALTA: Controlar datos nulos
+
 
         const passwordHasheado = await createHash(password);
 
@@ -74,6 +79,9 @@ router.post("/register", async(req, res) => {
 router.post("/login", async(req, res) => {
     try{
         const {email, password} = req.body;
+
+        // FALTA: Controlar datos nulos
+
 
         const findUser = await userModel.findOne({email})
         
@@ -125,7 +133,10 @@ router.post("/recover-psw", async (req, res) => {
     try{
         const {new_password, email} = req.body;
 
-        console.log("Línea 93_BODY = ", req.body)
+// FALTA: Controlar datos nulos
+
+
+        console.log("Línea 139_BODY = ", req.body)
 
         const newPasswdHasheado = await createHash(new_password);
         const user = await userModel.findOne({email});

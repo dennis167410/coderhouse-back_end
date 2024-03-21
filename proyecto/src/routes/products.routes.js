@@ -29,6 +29,8 @@ router.get('/', async (req, resp) =>{
     try{
         const {limit=10, page=1, sort, query} = req.query;
 
+        // FALTA: Controlar datos nulos
+        
         const productManager = new ProductManager();
 
      const { 
@@ -62,14 +64,15 @@ router.get('/', async (req, resp) =>{
     }
 })
 
-
-
 /////////////////////////////////////////////////////////////
 
 // localhost:8080/api/products/65ceb99486869118617b2cef
 router.get("/:pid", async(req, res) =>{
     try{
         const productId = req.params.pid;
+
+// FALTA: Controlar datos nulos
+
         const productManager = new ProductManager();
         const product = await productManager.getProductById(productId); 
 
@@ -100,6 +103,8 @@ router.get("/category/:category", async(req, res) =>{
         const productCategory = req.params.category;
         const { sort } = req.body;
 
+        // FALTA: Controlar datos nulos
+
         const productManager = new ProductManager();
         const products = await productManager.productsByCategory(productCategory, sort); 
 
@@ -128,6 +133,9 @@ router.get("/disponibilidad/:disponibilidad", async(req, res) =>{
     try{
         const productDispo = req.params.disponibilidad;
         const { sort } = req.body;
+
+// FALTA: Controlar datos nulos
+
         const productManager = new ProductManager();
         const products = await productManager.productsByDispo(productDispo, sort); 
 
@@ -156,6 +164,9 @@ router.get("/disponibilidad/:disponibilidad", async(req, res) =>{
 router.delete("/:pid", async(req, res) => {
   try{
         const productId = req.params.pid;
+
+// FALTA: Controlar datos nulos
+
         const productManager = new ProductManager();
         const product = await productManager.deleteProductById(productId); 
 
@@ -194,6 +205,9 @@ En el body:
 */
     try{
         const productId =  req.params.pid;
+
+        // FALTA: Controlar datos nulos
+
 
         const productManager = new ProductManager();
         const product = await productManager.updateProduct(productId, req.body); 
