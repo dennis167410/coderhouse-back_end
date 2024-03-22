@@ -5,6 +5,10 @@ const handlePolicies = require('../middleware/handle-policies.middleware');
 
 const router = Router();
 
+
+//c12_p1_formasDeEnvíoDeJWT_JWTDesdeCookie min 26
+
+
 router.get('/', handlePolicies(["PUBLIC"]), async(req, res) => {
     try{
         let users = await userModel.find();

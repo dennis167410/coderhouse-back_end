@@ -30,7 +30,13 @@ router.post('/login', async(req, res) => {
 
         const token = await generateJWT({ first_name, last_name, email:emailDb, age, role, carts});
 
-        return res.json({message: `Bienvenido\a ${email}, login exitoso, `, token})
+        return res
+        .cookie("cookie token", token, {
+          maxAge: 60*60*1000,
+          httpOnly: true, // Para que los datos vayan seguros.
+        })
+        .send({message: "Felicitaciones, se ha logueado correctamente."})
+       // return res.json({message: `Bienvenido\a ${email}, login exitoso, `, token})
 
     }catch(error){
         console.log("Error de login, ", error);
@@ -63,6 +69,7 @@ router.post('/register', async(req, res) => {
         // Manejar el error, puede ser 400 0 500.
       }
 
+      res.session.user = {email, role, id: newUser._id}
       return res.json({
         message: "Usuario creado correctamente.",
         user: newUser

@@ -14,15 +14,25 @@ const ExtractJWT = jwt.ExtractJwt;
 
 const localStrategy = local.Strategy
 
+after class 5_entreLasClases11y12 - Autorizacion y autenticacion Estrategia de autenticacion por terceros JWT
+55:53
+
+const cookieJWTExtractor = (req) => {
+    let token;
+    if(req && req.cookies){
+        token = req.cookies["cookieToken"];
+    }
+    return token;
+}
 
 const initializePassport = () => {
 
     passport.use('jwt', new JWTStrategy({
-        jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
+        jwtFromRequest: ExtractJWT.fromExtractors([cookieJWTExtractor]), //ExtractJWT.fromAuthHeaderAsBearerToken(),
         secretOrKey: SECRET_JWT,
     },
         async (jwtPayload, done) => {
-            console.log("jwtPaylod ", jwtPayload.user.email);
+//            console.log("jwtPaylod ", jwtPayload.user.email);
 
                 try{
                   //  let user = await userModel.findOne({email: jwtPayload.user.email});
@@ -31,7 +41,10 @@ const initializePassport = () => {
                     /*if(!user){
                         return done(null, false);
                     }*/
+                if(ROLES.includes(jwtPayload.rol)){
                     return done(null, jwtPayload);
+                }
+                    // return done(null, jwtPayload);
                 }catch(error){
                     console.log("Error, ", error);
                     return done(error);

@@ -1,8 +1,9 @@
 const {Router} = require("express");
-const userModel = require("../dao/model/user.model");
-
-const {createHash, isValidPasswd} = require("../utils/encrypt"); 
 const passport = require("passport");
+
+const userModel = require("../dao/model/user.model");
+const {createHash, isValidPasswd} = require("../utils/encrypt"); 
+const checkAuthJwt = require("../middleware/auth-jwt.middleware");
 
 const router = Router();
 
@@ -158,6 +159,12 @@ router.post("/recover-psw", async (req, res) => {
 
     }
 })
+
+router.get("/current", checkAuthJwt("jwt")/*passport.authenticate("jwt", {session:false})*/,
+  async (req, res) => {
+    return res.json({message: "jwt en las cookies"})
+  }
+);
 
 module.exports = router;
 
