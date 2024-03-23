@@ -5,6 +5,7 @@ const jwt = require('passport-jwt');
 
 const userModel = require("../dao/model/user.model");
 const {SECRET_JWT} = require('../utils/jwt');
+const ROLES = require("../constantes/role");
 
 const GITHUB_CLIENT_ID="caab06585e8913060dec";
 const GITHUB_CLIENT_SECRET="0f25e64320407aa38f98160433eba18e033888a0";
@@ -14,8 +15,6 @@ const ExtractJWT = jwt.ExtractJwt;
 
 const localStrategy = local.Strategy
 
-after class 5_entreLasClases11y12 - Autorizacion y autenticacion Estrategia de autenticacion por terceros JWT
-55:53
 
 const cookieJWTExtractor = (req) => {
     let token;
@@ -32,7 +31,7 @@ const initializePassport = () => {
         secretOrKey: SECRET_JWT,
     },
         async (jwtPayload, done) => {
-//            console.log("jwtPaylod ", jwtPayload.user.email);
+          //  console.log("jwtPaylod ", jwtPayload);
 
                 try{
                   //  let user = await userModel.findOne({email: jwtPayload.user.email});
@@ -41,10 +40,12 @@ const initializePassport = () => {
                     /*if(!user){
                         return done(null, false);
                     }*/
-                if(ROLES.includes(jwtPayload.rol)){
+
+                    //console.log("pay = ", jwtPayload)
+                if(ROLES.includes(jwtPayload.user.role)){      
                     return done(null, jwtPayload);
                 }
-                    // return done(null, jwtPayload);
+                 //    return done(null, jwtPayload);
                 }catch(error){
                     console.log("Error, ", error);
                     return done(error);

@@ -17,7 +17,7 @@ const cartsRouters = require('./routes/carts.routes.js');
 const viewRoutes = require('./routes/view.routes.js');
 const cookiesRoutes = require('./routes/cookies.routes');
 const sessionRoutes = require("./routes/session.routes");
-const authRoutes = require("./routes/auth.routes.js");
+//const authRoutes = require("./routes/auth.routes.js");
 const usersRoutes = require('./routes/user.routes.js');
 
 //ARCHIVOS DE CONFIGURACIÓN
@@ -106,6 +106,8 @@ mongoose
 app.use(`/api/views`, viewRoutes);
 app.use(`/api/cookies`, cookiesRoutes);
 app.use(`/api/session`, sessionRoutes); // Inicio de ruta pública.
+//app.use(`/${API_PREFIX}/auth`, authRoutes);
+
 
 app.use("/api/private/",authMdw, (req, res) => {
     const username = req.session.user;
@@ -114,8 +116,6 @@ app.use("/api/private/",authMdw, (req, res) => {
     });
     });
 
-
-app.use(`/${API_PREFIX}/auth`, authRoutes);
 app.use(`/${API_PREFIX}/products`, productsRoutes);
 app.use(`/`, viewRoutes);
 //app.use(`/${API_PREFIX}/views`, viewRoutes);

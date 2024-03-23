@@ -5,10 +5,6 @@ const handlePolicies = require('../middleware/handle-policies.middleware');
 
 const router = Router();
 
-
-//c12_p1_formasDeEnvíoDeJWT_JWTDesdeCookie min 26
-
-
 router.get('/', handlePolicies(["PUBLIC"]), async(req, res) => {
     try{
         let users = await userModel.find();
@@ -26,11 +22,8 @@ router.get('/:userId', handlePolicies(['USER', 'ADMIN']), async(req, res) => {
         const userData = await userModel
         .findById({_id: uId})
         
-        //console.log("userData = ", userData)
-
         if(!userData){
-//            console.log("No encontrado")
-            return res.status(404).json({message: "Usuario no encontrado"})
+           return res.status(404).json({message: "Usuario no encontrado"})
         }
 
         return res.json({message: "Usuario ", user: userData});
@@ -38,19 +31,14 @@ router.get('/:userId', handlePolicies(['USER', 'ADMIN']), async(req, res) => {
     }catch(error){
         console.log("Error ", error)
     }
-
 })
 
 // Agregar carrito al usuario
 router.post('/:userId/carts/:cartId', handlePolicies(['USER', 'ADMIN']), async(req, res) => {
     
   try{
-
     const {userId, cartId} = req.params;
-
-//console.log(" req.user._id = ",  req.user.id)
     // BUSCAR USUARIO
-
     // req.user.id -> hace referencia al usuario que está logueado.
     const datosDelUsuario = await userModel.findById({_id: userId || req.user.id});
 

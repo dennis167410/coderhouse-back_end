@@ -3,7 +3,7 @@ const passport = require("passport");
 const checkAuthJwt = (strategy) => {
     return async (req, res, next) => {
     passport.authenticate(strategy, (error, user, info) => {
-        console.log("info = ", info);
+//        console.log("info = ", info);
 
         if(error) return next(error);
         if(!user){
