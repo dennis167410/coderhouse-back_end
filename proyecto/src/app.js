@@ -11,8 +11,6 @@ const passport = require("passport");
 const { rejects } = require('assert');
 
 //RUTAS
-const productosRoutes = require('./routing/productos.routes');
-const carritoRoutes = require('./routing/carritos.routes');
 const productsRoutes = require('./routing/products.routes.js');
 const cartsRouters = require('./routing/carts.routes.js');
 const viewRoutes = require('./routing/view.routes.js');
