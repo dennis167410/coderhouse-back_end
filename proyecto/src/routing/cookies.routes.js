@@ -5,8 +5,6 @@ const router = Router();
 //setCookie
 router.post(`/setCookie`, (req, res)=>{
     const body = req.body;
-   // console.log("Cookies del setCookie= ", body);
-
     return res
     .cookie(
         'cookieUser',
@@ -18,8 +16,6 @@ router.post(`/setCookie`, (req, res)=>{
 
 //getCookie
 router.get(`/`, (req, res)=>{
-    //console.log("Info de las cookies ", req.cookies, req.signedCookies);
-    //return res.json({cookie: req.cookies});
     return res.json({cookie: req.cookies, signedCookies: req.signedCookies});
 });
 

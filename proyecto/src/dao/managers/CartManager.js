@@ -1,15 +1,10 @@
 const cartModel = require('../model/cart.model');
-const productModel = require('../model/product.model');
 
 class CartManager {
 
     addCarts1 = async (cartsData) => {
         try{
-            
             let newCart = await cartModel.create({cartsData});
-
-            //const carts = await cartModel.insertMany(cartsData)
-             
             return newCart;
         }catch(error){
             console.log("Error: ", error);
@@ -89,26 +84,39 @@ class CartManager {
 
 /////////////////////////////////////////////////////////////
 
-    updateCart = async (cId, unPid, datos)=> {
+    updateCart = async (cId, unPid, quantity)=> {
 
-        const existingDocument = await cartModel.findOne({ _id: cId });
+        try{
+       const cart = await cartModel.findOne({ _id: cId });
+       console.log("Carrito = ", cart)
+       
+        if(!cart){
+            cart = new cartModel({
+                _id: cId,
+                products: [{ product: unPid, quantity }]
+            });
+        }else{
+          const existeElProduct = cart.products.find(item => item.product.toString() === unPid);
+            if (existeElProduct) {
+                // Si el producto está en el carrito, suma la cantidad.
+                return await cartModel.findOneAndUpdate(
+                    {_id: cId, "products.product": unPid},
+                    { $inc: {"products.$.quantity": quantity}}
+                );
 
-        const result = await cartModel.findOne({ "products.id": unPid });
+            } else {
+                // Si el producto no está en el carrito, lo agrega.
+              return  await cartModel.findOneAndUpdate(
+                    {_id: cId},
+                    {$push: {products: {product: unPid, quantity}}}
+                )
+                
+            }
+        }
 
-if (existingDocument && result) {
-   const cart = await cartModel.findOneAndUpdate(
-        { _id: cId, "products.id": unPid },
-        { $inc: { "products.$.quantity": datos } },
-        { returnOriginal: false }
-    );
-   } else{
-        // PROBAR: updateOne
-        await cartModel.findOneAndUpdate(
-            { _id: cId },
-            { $push: { products: { id: unPid, quantity: datos } } },
-            { upsert: true }
-        );
-    }
+}catch(error){
+console.log(error)
+}
 
     }
 /////////////////////////////////////////////////////////////
@@ -116,7 +124,7 @@ if (existingDocument && result) {
 deleteProductByCart = async (cId, unPid)=> {
     await cartModel.updateOne(
         { _id: cId },
-        { $pull: { products: { id: unPid } } },
+        { $pull: { products: {product: unPid } } },
         
       );
 }

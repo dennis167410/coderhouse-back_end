@@ -6,9 +6,11 @@ const jwt = require('passport-jwt');
 const userModel = require("../dao/model/user.model");
 const {SECRET_JWT} = require('../utils/jwt');
 const ROLES = require("../constantes/role");
+const config = require("../config/config");
 
-const GITHUB_CLIENT_ID="caab06585e8913060dec";
-const GITHUB_CLIENT_SECRET="0f25e64320407aa38f98160433eba18e033888a0";
+
+const GITHUB_CLIENT_ID= config.GITHUB_CLIENT_ID;//"caab06585e8913060dec";
+const GITHUB_CLIENT_SECRET= config.GITHUB_CLIENT_SECRET; //"0f25e64320407aa38f98160433eba18e033888a0";
 
 const JWTStrategy = jwt.Strategy;
 const ExtractJWT = jwt.ExtractJwt;
@@ -31,7 +33,7 @@ const initializePassport = () => {
         secretOrKey: SECRET_JWT,
     },
         async (jwtPayload, done) => {
-          //  console.log("jwtPaylod ", jwtPayload);
+           // console.log("jwtPaylod ", jwtPayload);
 
                 try{
                   //  let user = await userModel.findOne({email: jwtPayload.user.email});
@@ -41,7 +43,7 @@ const initializePassport = () => {
                         return done(null, false);
                     }*/
 
-                    //console.log("pay = ", jwtPayload)
+                  //  console.log("pay = ", jwtPayload)
                 if(ROLES.includes(jwtPayload.user.role)){      
                     return done(null, jwtPayload);
                 }

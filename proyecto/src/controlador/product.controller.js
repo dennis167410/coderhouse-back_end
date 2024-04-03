@@ -1,36 +1,33 @@
-const {Router} = require('express');
-const productData = require('../base_de_datos/products.js')
 const ProductManager = require ('../dao/managers/ProductManager.js');
 
-const router = Router();
-
-router.post('/', async (req, resp) =>{
+const createProduct = async(req, res) => {
     try{
        
-        const productData2 = req.body;
-        
+        const productData2 = req.body; 
         const productManager = new ProductManager();
-
         const result = await productManager.addProducts(productData2); 
-       
-        return resp.json({
-            message: result,
-            
-        }) 
-    }catch(error){
-        console.log("Error... ", error)
-    }
-})
+        
+        if(!result){
+            return res
+            .status(404)
+            .json({
+                message: "Error, clave duplicada",
+            })
+        }
 
-// Ejemplo: http://localhost:8080/api/products?limit=5
-// http://localhost:8080/api/products/?limit=5&sort=asc
-// http://localhost:8080/api/products?limit=5&page=2&sort=desc&query=find
-router.get('/', async (req, resp) =>{
+        return res.json({
+            message: result,
+        })
+        
+        
+    }catch(error){
+        //console.log("Error... ", error)
+    }
+}
+
+const getAllProducts = async(req, res) => {
     try{
         const {limit=10, page=1, sort, query} = req.query;
-
-        // FALTA: Controlar datos nulos
-        
         const productManager = new ProductManager();
 
      const { 
@@ -43,7 +40,7 @@ router.get('/', async (req, resp) =>{
         nextPage
      } = await productManager.getAllProducts(limit, page, sort);
 
-            return resp
+            return res
             .status(500)
             .json({
            
@@ -62,16 +59,11 @@ router.get('/', async (req, resp) =>{
     }catch(error){
         console.log("Error... ", error)
     }
-})
+}
 
-/////////////////////////////////////////////////////////////
-
-// localhost:8080/api/products/65ceb99486869118617b2cef
-router.get("/:pid", async(req, res) =>{
+getProductById = async( req, res) =>{
     try{
         const productId = req.params.pid;
-
-// FALTA: Controlar datos nulos
 
         const productManager = new ProductManager();
         const product = await productManager.getProductById(productId); 
@@ -95,15 +87,12 @@ router.get("/:pid", async(req, res) =>{
     }catch(error){
         console.log("Error... ", error)
     }
-})
+}
 
-// localhost:8080/api/products/cat1
-router.get("/category/:category", async(req, res) =>{
+productsByCategory = async( req, res) => {
     try{
         const productCategory = req.params.category;
         const { sort } = req.body;
-
-        // FALTA: Controlar datos nulos
 
         const productManager = new ProductManager();
         const products = await productManager.productsByCategory(productCategory, sort); 
@@ -127,14 +116,12 @@ router.get("/category/:category", async(req, res) =>{
     }catch(error){
         console.log("Error... ", error)
     }
-})
+}
 
-router.get("/disponibilidad/:disponibilidad", async(req, res) =>{
+productsByDispo = async(req, res) => {
     try{
         const productDispo = req.params.disponibilidad;
         const { sort } = req.body;
-
-// FALTA: Controlar datos nulos
 
         const productManager = new ProductManager();
         const products = await productManager.productsByDispo(productDispo, sort); 
@@ -158,15 +145,11 @@ router.get("/disponibilidad/:disponibilidad", async(req, res) =>{
     }catch(error){
         console.log("Error... ", error)
     }
-})
+}
 
-// localhost:8080/api/products/65ceb99486869118617b2cef
-router.delete("/:pid", async(req, res) => {
-  try{
+deleteProductById = async(req, res) => {
+    try{
         const productId = req.params.pid;
-
-// FALTA: Controlar datos nulos
-
         const productManager = new ProductManager();
         const product = await productManager.deleteProductById(productId); 
 
@@ -189,10 +172,9 @@ router.delete("/:pid", async(req, res) => {
     }catch(error){
         console.log("Error... ", error)
     }
-})
+}
 
 
-router.put('/:pid', async(req, res) => {
 /*
 POSMAN:
    PUT localhost:8080/api/products/65ceb99486869118617b2cef
@@ -203,12 +185,9 @@ En el body:
         "stock": 10
     }
 */
+updateProduct = async(req, res) => {
     try{
         const productId =  req.params.pid;
-
-        // FALTA: Controlar datos nulos
-
-
         const productManager = new ProductManager();
         const product = await productManager.updateProduct(productId, req.body); 
 
@@ -222,7 +201,14 @@ En el body:
     }catch(error){
         console.log("Error... ", error)
     }
-})
+}
 
-
-module.exports = router;
+module.exports = {
+    createProduct,
+    getAllProducts,
+    getProductById,
+    productsByCategory,
+    productsByDispo,
+    deleteProductById,
+    updateProduct,
+}

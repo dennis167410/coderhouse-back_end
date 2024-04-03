@@ -3,7 +3,7 @@ const productModel = require('../model/product.model');
 class ProductManager {
     getAllProducts = async (unLimit, unaCantPage, unCriterio) => {
         try{
-        console.log(unCriterio)
+        //console.log(unCriterio)
         const miCriterio = unCriterio === "asc" ? { price: 1 } : { price: -1 };
 
         const products = await productModel.paginate({},{ limit:unLimit, page:unaCantPage, sort: miCriterio})
@@ -74,11 +74,22 @@ class ProductManager {
     addProducts = async (productData) => {
         try{
 
+            const {title, description, code, price, status, stock, category, thumbnails} = productData;
+
+            const product = await productModel.findOne({code:code})
+
+            if(!product){
             const products = await productModel.insertMany(productData)
+            
             return products;
-          
+            }
+
+            return res.json({
+                message: "Error, clave duplicada.",
+                }) 
+
         }catch(error){
-            console.log("Error, clave duplicada.");
+            //console.log("Error, clave duplicada.");
             
         }
     }

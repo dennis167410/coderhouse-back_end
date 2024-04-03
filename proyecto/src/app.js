@@ -8,50 +8,51 @@ const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const mongoStore = require("connect-mongo");
 const passport = require("passport");
+const { rejects } = require('assert');
 
 //RUTAS
-const productosRoutes = require('./routes/productos.routes');
-const carritoRoutes = require('./routes/carritos.routes');
-const productsRoutes = require('./routes/products.routes.js');
-const cartsRouters = require('./routes/carts.routes.js');
-const viewRoutes = require('./routes/view.routes.js');
-const cookiesRoutes = require('./routes/cookies.routes');
-const sessionRoutes = require("./routes/session.routes");
-//const authRoutes = require("./routes/auth.routes.js");
-const usersRoutes = require('./routes/user.routes.js');
+const productosRoutes = require('./routing/productos.routes');
+const carritoRoutes = require('./routing/carritos.routes');
+const productsRoutes = require('./routing/products.routes.js');
+const cartsRouters = require('./routing/carts.routes.js');
+const viewRoutes = require('./routing/view.routes.js');
+const cookiesRoutes = require('./routing/cookies.routes');
+const sessionRoutes = require("./routing/session.routes");
+const usersRoutes = require('./routing/user.routes.js');
 
 //ARCHIVOS DE CONFIGURACIÓN
 const websocket = require('./websocket.js');
 const authMdw = require('./middleware/auth.middleware.js');
 const initializePassport = require("./config/passport.config.js");
-const { rejects } = require('assert');
+const config = require("./config/config.js");
 
-const PORT = 8080;
+const PORT = Number(config.PORT) || 8082;
+
 const app = express();
 const httpServer = app.listen(PORT, () => {
     displayRoutes(app);
     console.log('Servidor corriendo')
 }
 );
+
 const io = new Server(httpServer);
 
-
-const API_PREFIX = "api";
-const COOKIE_SIGN = "debeEstarEnUnaVariableDeEntorno";
-const SECRET_SESSION = "secretSession";
+const API_PREFIX = config.API_PREFIX;
+const COOKIE_SIGN = config.COOKIE_SIGN;
+const SECRET_SESSION = config.SECRET_SESSION;
 
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.use(express.static(path.join(__dirname, '/public')));
 
-
 //Configuración cookie parser:
 app.use(cookieParser(COOKIE_SIGN));
 
-const DB_NAME = "ecommerce";
+console.log(config)
+const DB_NAME = config.DB_NAME;
+const MONGO_URL =  `${config.MONGO_URL}/${DB_NAME}`
 
-const MONGO_URL =  `mongodb+srv://dennismrodriguezc:ojosbonitos1982@cluster0.x29xjxm.mongodb.net/${DB_NAME}`;
-
+console.log(MONGO_URL)
 app.use(
     session({
         store: mongoStore.create({
@@ -106,8 +107,6 @@ mongoose
 app.use(`/api/views`, viewRoutes);
 app.use(`/api/cookies`, cookiesRoutes);
 app.use(`/api/session`, sessionRoutes); // Inicio de ruta pública.
-//app.use(`/${API_PREFIX}/auth`, authRoutes);
-
 
 app.use("/api/private/",authMdw, (req, res) => {
     const username = req.session.user;
@@ -127,9 +126,9 @@ app.use(`/${API_PREFIX}/user`, usersRoutes);
 
 // FileSystem:
 // PRODUCTS ROUTES: /api/products
-app.use(`/${API_PREFIX}/productos`, productosRoutes);
+//app.use(`/${API_PREFIX}/productos`, productosRoutes);
 // Carrito ROUTES: /api/cars
-app.use(`/${API_PREFIX}/carrito`, carritoRoutes);
+//app.use(`/${API_PREFIX}/carrito`, carritoRoutes);
 
 /*
 app.listen(PORT, () => {
