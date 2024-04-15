@@ -1,4 +1,5 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
+
 const collection = "users";
 
 const rolType = {
@@ -40,4 +41,4 @@ userSchema.pre("find", function (){
 })
 
 const userModel = mongoose.model(collection, userSchema);
-module.exports = userModel;
+export default userModel;

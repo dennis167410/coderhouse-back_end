@@ -1,7 +1,6 @@
-const userModel = require('../dao/model/user.model');
-const handlePolicies = require('../middleware/handle-policies.middleware');
+import userModel from '../dao/model/user.model.js';
 
-getUsers = async(req, res) => {
+const getUsers = async(req, res) => {
     try{
         let users = await userModel.find();
         return res.json({message: "Usuarios registrados ", user: users});
@@ -11,7 +10,7 @@ getUsers = async(req, res) => {
     }
 }
 
-getUserById = async(req, res) => { 
+const getUserById = async(req, res) => { 
     try{
         const uId = req.params.userId;
 
@@ -29,7 +28,7 @@ getUserById = async(req, res) => {
     }
 }
 
-agregaCartAlUser = async(req, res) => {
+const agregaCartAlUser = async(req, res) => {
     
     try{
       const {userId, cartId} = req.params;
@@ -39,21 +38,11 @@ agregaCartAlUser = async(req, res) => {
   
       // AGREGA EL CARRITO AL ARRAY 
       datosDelUsuario.carts.push({cart:cartId});
-  
-    //  console.log("Usuario con el carrito => ", datosDelUsuario);
-  
+    
       const usuarioActualizado = await userModel.updateOne(
         {_id: userId || req.user.id},
         {$set: {...datosDelUsuario}});
   
-  
-  //////////
-  /*await userModel.updateOne(
-    {_id: userId},
-    {$set: {...datosDelUsuario}}
-    )
-  return await userModel.findById(userId)
-  */
   //////////
       return res.json({
         message: "Se agregó corretamente el carrito al usuario.",
@@ -65,7 +54,7 @@ agregaCartAlUser = async(req, res) => {
     }
   }
 
-  deleteUserById = async (req, res) => {
+  const deleteUserById = async (req, res) => {
 
     try {
       const deleteUser = await userModel.deleteOne({ _id: req.params.userId });
@@ -78,9 +67,9 @@ agregaCartAlUser = async(req, res) => {
     }
   };
 
-module.exports = {
-    getUsers,
-    getUserById,
-    agregaCartAlUser,
-    deleteUserById
+export default {
+  getUsers,
+  getUserById,
+  agregaCartAlUser,
+  deleteUserById
 }

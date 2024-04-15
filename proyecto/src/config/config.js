@@ -1,10 +1,11 @@
-const dotenv = require("dotenv");
+import dotenv from "dotenv";
 
 dotenv.config();
 
-const {PORT, DB_NAME, MONGO_URL, API_PREFIX, COOKIE_SIGN, SECRET_SESSION, GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET} = process.env; 
+const {PERSISTENCE, PORT, DB_NAME, MONGO_URL, API_PREFIX, COOKIE_SIGN, SECRET_SESSION, GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET} = process.env; 
 
-module.exports = {
+export {
+    PERSISTENCE,
     PORT, 
     DB_NAME, 
     MONGO_URL, 
@@ -13,5 +14,5 @@ module.exports = {
     SECRET_SESSION,
     GITHUB_CLIENT_ID,
     GITHUB_CLIENT_SECRET,
-    
 }
+

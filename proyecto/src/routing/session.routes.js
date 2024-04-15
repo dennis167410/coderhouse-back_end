@@ -1,8 +1,12 @@
-const {Router} = require('express');
-const passport = require("passport");
-const sessionCtrol = require('../controlador/session.controller');
-const checkAuthJwt = require("../middleware/auth-jwt.middleware");
+
+import {Router} from 'express';
+import passport from "passport";
+import sessionCtrol from '../controlador/session.controller.js';
+import checkAuthJwt from "../middleware/auth-jwt.middleware.js";
+
+
 const router = Router();
+
 
 router.post('/login', sessionCtrol.login);
 
@@ -70,5 +74,4 @@ router.get(
   }
 );
 
-
-module.exports = router;
+export default router;

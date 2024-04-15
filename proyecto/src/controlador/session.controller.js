@@ -1,9 +1,8 @@
-const userModel = require('../dao/model/user.model');
-const {createHash, isValidPasswd} = require('../utils/encrypt');
-const {generateJWT} = require('../utils/jwt');
-//const checkAuthJwt = require("../middleware/auth-jwt.middleware");
+import userModel from '../dao/model/user.model.js';
+import {createHash, isValidPasswd} from '../utils/encrypt.js';
+import {generateJWT} from '../utils/jwt.js';
 
-login = async(req, res) => {
+const login = async(req, res) => {
     try{
         const {email, password} = req.body;
 
@@ -37,14 +36,14 @@ login = async(req, res) => {
     } 
 }
 
-logout = async(req, res) => {
+const logout = async(req, res) => {
     req.session.destroy(error => {
         if(!error) return res.redirect('/login');
         return res.send({message: "logout error", body: error});
     })
 }
 
-recoverPasswd = async(req, res) => {
+const recoverPasswd = async(req, res) => {
     try{
         const {new_password, email} = req.body;
         const newPasswdHasheado = await createHash(new_password);
@@ -68,7 +67,7 @@ recoverPasswd = async(req, res) => {
     }   
 }
 
-register = async(req, res) => {
+const register = async(req, res) => {
    /*
 {
     "first_name": "Pepe",
@@ -124,11 +123,10 @@ register = async(req, res) => {
    }
 }
 
-
-module.exports = {
-    login, 
-    logout,
-    recoverPasswd,
-    register,
+export default {
+  login, 
+  logout,
+  recoverPasswd,
+  register,
 }
 

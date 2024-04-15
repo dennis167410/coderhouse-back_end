@@ -1,7 +1,8 @@
-const {Router} = require('express');
 
-const handlePolicies = require('../middleware/handle-policies.middleware');
-const userCtrol = require('../controlador/user.controller');
+import {Router} from 'express';
+import handlePolicies from '../middleware/handle-policies.middleware.js';
+import userCtrol from '../controlador/user.controller.js';
+
 
 const router = Router();
 
@@ -15,4 +16,4 @@ router.post('/:userId/carts/:cartId', handlePolicies(['USER', 'ADMIN']), userCtr
 //Elimina el usuario.
 router.delete("/:userId", handlePolicies(["ADMIN"]), userCtrol.deleteUserById);
 
-module.exports = router;
+export default router;

@@ -1,6 +1,9 @@
-const cartModel = require('../model/cart.model');
+import cartModel from '../model/cart.model.js';
 
 class CartManager {
+    constructor(dao){
+        this.dao = dao; 
+    }
 
     addCarts1 = async (cartsData) => {
         try{
@@ -139,6 +142,4 @@ deleteAllProductByCartId = async (cId)=> {
 
 }
 
-
-
-module.exports = CartManager;
+export default CartManager;

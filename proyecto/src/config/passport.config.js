@@ -1,22 +1,21 @@
-const passport = require("passport");
-const GithubStrategy = require("passport-github2");
-const local = require("passport-local");
-const jwt = require('passport-jwt');
 
-const userModel = require("../dao/model/user.model");
-const {SECRET_JWT} = require('../utils/jwt');
-const ROLES = require("../constantes/role");
-const config = require("../config/config");
+import passport from "passport";
+import GithubStrategy from "passport-github2";
+import local from "passport-local";
+import jwt from 'passport-jwt';
 
+import userModel from "../dao/model/user.model.js";
+import {SECRET_JWT} from '../utils/jwt.js';
+import ROLES from "../constantes/role.js";
+import {GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET} from "./config.js";
 
-const GITHUB_CLIENT_ID= config.GITHUB_CLIENT_ID;//"caab06585e8913060dec";
-const GITHUB_CLIENT_SECRET= config.GITHUB_CLIENT_SECRET; //"0f25e64320407aa38f98160433eba18e033888a0";
+const GITHUB_CLIENT_ID_APP= GITHUB_CLIENT_ID;
+const GITHUB_CLIENT_SECRET_APP= GITHUB_CLIENT_SECRET;
 
 const JWTStrategy = jwt.Strategy;
 const ExtractJWT = jwt.ExtractJwt;
 
 const localStrategy = local.Strategy
-
 
 const cookieJWTExtractor = (req) => {
     let token;
@@ -29,25 +28,15 @@ const cookieJWTExtractor = (req) => {
 const initializePassport = () => {
 
     passport.use('jwt', new JWTStrategy({
-        jwtFromRequest: ExtractJWT.fromExtractors([cookieJWTExtractor]), //ExtractJWT.fromAuthHeaderAsBearerToken(),
+        jwtFromRequest: ExtractJWT.fromExtractors([cookieJWTExtractor]), 
         secretOrKey: SECRET_JWT,
     },
         async (jwtPayload, done) => {
-           // console.log("jwtPaylod ", jwtPayload);
-
                 try{
-                  //  let user = await userModel.findOne({email: jwtPayload.user.email});
-
-                    //console.log("user ", user);
-                    /*if(!user){
-                        return done(null, false);
-                    }*/
-
-                  //  console.log("pay = ", jwtPayload)
+                
                 if(ROLES.includes(jwtPayload.user.role)){      
                     return done(null, jwtPayload);
                 }
-                 //    return done(null, jwtPayload);
                 }catch(error){
                     console.log("Error, ", error);
                     return done(error);
@@ -59,8 +48,8 @@ const initializePassport = () => {
 
 
     passport.use("github", new GithubStrategy({
-        clientID:GITHUB_CLIENT_ID,
-        clientSecret: GITHUB_CLIENT_SECRET,
+        clientID:GITHUB_CLIENT_ID_APP,
+        clientSecret: GITHUB_CLIENT_SECRET_APP,
         callbackURL: "http://localhost:8080/api/session/github/callback"
     },
     async (accessToken, refreshToken, profile, done) => {
@@ -69,7 +58,6 @@ const initializePassport = () => {
         try{
             //console.log("PROFILE._json?.email = ", profile._json?.email)
             let user = await userModel.findOne({email: profile._json?.email});
-            //console.log("USER en mongo= ", user)
 
             if(user){
                 return done(null, user);
@@ -128,7 +116,6 @@ const initializePassport = () => {
                 return res
                 .status(500)
                 .json({message: "Error al intentar crear el usuario."})
-                //  return done(null, false);
                 }
 
                 return done(null, newUser);
@@ -175,4 +162,5 @@ const initializePassport = () => {
     });
 }
 
-module.exports = initializePassport
+
+export default initializePassport

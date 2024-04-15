@@ -1,9 +1,10 @@
 
-const messageModel = require('./dao/model/message.model.js');
+//const messageModel = require('./dao/model/message.model.js');
+import messageModel from './dao/model/message.model.js';
 
 const mensajes = [];
 
-module.exports = (io) => {
+/*module.exports*/ export default (io) => {
     io.on("connection", async (socket) => {
 
         console.log("Nueva conexión ", socket.id);

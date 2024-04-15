@@ -1,4 +1,4 @@
-const passport = require("passport");
+import passport from "passport";
 
 function handlePolicies(policies) {
   return (req, res, next) => {
@@ -9,10 +9,7 @@ function handlePolicies(policies) {
 
     // Usar Passport para autenticar al usuario y verificar el rol
     passport.authenticate("jwt", { session: false }, (err, userJWT, info) => {
-      /*console.log(
-        "userJWT= ",
-        userJWT
-      );*/
+  
       if (err) {
         return next(err);
       }
@@ -33,4 +30,4 @@ function handlePolicies(policies) {
   };
 }
 
-module.exports = handlePolicies;
+export default handlePolicies;

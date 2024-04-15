@@ -1,9 +1,14 @@
-const productModel = require('../model/product.model');
+import productModel from'../model/product.model.js';
 
 class ProductManager {
+
+    constructor(dao){
+        this.dao = dao; 
+    }
+
     getAllProducts = async (unLimit, unaCantPage, unCriterio) => {
         try{
-        //console.log(unCriterio)
+        
         const miCriterio = unCriterio === "asc" ? { price: 1 } : { price: -1 };
 
         const products = await productModel.paginate({},{ limit:unLimit, page:unaCantPage, sort: miCriterio})
@@ -130,4 +135,4 @@ class ProductManager {
 
 }
 
-module.exports = ProductManager;
+export default ProductManager;

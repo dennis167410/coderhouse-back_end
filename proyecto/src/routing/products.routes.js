@@ -1,7 +1,7 @@
-const {Router} = require('express');
-//const productData = require('../base_de_datos/products.js')
-// const ProductManager = require ('../dao/managers/ProductManager.js');
-const productCtrl = require('../controlador/product.controller.js');
+import {Router} from 'express';
+import ProductCtrl from '../controlador/product.controller.js';
+
+const productCtrl = new ProductCtrl();
 
 const router = Router();
 
@@ -27,5 +27,4 @@ router.delete("/:pid", productCtrl.deleteProductById);
 
 router.put('/:pid', productCtrl.updateProduct);
 
-
-module.exports = router;
+export default router;

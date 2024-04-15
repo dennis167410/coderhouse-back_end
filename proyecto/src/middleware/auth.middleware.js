@@ -7,4 +7,4 @@ function AuthMdw(req, res, next){
        .redirect('/api/views/login')
    }
       
-   module.exports = AuthMdw;
+  export default AuthMdw;

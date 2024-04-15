@@ -1,10 +1,17 @@
-const CartManager = require ('../dao/managers/CartManager.js');
+import {CartService} from '../repository/index.js';
+import CartDto from '../dto/Cart.dto.js';
 
-createCart = async(req, res) => {
+export default class CartController{
+    cartService;
+
+    constructor(){
+        this.cartService = CartService;
+    }
+
+    createCart = async(req, res) => {
     try{
         const cartBody = req.body;
-        const cartManager = new CartManager();
-        const newCart = await cartManager.addCarts1(cartBody); 
+        const newCart = await this.cartService.addCarts1(cartBody); 
        
         return res.json({
             message: 'Nuevo carrito agregado.',
@@ -16,12 +23,11 @@ createCart = async(req, res) => {
     }
 }
 
-agregaProductosAlCarrito = async(req, res) => { 
+ agregaProductosAlCarrito = async(req, res) => { 
     try{
         const cartData2 = req.body;
-        const cartManager = new CartManager();
         console.log("AGREGAR = ", cartData2)
-        const result = await cartManager.addCart2(cartData2); 
+        const result = await this.cartService.addCart2(cartData2); 
        
         return res.json({
             message: 'Productos agregados al carrito.',
@@ -33,7 +39,7 @@ agregaProductosAlCarrito = async(req, res) => {
     }
 }
 
-creaCarritoConProductos = async(req, res) => { 
+ creaCarritoConProductos = async(req, res) => { 
 // POSMAN - body:
         /*
         {
@@ -52,9 +58,8 @@ creaCarritoConProductos = async(req, res) => {
 
         try{
             const cartBody = req.body;
-            const cartManager = new CartManager();
             
-            const newCart = await cartManager.addCart3(cartBody); 
+            const newCart = await this.cartService.addCart3(cartBody); 
            
             return res.json({
                 message: 'Nuevo carrito con productos agregado.',
@@ -66,10 +71,9 @@ creaCarritoConProductos = async(req, res) => {
         }
 }
 
-getAllCarts = async (req, resp) => {
+ getAllCarts = async (req, resp) => {
     try{
-        const cartManager = new CartManager();
-        const carts = await cartManager.getAllCarts(); 
+        const carts = await this.cartService.getAllCarts(); 
 
         return resp
         .status(500)
@@ -83,11 +87,10 @@ getAllCarts = async (req, resp) => {
     }
 }
 
-getCartById = async(req, res) =>{
+ getCartById = async(req, res) =>{
     try{
         const cartId = req.params.cid;
-        const cartManager = new CartManager();
-        const cart = await cartManager.getCartById(cartId); 
+        const cart = await this.cartService.getCartById(cartId); 
 
         if(!cart){
             return res
@@ -108,7 +111,7 @@ getCartById = async(req, res) =>{
     }
 }
 
-updateCart = async(req, res) => {
+ updateCart = async(req, res) => {
     //POSMAN
        /*
          {
@@ -123,8 +126,7 @@ updateCart = async(req, res) => {
 
        const unaCantidad = product.quantity;
    
-       const cartManager = new CartManager();
-       const respuesta = await cartManager.updateCart(cId, pId, unaCantidad); 
+       const respuesta = await this.cartService.updateCart(cId, pId, unaCantidad); 
        
        if(respuesta === null){
            return res.json({ok: false, message: "Error al intentar actualizar el carrito"}); 
@@ -142,13 +144,12 @@ updateCart = async(req, res) => {
        }
 
 
-       deleteCart = async(req, res) =>{
+      deleteCart = async(req, res) =>{
         try{
             const cId =  req.params.cid;
             const pId =  req.params.pid;
     
-            const cartManager = new CartManager();
-            const respuesta = await cartManager.deleteProductByCart(cId, pId); 
+            const respuesta = await this.cartService.deleteProductByCart(cId, pId); 
             
             if(respuesta === null){
                 return res.json({ok: false, message: "Error al intentar eliminar el producto del carrito."}); 
@@ -161,12 +162,11 @@ updateCart = async(req, res) => {
             }
         }
 
-        deleteAllProductByCartId = async(req, res) =>{
+         deleteAllProductByCartId = async(req, res) =>{
             try{
                 const cId =  req.params.cid;
             
-                const cartManager = new CartManager();
-                const respuesta = await cartManager.deleteAllProductByCartId(cId); 
+                const respuesta = await this.cartService.deleteAllProductByCartId(cId); 
                 
                 if(respuesta === null){
                     return res.json({ok: false, message: "Error al intentar vaciar el carrito."}); 
@@ -179,11 +179,10 @@ updateCart = async(req, res) => {
                 }
         }  
 
-        updateCartByProduct =  async (req, res) => {
+         updateCartByProduct =  async (req, res) => {
             const cartId = req.params.cid;
             try {       
-                const cartManager = new CartManager();
-                const cart = await cartManager.getCartById(cartId); 
+                const cart = await this.cartService.getCartById(cartId); 
                 
                 if (!cart) {
                     return res.status(404).json({ message: 'Carrito no encontrado' });
@@ -197,7 +196,7 @@ updateCart = async(req, res) => {
             }
         };
 
-        updateQuantity =  async(req, res) => {
+         updateQuantity =  async(req, res) => {
             try{
             const cId =  req.params.cid;
             const pId =  req.params.pid;
@@ -206,8 +205,7 @@ updateCart = async(req, res) => {
         
             const unaCantidad = product.quantity;
         
-            const cartManager = new CartManager();
-            const respuesta = await cartManager.updateCart(cId, pId, unaCantidad); 
+            const respuesta = await this.cartService.updateCart(cId, pId, unaCantidad); 
             
             if(respuesta === null){
                 return res.json({ok: false, message: "Error al intentar actualizar el carrito"}); 
@@ -221,16 +219,6 @@ updateCart = async(req, res) => {
             return res.json({ok: true, message: "En construcción."}); 
               
             };
+ }
 
-module.exports = {
-    createCart,
-    agregaProductosAlCarrito,
-    creaCarritoConProductos,
-    getAllCarts,
-    getCartById,
-    updateCart,
-    deleteCart,
-    deleteAllProductByCartId,
-    updateCartByProduct,
-    updateQuantity,
-}
+         

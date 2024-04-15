@@ -1,8 +1,9 @@
-const {Router} = require('express');
-const passport = require("passport");
 
-const ProductManager = require ('../dao/managers/ProductManager.js');
-const authMdw = require('../middleware/auth.middleware')
+import {Router} from'express';
+import passport from "passport";
+
+import ProductManager from '../dao/managers/ProductManager.js';
+import authMdw from'../middleware/auth.middleware.js';
 
 const router = Router();
 
@@ -88,4 +89,4 @@ router.get("/products", authMdw, async (req, res) => {
      });
 });
 
-module.exports = router;
+export default router;

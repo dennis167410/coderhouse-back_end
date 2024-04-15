@@ -1,4 +1,4 @@
-const bcrypt = require('bcrypt');
+import bcrypt from 'bcrypt';
 
 const createHash = async (unaContrasenia) => {
  const salt =  await bcrypt.genSalt();  // SALT:  Que tantas veces se aplicará el algoritmo de hasheo.
@@ -10,7 +10,7 @@ const isValidPasswd = async (unaContrasenia, contraseniaEncriptada) => {
     return esValida;
 }
 
-module.exports = {
+export {
     createHash,
     isValidPasswd
 };

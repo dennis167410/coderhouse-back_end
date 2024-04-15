@@ -1,8 +1,9 @@
-const {Router} = require('express');
-// const cartData = require('../base_de_datos/carts.js')
-// const CartManager = require ('../dao/managers/CartManager.js');
-const cartCtrol = require('../controlador/cart.controller.js');
+import {Router} from 'express';
+import CartCtrol from '../controlador/cart.controller.js'; 
+
 const router = Router();
+
+const cartCtrol = new CartCtrol();
 
 // Crea un carrito vacio:
 router.post('/', cartCtrol.createCart);
@@ -77,6 +78,4 @@ router.delete("/:cid/products/:pid", cartCtrol.deleteCart);
  */
  router.put("/:cid/products/:pid", cartCtrol.updateQuantity);
    
-
-
-module.exports = router;
+export default router;

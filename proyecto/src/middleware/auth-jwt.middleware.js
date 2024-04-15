@@ -1,4 +1,4 @@
-const passport = require("passport");
+import passport from "passport";
 
 const checkAuthJwt = (strategy) => {
     return async (req, res, next) => {
@@ -15,4 +15,4 @@ const checkAuthJwt = (strategy) => {
 }
 }
 
-module.exports = checkAuthJwt
+export default checkAuthJwt
