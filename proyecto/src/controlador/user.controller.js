@@ -1,75 +1,79 @@
-import userModel from '../dao/model/user.model.js';
 
-const getUsers = async(req, res) => {
-    try{
-        let users = await userModel.find();
-        return res.json({message: "Usuarios registrados ", user: users});
+import {UserService} from '../repository/index.js';
 
-    }catch(error){
-        console.log("Error, ", error);
+export default class UserController{
+    userService;
+
+    constructor(){
+        this.userService = UserService;
     }
-}
 
-const getUserById = async(req, res) => { 
-    try{
-        const uId = req.params.userId;
 
-        const userData = await userModel
-        .findById({_id: uId})
-        
-        if(!userData){
-           return res.status(404).json({message: "Usuario no encontrado"})
+    getUsers = async(req, res) => {
+        try{
+            let users = await this.userService.getUsers();
+            return res.json({message: "Usuarios registrados ", user: users});
+    
+        }catch(error){
+            console.log("Error, ", error);
         }
-
-        return res.json({message: "Usuario ", user: userData});
-
-    }catch(error){
-        console.log("Error ", error)
     }
-}
 
-const agregaCartAlUser = async(req, res) => {
+
+    getUserById = async(req, res) => { 
+        try{
+            const uId = req.params.userId;
     
-    try{
-      const {userId, cartId} = req.params;
-      // BUSCAR USUARIO
-      // req.user.id -> hace referencia al usuario que está logueado.
-      const datosDelUsuario = await userModel.findById({_id: userId || req.user.id});
-  
-      // AGREGA EL CARRITO AL ARRAY 
-      datosDelUsuario.carts.push({cart:cartId});
+            const userData = await this.userService.getUserById(uId);
+            
+            if(!userData || userData === null){
+               return res.status(404).json({message: "Usuario no encontrado"})
+            }
     
-      const usuarioActualizado = await userModel.updateOne(
-        {_id: userId || req.user.id},
-        {$set: {...datosDelUsuario}});
-  
-  //////////
-      return res.json({
-        message: "Se agregó corretamente el carrito al usuario.",
-        user: usuarioActualizado
-      })
-  
-    }catch(error){
-      console.log("Erro al intentar agregar el carrito al usuario. ", error);
+            return res.json({message: "Usuario ", user: userData});
+    
+        }catch(error){
+            console.log("Error ", error)
+        }
     }
-  }
 
-  const deleteUserById = async (req, res) => {
+    addCartInUser = async(req, res) => {    
+        try{
+          const {userId, cartId} = req.params;
+         
+          const user = await this.userService.addCartInUser(userId || req.user.id, cartId);
+      
+          if(!user || user === null){
+            return res.status(404).json({message: "Error, no se pudo agregar el carrito al usuario."})
+         }
+      
+      //////////
+          return res.json({
+            message: "Se agregó correctamente el carrito al usuario.",
+            user: user
+          })
+      
+        }catch(error){
+          console.log("Erro al intentar agregar el carrito al usuario. ", error);
+        }
+      }
 
-    try {
-      const deleteUser = await userModel.deleteOne({ _id: req.params.userId });
-      return res.json({
-        message: `El Administrador eliminó el usuario.`,
-        user: deleteUser,
-      });
-    } catch (error) {
-      console.log("error, ", error);
-    }
-  };
+    deleteUserById = async (req, res) => {
 
-export default {
-  getUsers,
-  getUserById,
-  agregaCartAlUser,
-  deleteUserById
+        try {
+          const deleteUser = await this.userService.deleteUserById(req.params.userId);
+         
+          if(!deleteUser || deleteUser === null){
+            return res.status(404).json({message: "Error, no se pudo eliminar el usuario."})
+         }
+         
+          return res.json({
+            message: `El Administrador eliminó el usuario.`,
+            user: deleteUser,
+          });
+        } catch (error) {
+          console.log("error, ", error);
+        }
+      };
+
 }
