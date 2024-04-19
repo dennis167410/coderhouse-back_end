@@ -39,7 +39,6 @@ class ProductManager {
         }
     }
 
-
     productsByCategory = async (unaCat, miCriterio) => {
         try{
          
@@ -133,6 +132,27 @@ class ProductManager {
         }
     }
 
+
+    discountStock = async (codProduct, quantity) => {
+        try {
+            // Buscar el producto por su código
+            const product = await productModel.findOne({ _id: codProduct });
+    
+            if (!product) {
+                throw new Error('Producto no encontrado');
+            }
+    
+            // Descontar la cantidad vendida del stock
+            product.stock -= quantity;
+    
+            // Guardar el producto actualizado en la base de datos
+            await product.save();
+    
+            console.log(`Se descontaron ${quantity} unidades del producto con código ${codProduct}`);
+        } catch (error) {
+            console.error('Error al descontar el stock:', error.message);
+        }
+    };
 }
 
 export default ProductManager;

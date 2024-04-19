@@ -5,6 +5,9 @@ const router = Router();
 
 const cartCtrol = new CartCtrol();
 
+//Permitirá finalizar el proceso de compra de dicho carrito.
+router.post('/:cid/purchase', cartCtrol.finalizePurchase)
+
 // Crea un carrito vacio:
 router.post('/', cartCtrol.createCart);
 

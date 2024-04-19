@@ -35,9 +35,9 @@ const {default: ProductManager} = await import ('../dao/managers/ProductManager.
 const {default: CartManager} = await import ('../dao/managers/CartManager.js');
 
 const {default: UserManager} = await import ('../dao/managers/UserManager.js');
-//const {default: TicketManager} = await import ('../dao/managers/TicketManager.js');
+const {default: TicketManager} = await import ('../dao/managers/TicketManager.js');
 
 Products = ProductManager;
 Carts = CartManager;
 Users = UserManager;
-// Falta: Tickets = TicketManager;
+Tickets = TicketManager;

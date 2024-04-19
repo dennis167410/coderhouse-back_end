@@ -8,7 +8,6 @@ export default class UserController{
         this.userService = UserService;
     }
 
-
     getUsers = async(req, res) => {
         try{
             let users = await this.userService.getUsers();

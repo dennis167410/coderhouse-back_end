@@ -18,6 +18,9 @@ import cookiesRoutes from './routing/cookies.routes.js';
 import sessionRoutes from "./routing/session.routes.js";
 import usersRoutes from './routing/user.routes.js';
 
+//Solo con la finalidad de test:
+import ticketsRoutes from './routing/tickets.routes.js';
+
 
 //ARCHIVOS DE CONFIGURACIÓN
 import websocket from  './websocket.js';
@@ -108,3 +111,6 @@ app.use(`/`, viewRoutes);
 
 app.use(`/${API_PREFIX_APP}/carts`, cartsRouters);
 app.use(`/${API_PREFIX_APP}/user`, usersRoutes);
+
+//Solo para test:
+app.use(`/${API_PREFIX_APP}/tickets`, ticketsRoutes);

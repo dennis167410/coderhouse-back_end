@@ -8,6 +8,32 @@ export default class CartController{
         this.cartService = CartService;
     }
 
+    finalizePurchase = async(req, res) => {
+        try{
+            const { cid } = req.params;
+
+            const ticket = await this.cartService.finalizePurchase(cid);
+            if (!ticket) {
+                return res 
+                .status(400)
+                .json({
+                    message: 'Carrito no encontrado',
+                })
+            }
+
+            return res
+
+                .status(200)
+                .json({
+                message: 'Ticket',
+                ticket: ticket
+    
+            }) 
+        }catch(error){
+            console.log('Error... ', error);
+        }
+    }
+
     createCart = async(req, res) => {
     try{
         const cartBody = req.body;
@@ -26,12 +52,11 @@ export default class CartController{
  agregaProductosAlCarrito = async(req, res) => { 
     try{
         const cartData2 = req.body;
-        console.log("AGREGAR = ", cartData2)
+        console.log(cartData2)
         const result = await this.cartService.addCart2(cartData2); 
-       
         return res.json({
             message: 'Productos agregados al carrito.',
-            prueba: result
+            retorno: result
 
         }) 
     }catch(error){
@@ -59,13 +84,16 @@ export default class CartController{
         try{
             const cartBody = req.body;
             
-            const newCart = await this.cartService.addCart3(cartBody); 
+            let newCart = await this.cartService.addCart3(cartBody); 
            
-            return res.json({
-                message: 'Nuevo carrito con productos agregado.',
-                cart: newCart
-    
-            }) 
+            return res
+                .status(200)
+                .json({
+                message: `Productos no procesados...`,
+                 cart: newCart
+
+    })
+         
         }catch(error){
             console.log("Error... ", error)
         }
@@ -128,15 +156,17 @@ export default class CartController{
    
        const respuesta = await this.cartService.updateCart(cId, pId, unaCantidad); 
        
+       //console.log(respuesta)
        if(respuesta === null){
            return res.json({ok: false, message: "Error al intentar actualizar el carrito"}); 
        }
        
-       // CAMBIAR, HACE QUE SEA UN FIND AL CARRITO PARA TRAER DATOS ACUTLIZADOS. return await cartModel.findById(cId)
-       return res.json({ok: true, message: "Correcta actualización del carritos", Carrito: respuesta});
-   
+       return res.json({
+        message: respuesta,
+       })
+
        }catch(error){
-   
+        console.log(error)
        }
       
        return res.json({ok: true, message: "Error al intentar actualizar el carrito."}); 
@@ -216,7 +246,7 @@ export default class CartController{
         
             }catch(error){ }
            
-            return res.json({ok: true, message: "En construcción."}); 
+     //       return res.json({ok: true, message: "En construcción."}); 
               
             };
  }

@@ -24,9 +24,7 @@ export default class UserManager {
     }
 
     getUserById = async(unId) => { 
-        try{
-            const uId = req.params.userId;
-    
+        try{  
             const userData = await userModel.findById({_id: unId})
             
             if(!userData){
@@ -69,6 +67,23 @@ export default class UserManager {
           } catch (error) {
           console.log("error, ", error);
         }
-      };     
+      };
+      
+      getUserEmailByCartId = async (cartId) => {
+        try {
+            const user = await userModel.findOne({ 'carts.cart': cartId });
+                        
+            if (!user) {
+                throw new Error('Usuario no encontrado para el carrito especificado');
+            }
+    
+            // Obtener el email del usuario
+            const userEmail = user.email;
+            return userEmail;
+        } catch (error) {
+            console.error('Error al obtener el email del usuario:', error);
+            throw error;
+        }
+    };
 
 }
