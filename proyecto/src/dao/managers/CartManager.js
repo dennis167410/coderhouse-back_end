@@ -19,8 +19,6 @@ class CartManager {
             
             let pDisponibles = await this.tieneStock(cart.products);
 
-          //  console.log("pDisponibles = ", pDisponibles)
-
             let noDisponibles = [];
 
             for(let i = 0; i < cart.products.length; i++){
