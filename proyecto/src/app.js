@@ -19,14 +19,15 @@ import sessionRoutes from "./routing/session.routes.js";
 import usersRoutes from './routing/user.routes.js';
 
 //Solo con la finalidad de test:
-import ticketsRoutes from './routing/tickets.routes.js';
-
+//import ticketsRoutes from './routing/tickets.routes.js';
 
 //ARCHIVOS DE CONFIGURACIÓN
 import websocket from  './websocket.js';
 import authMdw from './middleware/auth.middleware.js';
 import initializePassport from "./config/passport.config.js";
 import {PERSISTENCE, PORT, DB_NAME, MONGO_URL, API_PREFIX, COOKIE_SIGN, SECRET_SESSION} from "./config/config.js";
+import handlePolicies from './middleware/handle-policies.middleware.js';
+
 
 const PORT_APP = Number(PORT) || 8082;
 const app = express();
@@ -46,7 +47,6 @@ const SECRET_SESSION_APP = SECRET_SESSION;
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 //app.use(express.static(path.join(__dirname, '/public')));
-
 
 //Configuración cookie parser:
 app.use(cookieParser(COOKIE_SIGN_APP));
@@ -85,7 +85,7 @@ app.set("view engine", "handlebars");
     res.render('realTimeProducts')   
 })
 
-app.use(`/${API_PREFIX}/messages`, async(req, res) => {
+app.use(`/${API_PREFIX}/messages`, handlePolicies(["USER"]), async(req, res) => {
     res.render('chat')   
 });
 
@@ -113,4 +113,4 @@ app.use(`/${API_PREFIX_APP}/carts`, cartsRouters);
 app.use(`/${API_PREFIX_APP}/user`, usersRoutes);
 
 //Solo para test:
-app.use(`/${API_PREFIX_APP}/tickets`, ticketsRoutes);
+//app.use(`/${API_PREFIX_APP}/tickets`, ticketsRoutes);

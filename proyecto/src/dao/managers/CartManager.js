@@ -17,11 +17,15 @@ class CartManager {
         try{
             let cart = await cartModel.findById(myCart);
             const purchaser = await userManager.getUserEmailByCartId(myCart);
-                       
+                 
+            if(purchaser){
             const amount = await this.totalAmount(cart.products);
             const t = await ticketManager.addTicket(amount,purchaser);
             
-            return t; 
+             return t;
+            }else{
+                return "Error,deberá asociar el carrito al usuario."
+            } 
         }catch(error){
 
         }

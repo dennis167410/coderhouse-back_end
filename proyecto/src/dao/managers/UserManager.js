@@ -55,12 +55,11 @@ export default class UserManager {
           return usuarioActualizado
           
         }catch(error){
-          console.log("Erro al intentar agregar el carrito al usuario. ", error);
+          console.log("Error al intentar agregar el carrito al usuario. ", error);
         }
       }
 
       deleteUserById = async (userId) => {
-
         try {
           const deleteUser = await userModel.deleteOne({ _id: userId });
           return deleteUser
@@ -74,7 +73,7 @@ export default class UserManager {
             const user = await userModel.findOne({ 'carts.cart': cartId });
                         
             if (!user) {
-                throw new Error('Usuario no encontrado para el carrito especificado');
+                return null;
             }
     
             // Obtener el email del usuario

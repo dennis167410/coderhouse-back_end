@@ -11,6 +11,7 @@ const generateJWT = (user) =>{
                 console.log(err);
                 reject("No se pudo crear el jwt token.");
             }
+            //console.log("Estoy en generateJWT = ", token)
             resolve(token);
         });
     });

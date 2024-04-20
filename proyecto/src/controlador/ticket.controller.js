@@ -2,7 +2,6 @@ import {TicketService} from '../repository/index.js';
 
 export default class TicketController{
     ticketService;
-
     constructor(){
         this.ticketService = TicketService;
     }
@@ -38,11 +37,9 @@ export default class TicketController{
       
         try{
           const ticketBody = req.body;
-         
-          console.log("BODY = ", ticketBody)
+        
           const ticket = await this.ticketService.addTicket(ticketBody);
       
-          console.log("MI TICKET = ", ticket)
           if(!ticket || ticket === null){
             return res.status(404).json({message: "Error, no se pudo cerrar el ticket de la compra."})
          }

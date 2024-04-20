@@ -4,9 +4,7 @@ import passport from "passport";
 import sessionCtrol from '../controlador/session.controller.js';
 import checkAuthJwt from "../middleware/auth-jwt.middleware.js";
 
-
 const router = Router();
-
 
 router.post('/login', sessionCtrol.login);
 
@@ -29,11 +27,15 @@ router.post('/register', sessionCtrol.register);
 
 // Agregar el Bearer token que me da la cookie del login
 //router.get("/current", checkAuthJwt("jwt"), sessionCtrol.getCurrent);
-router.get("/current", checkAuthJwt("jwt"),
-  async (req, res) => {
-    return res.json({message: "jwt en las cookies"})
+/*router.get("/current", checkAuthJwt(),  async (req, res) => {
+   return res.json({message: "Ver info de jwt en las cookies"})
   }
-);
+); */
+
+router.get("/current", checkAuthJwt("jwt"), async (req, res) => {
+  return res.json({ message: `Ver jwt en las cookies` });
+});
+
 //////////////////////////////////////////////////////////////////
 
 router.get(

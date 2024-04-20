@@ -1,5 +1,6 @@
 import {Router} from 'express';
 import CartCtrol from '../controlador/cart.controller.js'; 
+import handlePolicies from '../middleware/handle-policies.middleware.js';
 
 const router = Router();
 
@@ -12,7 +13,7 @@ router.post('/:cid/purchase', cartCtrol.finalizePurchase)
 router.post('/', cartCtrol.createCart);
 
 // Agrega un producto al carrito
-router.post('/agregar', cartCtrol.agregaProductosAlCarrito); 
+router.post('/agregar', handlePolicies(["USER"]), cartCtrol.agregaProductosAlCarrito); 
 /*
 POSMAN
 {
@@ -23,7 +24,7 @@ POSMAN
 */
 
 // Crea un carrito con productos:
-router.post('/todo', cartCtrol.creaCarritoConProductos);
+router.post('/todo', handlePolicies(["USER"]), cartCtrol.creaCarritoConProductos);
 /*
  // POSMAN - body:
         /*
@@ -49,8 +50,7 @@ router.get("/:cid", cartCtrol.getCartById);
 
 //Si el documento no existe, se insertará en el array products, de lo contrario se le sumará la cantidad
 /* Agrega el producto al arreglo “products” del carrito seleccionado. */
-router.post("/:cid/product/:pid", cartCtrol.updateCart);
-
+router.post("/:cid/product/:pid", handlePolicies(["USER"]), cartCtrol.updateCart);
 
 /*
 DELETE api/carts/:cid/products/:pid
@@ -79,6 +79,6 @@ router.delete("/:cid/products/:pid", cartCtrol.deleteCart);
  Deberá poder actualizar SÓLO la cantidad de ejemplares del producto por cualquier cantidad pasada desde req.body.
  Si el producto no existe le agrega el producto con la cantidad, de lo contrario incrementa su cantidad.
  */
- router.put("/:cid/products/:pid", cartCtrol.updateQuantity);
+ router.put("/:cid/products/:pid", handlePolicies(["USER","ADMIN"]), cartCtrol.updateQuantity);
    
 export default router;

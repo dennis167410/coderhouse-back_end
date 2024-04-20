@@ -1,15 +1,15 @@
 import passport from "passport";
 
 function handlePolicies(policies) {
-  return (req, res, next) => {
-    // Verificar si la única política es "PUBLIC"
+   return (req, res, next) => {
+    // Verifica si la única política es "PUBLIC"
     if (policies.length === 1 && policies[0] === "PUBLIC") {
       return next();
     }
 
-    // Usar Passport para autenticar al usuario y verificar el rol
+    // Usa Passport para autenticar al usuario y verificar el rol
     passport.authenticate("jwt", { session: false }, (err, userJWT, info) => {
-  
+      //console.log("userJWT en handle-plicies = ", userJWT)
       if (err) {
         return next(err);
       }
@@ -18,7 +18,7 @@ function handlePolicies(policies) {
           .status(401)
           .send({ message: "Acceso denegado. El Token no es válido o está expirado." });
       }
-      if (policies.includes(userJWT.user.role)) {
+      if (policies.includes(userJWT.user.userDto.role)) {
         req.user = userJWT;
         return next();
       } else {

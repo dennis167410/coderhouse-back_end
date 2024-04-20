@@ -26,15 +26,14 @@ const cookieJWTExtractor = (req) => {
 }
 
 const initializePassport = () => {
-
     passport.use('jwt', new JWTStrategy({
         jwtFromRequest: ExtractJWT.fromExtractors([cookieJWTExtractor]), 
         secretOrKey: SECRET_JWT,
     },
         async (jwtPayload, done) => {
                 try{
-                
-                if(ROLES.includes(jwtPayload.user.role)){      
+              //  console.log("jwtPayload ", jwtPayload.userDto)
+                if(ROLES.includes(jwtPayload.user.userDto.role)){      
                     return done(null, jwtPayload);
                 }
                 }catch(error){

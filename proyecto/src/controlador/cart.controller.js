@@ -1,5 +1,5 @@
 import {CartService} from '../repository/index.js';
-import CartDto from '../dto/Cart.dto.js';
+//import CartDto from '../dto/Cart.dto.js';
 
 export default class CartController{
     cartService;
@@ -52,7 +52,6 @@ export default class CartController{
  agregaProductosAlCarrito = async(req, res) => { 
     try{
         const cartData2 = req.body;
-        console.log(cartData2)
         const result = await this.cartService.addCart2(cartData2); 
         return res.json({
             message: 'Productos agregados al carrito.',
@@ -244,10 +243,9 @@ export default class CartController{
             // RESPUESTA cambiar por un find para que los datos los muestre actualizado.  return await cartModel.findById(cId)
             return res.json({ok: true, message: "Actualización correcta.", Carrito: respuesta});
         
-            }catch(error){ }
-           
-     //       return res.json({ok: true, message: "En construcción."}); 
-              
+            }catch(error){
+                console.log("Error (cart.controller.js) = ", error)
+             }      
             };
  }
 

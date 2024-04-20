@@ -1,6 +1,7 @@
 import userModel from '../dao/model/user.model.js';
 import {createHash, isValidPasswd} from '../utils/encrypt.js';
 import {generateJWT} from '../utils/jwt.js';
+import UserDto from '../dto/User.dto.js';
 
 const login = async(req, res) => {
     try{
@@ -20,17 +21,26 @@ const login = async(req, res) => {
             return res.status(400).json({message: "Credenciales no son válidas."});
         }
 
-        const {unaPassword, first_name, last_name, email:emailDb, age, role, carts} = findUser;
+        //const {unaPassword, first_name, last_name, email, age, role, carts} = findUser;
+       
+        const userDto = new UserDto({
+          first_name: findUser.first_name,
+        //  last_name: findUser.last_name,
+          email: findUser.email,
+          role: findUser.role, 
+          carts: findUser.carts
+        });
 
-        const token = await generateJWT({ first_name, last_name, email:emailDb, age, role, carts});
+        //const token = await generateJWT({ first_name, last_name, email:emailDb, age, role, carts});
+        const token = await generateJWT({userDto});
 
         return res
         .cookie("cookieToken", token, {
           maxAge: 60*60*1000,
           httpOnly: true, // Para que los datos sean seguros.
         })
-        .send({message: "Felicitaciones, te haz logueado correctamente."})
-      
+        .send({message: "Felicitaciones, te haz logueado correctamente. Levantá el token en las cookies."})
+              
     }catch(error){
         console.log("Error de login, ", error);
     } 
