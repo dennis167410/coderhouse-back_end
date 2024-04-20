@@ -50,13 +50,14 @@ export default class CartController{
     }
 }
 
- agregaProductosAlCarrito = async(req, res) => { 
+agregaProductoAlCarrito = async(req, res) => { 
     try{
+       // console.log("agregaProductosAlCarrito ", req.session.user)
         const cartData2 = req.body;
-        const result = await this.cartService.addCart2(cartData2); 
+        const result = await this.cartService.addCart2(cartData2, req.session.user); 
         return res.json({
-            message: 'Productos agregados al carrito.',
-            retorno: result
+            message: 'Producto agregado al carrito.',
+            message: result
 
         }) 
     }catch(error){

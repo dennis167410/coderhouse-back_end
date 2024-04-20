@@ -2,7 +2,7 @@ import passport from "passport";
 
 const checkAuthJwt = (strategy) => {
     return async (req, res, next) => {
-        console.log("strategy = ", strategy)
+        //console.log("strategy = ", strategy)
         passport.authenticate(strategy, (error, user, info) => {
         if(error) return next(error);
         if(!user){

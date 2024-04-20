@@ -76,22 +76,42 @@ class CartManager {
         }
     }
 
-    addCart2 = async (cartsData) => {
+    addCart2 = async (cartsData, user) => {
         try{
             const {cartId, products} = cartsData;
+
             const productId = products[0].id;
             const quantity = products[0].quantity;
         
+            const userCart = await userManager.getUserEmailByCartId(cartId);
+
+          //  console.log("user ", user, " - ", userCart)
+            if(user !== userCart) return `${user} no es el dueño del carrito.`
+
             let cart = await cartModel.findOne({_id: cartId});
-           // const r = await this.elProductoTieneStock(productId, quantity);
-           // if(r){
-            //const ret = await productManager.discountStock(productId, quantity);
+        
+
+        const existeElProduct = cart.products.find(item => item.product.toString() === productId);
+            if (existeElProduct) {
+                // Si el producto está en el carrito, suma la cantidad.
+                return await cartModel.findOneAndUpdate(
+                    {_id: cartId, "products.product": productId},
+                    { $inc: {"products.$.quantity": quantity}}
+                );
+
+            } else {
+                // Si el producto no está en el carrito, lo agrega.
+              return  await cartModel.findOneAndUpdate(
+                    {_id: cartId},
+                    {$push: {products: {product: productId, quantity}}}
+                )
+                
+            }
+
+//////////////////////
             cart.products.push({ product: productId, quantity });
             const r = await cart.save();
             return r;
-            /*}else{
-                return "Sin stock"
-            }*/
         }catch(error){
             console.log("Error: ", error);
         }
@@ -176,7 +196,6 @@ elProductoTieneStock= async (pId, quantity) => {
             const p = await productManager.getProductById(pId);
             console.log(p[0].stock)
         if (p[0].stock >= quantity) {
-            //const product2 = await productManager.discountStock(unP.id, unP.quantity);
             retorno = true;
           }
         return retorno;

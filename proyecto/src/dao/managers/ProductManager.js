@@ -142,13 +142,13 @@ class ProductManager {
                 throw new Error('Producto no encontrado');
             }
     
-            // Descontar la cantidad vendida del stock
+            // Descontará la cantidad vendida del stock
             product.stock -= quantity;
     
-            // Guardar el producto actualizado en la base de datos
+            // Guardará el producto actualizado en la base de datos
             await product.save();
     
-            console.log(`Se descontaron ${quantity} unidades del producto con código ${codProduct}`);
+          //  console.log(`Se descontaron ${quantity} unidades del producto con código ${codProduct}`);
         } catch (error) {
             console.error('Error al descontar el stock:', error.message);
         }

@@ -7,7 +7,7 @@ const userCtrol = new UserCtrol();
 
 const router = Router();
 
-router.get('/', handlePolicies(["PUBLIC"]), userCtrol.getUsers)
+router.get('/', userCtrol.getUsers)
 
 router.get('/:userId', handlePolicies(['USER', 'ADMIN']), userCtrol.getUserById);
 

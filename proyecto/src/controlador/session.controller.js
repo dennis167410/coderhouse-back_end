@@ -33,7 +33,9 @@ const login = async(req, res) => {
 
         //const token = await generateJWT({ first_name, last_name, email:emailDb, age, role, carts});
         const token = await generateJWT({userDto});
+        req.session.user = userDto.email;
 
+        //console.log(" req.session.user ",  req.session.user)
         return res
         .cookie("cookieToken", token, {
           maxAge: 60*60*1000,

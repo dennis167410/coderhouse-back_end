@@ -3,6 +3,8 @@ import {Router} from 'express';
 //import handlePolicies from '../middleware/handle-policies.middleware.js';
 import TicketCtrol from '../controlador/ticket.controller.js';
 
+
+// SOLO PARA TEST
 const ticketCtrol = new TicketCtrol();
 
 const router = Router();
