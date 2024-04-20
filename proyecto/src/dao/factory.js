@@ -12,7 +12,7 @@ export let Tickets;
 const DB_NAME_APP = DB_NAME;
 const MONGO_URL_APP =  `${MONGO_URL}/${DB_NAME_APP}`
 
-console.log(MONGO_URL_APP)
+//console.log(MONGO_URL_APP)
 
 switch(PERSISTENCE){
     case "MONGO":
@@ -30,7 +30,6 @@ switch(PERSISTENCE){
             });
 }
 
-//No queda claro esto:
 const {default: ProductManager} = await import ('../dao/managers/ProductManager.js');
 const {default: CartManager} = await import ('../dao/managers/CartManager.js');
 

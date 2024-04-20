@@ -53,7 +53,7 @@ app.use(cookieParser(COOKIE_SIGN_APP));
 
 const DB_NAME_APP = DB_NAME;
 const MONGO_URL_APP =  `${MONGO_URL}/${DB_NAME_APP}`
-console.log(MONGO_URL_APP)
+//console.log(MONGO_URL_APP)
 app.use(
     session({
         store: mongoStore.create({

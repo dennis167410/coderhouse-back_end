@@ -13,6 +13,7 @@ export default class CartController{
             const { cid } = req.params;
 
             const ticket = await this.cartService.finalizePurchase(cid);
+            console.log(ticket)
             if (!ticket) {
                 return res 
                 .status(400)
@@ -26,7 +27,7 @@ export default class CartController{
                 .status(200)
                 .json({
                 message: 'Ticket',
-                ticket: ticket
+                ticket: `Productos que no pudieron procesarse... ${ticket}`
     
             }) 
         }catch(error){

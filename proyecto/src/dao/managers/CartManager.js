@@ -1,5 +1,5 @@
 import cartModel from '../model/cart.model.js';
-import ticketModel from '../model/ticket.model.js';
+//import ticketModel from '../model/ticket.model.js';
 import ProductManager from './ProductManager.js';
 import TicketManager from './TicketManager.js';
 import UserManager from './UserManager.js';
@@ -16,13 +16,37 @@ class CartManager {
     finalizePurchase = async (myCart) => {
         try{
             let cart = await cartModel.findById(myCart);
-            const purchaser = await userManager.getUserEmailByCartId(myCart);
-                 
-            if(purchaser){
-            const amount = await this.totalAmount(cart.products);
-            const t = await ticketManager.addTicket(amount,purchaser);
             
-             return t;
+            let pDisponibles = await this.tieneStock(cart.products);
+
+          //  console.log("pDisponibles = ", pDisponibles)
+
+            let noDisponibles = [];
+
+            for(let i = 0; i < cart.products.length; i++){
+                let existe = false;
+                for(let j = 0; j < pDisponibles.length; j++){
+                    if (cart.products[i].product === pDisponibles[j].productId) {
+                        existe = true;
+                        break;
+                    }
+                }
+                if (!existe) {
+                    noDisponibles.push(cart.products[i].product);
+                }
+            }
+
+            const purchaser = await userManager.getUserEmailByCartId(myCart);
+            
+            if(purchaser){
+            const amount = await this.totalAmount(pDisponibles);
+            const t = await ticketManager.addTicket(amount,purchaser);           
+            cart.products = cart.products.filter(product =>{
+                return noDisponibles.includes(product.product);
+            })
+            await cart.save(); 
+    
+            return noDisponibles;
             }else{
                 return "Error,deberá asociar el carrito al usuario."
             } 
@@ -33,8 +57,9 @@ class CartManager {
 
     totalAmount = async (products) => {
         let totalAmount = 0;
+        console.log("total ", products)
         for (const item of products) {
-            const product = await productManager.getProductById(item.product);
+            const product = await productManager.getProductById(item.productId);
             if (product) {
                  totalAmount += item.quantity * product[0].price;
             } else {
@@ -60,15 +85,15 @@ class CartManager {
             const quantity = products[0].quantity;
         
             let cart = await cartModel.findOne({_id: cartId});
-            const r = await this.elProductoTieneStock(productId, quantity);
-            if(r){
-            const ret = await productManager.discountStock(productId, quantity);
+           // const r = await this.elProductoTieneStock(productId, quantity);
+           // if(r){
+            //const ret = await productManager.discountStock(productId, quantity);
             cart.products.push({ product: productId, quantity });
-            const re = await cart.save();
-              return r;
-            }else{
+            const r = await cart.save();
+            return r;
+            /*}else{
                 return "Sin stock"
-            }
+            }*/
         }catch(error){
             console.log("Error: ", error);
         }
@@ -76,13 +101,12 @@ class CartManager {
 
     
  tieneStock= async (products) => {
-    
     let pDisponibles = [];
     for (const unP of products) {
-        const product = await productManager.getProductById(unP.id);
+        const product = await productManager.getProductById(unP.product);
         if (product.length === 0 || product.every(p => p.stock >= unP.quantity)) {
-            const product2 = await productManager.discountStock(unP.id, unP.quantity);
-            pDisponibles.push({ productId: unP.id, quantity: unP.quantity });
+            const product2 = await productManager.discountStock(unP.product, unP.quantity);
+            pDisponibles.push({ productId: unP.product, quantity: unP.quantity });
           }
         }
 
@@ -106,46 +130,22 @@ class CartManager {
     
     addCart3 = async (cartData) => {
         try {
-           const {products} = cartData;
-          
-           let pDisponibles = [];
-    
-            pDisponibles = await this.tieneStock(products);
-        
-            let noDisponibles = []
-           
-            for(let i = 0; i < products.length; i++){
-                let existe = false;
-                for(let j = 0; j < pDisponibles.length; j++){
-                    if (products[i].id === pDisponibles[j].productId) {
-                        existe = true;
-                        break;
-                    }
-                }
-                if (!existe) {
-                    noDisponibles.push(products[i].id);
-                }
-            }
-        
-           if (pDisponibles.length > 0) {
-            let newCart = await cartModel.create({});
-            
-            pDisponibles.forEach(unP=>{
-                newCart.products.push({product: unP.productId, quantity: unP.quantity})
 
+            let newCart = await cartModel.create({});
+            const {products} = cartData;
+
+            products.forEach(unP=>{
+                newCart.products.push({product: unP.id, quantity: unP.quantity})
             });
 
             const r = await cartModel.updateOne({_id:newCart._id}, newCart)
-            return noDisponibles; 
-        }else{
-            return noDisponibles;
-        }
+            return r;
         } catch (error) {
             console.error('Error al crear el carrito:', error);
             
         }
     };
-    
+
 
 /////////////////////////////////////////////////////////////
 
@@ -185,50 +185,32 @@ elProductoTieneStock= async (pId, quantity) => {
     }  
 
 
-  updateCart = async (cId, unPid, quantity)=> {
+    updateCart = async (cId, unPid, quantity)=> {
 
         try{
        const cart = await cartModel.findOne({ _id: cId });
-        
+       
         if(!cart){
             cart = new cartModel({
                 _id: cId,
                 products: [{ product: unPid, quantity }]
             });
         }else{
-         
           const existeElProduct = cart.products.find(item => item.product.toString() === unPid);
             if (existeElProduct) {
-                const r = await this.elProductoTieneStock(unPid, quantity);
-                if(r){
-                      const ret = await productManager.discountStock(unPid, quantity);
                 // Si el producto está en el carrito, suma la cantidad.
-                await cartModel.findOneAndUpdate(
+                return await cartModel.findOneAndUpdate(
                     {_id: cId, "products.product": unPid},
                     { $inc: {"products.$.quantity": quantity}}
                 );
 
-                return await cartModel.findById(cId)//res.json({ok: true, Carrito: respuesta});
-   
-                }else{
-                    return "Sin stock"
-                }
             } else {
-             const r = await this.elProductoTieneStock(unPid, quantity);
-             if(r){
-                const ret = await productManager.discountStock(unPid, quantity);
-               
                 // Si el producto no está en el carrito, lo agrega.
-               
-               await cartModel.findOneAndUpdate(
+              return  await cartModel.findOneAndUpdate(
                     {_id: cId},
                     {$push: {products: {product: unPid, quantity}}}
                 )
-                return await cartModel.findById(cId)
-
-            }else{
-                return "Sin stock"
-            } 
+                
             }
         }
 
@@ -237,9 +219,11 @@ console.log(error)
 }
 
     }
+
 /////////////////////////////////////////////////////////////
 
 deleteProductByCart = async (cId, unPid)=> {
+    console.log("cid ", cId, " PID", unPid)
     await cartModel.updateOne(
         { _id: cId },
         { $pull: { products: {product: unPid } } },
