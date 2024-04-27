@@ -17,6 +17,7 @@ import viewRoutes from './routing/view.routes.js';
 import cookiesRoutes from './routing/cookies.routes.js';
 import sessionRoutes from "./routing/session.routes.js";
 import usersRoutes from './routing/user.routes.js';
+import mocksRoutes from './routing/mocks.routes.js';
 
 //Solo con la finalidad de test:
 //import ticketsRoutes from './routing/tickets.routes.js';
@@ -111,6 +112,8 @@ app.use(`/`, viewRoutes);
 
 app.use(`/${API_PREFIX_APP}/carts`, cartsRouters);
 app.use(`/${API_PREFIX_APP}/user`, usersRoutes);
+
+app.use('/mockingproducts', mocksRoutes);
 
 //Solo para test:
 //app.use(`/${API_PREFIX_APP}/tickets`, ticketsRoutes);
