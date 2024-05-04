@@ -1,6 +1,5 @@
 
 import {ProductService} from '../repository/index.js';
-//import ProductDto from '../dto/Product.dto.js';
 
 export default class ProductController{
     productService;
@@ -40,7 +39,7 @@ export default class ProductController{
             })
 
     }catch(error){
-        console.log("Error... ", error)
+        req.logger.error("Error ", error);
     }
 }
 
@@ -52,6 +51,7 @@ createProduct = async(req, res) => {
         const result = await this.productService.addProducts(productData2); 
         
         if(!result){
+            req.logger.warning('No se pudo crear el producto. Faltan datos o la clave puede estar duplicada.');
             return res
             .status(404)
             .json({
@@ -65,7 +65,7 @@ createProduct = async(req, res) => {
         
         
     }catch(error){
-        //console.log("Error... ", error)
+        req.logger.error("Error ", error);
     }
 }
 
@@ -75,6 +75,7 @@ getProductById = async( req, res) =>{
         const product = await this.productService.getProductById(productId); 
 
         if(!product){
+            req.logger.warning('El producto no existe.');
             return res
             .status(404)
             .json({
@@ -91,7 +92,7 @@ getProductById = async( req, res) =>{
             product,
         })
     }catch(error){
-        console.log("Error... ", error)
+        req.logger.error('Error, ', error);
     }
 }
 
@@ -102,7 +103,8 @@ productsByCategory = async( req, res) => {
 
         const products = await this.productService.productsByCategory(productCategory, sort); 
 
-       if(!products){
+       if(!products || products.length === 0){
+            req.logger.info('No existen productos en la categoria para mostrar.');
             return res
             .status(404)
             .json({
@@ -119,7 +121,7 @@ productsByCategory = async( req, res) => {
             products,
         })
     }catch(error){
-        console.log("Error... ", error)
+        req.logger.error('Error, ', error);
     }
 }
 
@@ -130,12 +132,13 @@ productsByDispo = async(req, res) => {
 
         const products = await this.productService.productsByDispo(productDispo, sort); 
 
-       if(!products){
+       if(!products || products.length === 0){
+            req.logger.info('No existen productos con esa disponibilidad.');
             return res
             .status(404)
             .json({
                 ok: true,
-                message: 'No existen productos en para esa categoria.'
+                message: 'No existen productos con esa disponibilidad.'
             })
         }
 
@@ -147,7 +150,7 @@ productsByDispo = async(req, res) => {
             products,
         })
     }catch(error){
-        console.log("Error... ", error)
+        req.logger.info('Error, ', error);
     }
 }
 
@@ -157,6 +160,7 @@ deleteProductById = async(req, res) => {
         const product = await this.productService.deleteProductById(productId); 
 
         if(!product){
+            req.logger.info("El producto no existe.");
             return res
             .status(404)
             .json({
@@ -173,7 +177,7 @@ deleteProductById = async(req, res) => {
             product,
         })
     }catch(error){
-        console.log("Error... ", error)
+        req.logger.error("Error ", error);
     }
 }
 
@@ -192,8 +196,18 @@ En el body:
  updateProduct = async(req, res) => {
     try{
         const productId =  req.params.pid;
-       
+    
         const product = await this.productService.updateProduct(productId, req.body); 
+       
+        if(!product){
+            req.logger.info("El producto no existe, por tal motivo no pudo ser actualizado.");
+            return res
+            .status(400)
+            .json({
+                ok: false,
+                message: 'El producto no existe, por tal motivo no pudo ser actualizado.'
+            })     
+        }
 
         return res
         .status(500)
@@ -203,7 +217,7 @@ En el body:
             product,
         })
     }catch(error){
-        console.log("Error... ", error)
+       req.logger.error("Error, ", error)
     }
 }
 

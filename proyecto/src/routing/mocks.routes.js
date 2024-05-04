@@ -72,7 +72,8 @@ router.post("/", async (req, res) => {
         return httpResponse.OK(res, `Producto de título `, { title: `${title} fue creado.`, product});
        
   } catch (error) {
-    console.log("error: ", error);
+    req.logger.error(`Error `, error);
+    
   }
 });
 
@@ -195,10 +196,8 @@ for (let index = 0; index < 10; index++) {
 
 carts.forEach((c) => {
    if(Number(c.id) == Number(cid)){
-    console.log("c = ", c)
     c.product.quantity += quantity;
-    console.log("carritoAct = ", c)
-}
+    }
 }
 ) 
     return httpResponse.OK(res, `Cantidad de productos fue actualizada con éxito en el carrito.`)

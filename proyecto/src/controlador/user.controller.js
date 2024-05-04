@@ -14,7 +14,7 @@ export default class UserController{
             return res.json({message: "Usuarios registrados ", user: users});
     
         }catch(error){
-            console.log("Error, ", error);
+          req.logger.error("Error: ", error);
         }
     }
 
@@ -24,15 +24,17 @@ export default class UserController{
             const uId = req.params.userId;
     
             const userData = await this.userService.getUserById(uId);
-            
+    
+           
             if(!userData || userData === null){
-               return res.status(404).json({message: "Usuario no encontrado"})
+               req.logger.error("Error usuario no encontrado o el formato del id no es válido.");
+               return res.status(404).json({message: "Usuario no encontrado o formato del id no es válido."})
             }
     
             return res.json({message: "Usuario ", user: userData});
     
         }catch(error){
-            console.log("Error ", error)
+            req.logger.error("Error: ", error);
         }
     }
 
@@ -43,6 +45,7 @@ export default class UserController{
           const user = await this.userService.addCartInUser(userId || req.user.id, cartId);
       
           if(!user || user === null){
+            req.logger.error("Error, no se pudo agregar el carrito al usuario.");
             return res.status(404).json({message: "Error, no se pudo agregar el carrito al usuario."})
          }
       
@@ -53,7 +56,7 @@ export default class UserController{
           })
       
         }catch(error){
-          console.log("Erro al intentar agregar el carrito al usuario. ", error);
+          req.logger.error("Error al intentar agregar el carrito al usuario. ", error);
         }
       }
 
@@ -63,6 +66,7 @@ export default class UserController{
           const deleteUser = await this.userService.deleteUserById(req.params.userId);
          
           if(!deleteUser || deleteUser === null){
+            req.logger.error("Error al intentar eliminar el usuario. ");
             return res.status(404).json({message: "Error, no se pudo eliminar el usuario."})
          }
          
@@ -71,8 +75,7 @@ export default class UserController{
             user: deleteUser,
           });
         } catch (error) {
-          console.log("error, ", error);
+          req.logger.error("Error ", error);
         }
       };
-
 }

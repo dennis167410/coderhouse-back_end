@@ -75,7 +75,7 @@ const recoverPasswd = async(req, res) => {
         return res.render("login");
   
     }catch(error){
-        console.log("Error, ", error);
+        req.logger.error("Error, ", error);
     }   
 }
 
@@ -131,7 +131,7 @@ const register = async(req, res) => {
     });
 
    }catch(error){
-      console.log("Error de registro: ", error);
+      req.logger.error("Error de registro: ", error);
    }
 }
 

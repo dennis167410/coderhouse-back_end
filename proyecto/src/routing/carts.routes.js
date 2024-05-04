@@ -53,10 +53,9 @@ router.get("/:cid", cartCtrol.getCartById);
 router.post("/:cid/product/:pid", handlePolicies(["USER"]), cartCtrol.updateCart);
 
 /*
-deberá eliminar del carrito el producto seleccionado.
+Deberá eliminar del carrito el producto seleccionado.
 */
-router.delete("/:cid/products/:pid", cartCtrol.deleteCart);
-
+router.delete("/:cid/products/:pid", /*handlePolicies(["USER", "ADMIN"]),*/ cartCtrol.deleteCart);
 
 //////////////////////////////////////////////////
 

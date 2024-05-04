@@ -28,10 +28,25 @@ import authMdw from './middleware/auth.middleware.js';
 import initializePassport from "./config/passport.config.js";
 import {PERSISTENCE, PORT, DB_NAME, MONGO_URL, API_PREFIX, COOKIE_SIGN, SECRET_SESSION} from "./config/config.js";
 import handlePolicies from './middleware/handle-policies.middleware.js';
-
+import { useLogger } from './utils/logger.js';
 
 const PORT_APP = Number(PORT) || 8082;
 const app = express();
+
+app.use(useLogger);
+
+app.get('/loggerTest', (req, res) =>{
+   req.logger.fatal(`Petición fatal`);
+   req.logger.error(`Petición error`);
+   req.logger.warning('Petición warning');
+   req.logger.info('Petición info');
+   req.logger.http('Petición http');
+   req.logger.debug('Petición debug');
+    
+    res.send({message: "Test de todos los logger"})
+})
+
+
 const httpServer = app.listen(PORT_APP, () => {
     displayRoutes(app);
     console.log('Servidor corriendo')

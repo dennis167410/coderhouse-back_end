@@ -1,0 +1,49 @@
+{"level":"error","message":"Erroreee:  error is not defined","stack":"ReferenceError: error is not defined\n    at getUserById (file:///D:/Programacion_BackEnd/coderhouse-back_end/proyecto/src/controlador/user.controller.js:27:38)\n    at Layer.handle [as handle_request] (D:\\Programacion_BackEnd\\coderhouse-back_end\\proyecto\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at next (D:\\Programacion_BackEnd\\coderhouse-back_end\\proyecto\\node_modules\\express\\lib\\router\\route.js:144:13)\n    at file:///D:/Programacion_BackEnd/coderhouse-back_end/proyecto/src/middleware/handle-policies.middleware.js:23:16\n    at strategy.success (D:\\Programacion_BackEnd\\coderhouse-back_end\\proyecto\\node_modules\\passport\\lib\\middleware\\authenticate.js:222:18)\n    at verified (D:\\Programacion_BackEnd\\coderhouse-back_end\\proyecto\\node_modules\\passport-jwt\\lib\\strategy.js:115:41)\n    at JwtStrategy._verify (file:///D:/Programacion_BackEnd/coderhouse-back_end/proyecto/src/config/passport.config.js:37:28)\n    at D:\\Programacion_BackEnd\\coderhouse-back_end\\proyecto\\node_modules\\passport-jwt\\lib\\strategy.js:123:34\n    at D:\\Programacion_BackEnd\\coderhouse-back_end\\proyecto\\node_modules\\jsonwebtoken\\verify.js:261:12\n    at getSecret (D:\\Programacion_BackEnd\\coderhouse-back_end\\proyecto\\node_modules\\jsonwebtoken\\verify.js:97:14)"}
+{"level":"error","message":"Error "}
+{"level":"error","message":"Error "}
+{"level":"error","message":"Error usuario no encontrado o id no es válido."}
+{"level":"error","message":"Error al intentar eliminar el usuario. "}
+{"level":"error","message":"Error al intentar eliminar el usuario. "}
+{"level":"error","message":"Error, no se pudo agregar el carrito al usuario."}
+{"level":"error","message":"Error, no se pudo agregar el carrito al usuario."}
+{"level":"error","message":"Error, no se pudo agregar el carrito al usuario."}
+{"level":"error","message":"Error, no se pudo agregar el carrito al usuario."}
+{"level":"error","message":"Error, no se pudo agregar el carrito al usuario."}
+{"level":"error","message":"Error  error is not defined","stack":"ReferenceError: error is not defined\n    at createProduct (file:///D:/Programacion_BackEnd/coderhouse-back_end/proyecto/src/controlador/product.controller.js:57:65)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)"}
+{"level":"error","message":"Error  error is not defined","stack":"ReferenceError: error is not defined\n    at createProduct (file:///D:/Programacion_BackEnd/coderhouse-back_end/proyecto/src/controlador/product.controller.js:57:65)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)"}
+{"level":"error","message":"Error al buscar el producto. El producto no existe."}
+{"level":"error","message":"Error,  CastError: Cast to ObjectId failed for value \"65ceb99486869118617b2cefeee\" (type string) at path \"_id\" for model \"products\"","stack":"Error: CastError: Cast to ObjectId failed for value \"65ceb99486869118617b2cefeee\" (type string) at path \"_id\" for model \"products\"\n    at ProductManager.updateProduct (file:///D:/Programacion_BackEnd/coderhouse-back_end/proyecto/src/dao/managers/ProductManager.js:135:19)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\n    at async updateProduct (file:///D:/Programacion_BackEnd/coderhouse-back_end/proyecto/src/controlador/product.controller.js:206:25)"}
+{"level":"error","message":"Error,  product is not defined","stack":"ReferenceError: product is not defined\n    at updateProduct (file:///D:/Programacion_BackEnd/coderhouse-back_end/proyecto/src/controlador/product.controller.js:215:13)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)"}
+{"level":"error","message":"Error...  Cannot read properties of undefined (reading 'error')","stack":"TypeError: Cannot read properties of undefined (reading 'error')\n    at agregaProductoAlCarrito (file:///D:/Programacion_BackEnd/coderhouse-back_end/proyecto/src/controlador/cart.controller.js:67:24)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)"}
+{"level":"error","message":"El producto no pudo ser agregado al carrito."}
+{"level":"error","message":"El producto no pudo ser agregado al carrito."}
+{"level":"error","message":"El producto no pudo ser agregado al carrito."}
+{"level":"error","message":"El producto no pudo ser agregado al carrito."}
+{"level":"error","message":"El producto no pudo ser agregado al carrito."}
+{"level":"error","message":"El producto no pudo ser agregado al carrito."}
+{"level":"error","message":"El producto no pudo ser agregado al carrito."}
+{"level":"error","message":"El producto no pudo ser agregado al carrito."}
+{"level":"error","message":"El producto no pudo ser agregado al carrito."}
+{"level":"error","message":"El producto no pudo ser agregado al carrito."}
+{"level":"error","message":"El producto no pudo ser agregado al carrito."}
+{"level":"error","message":"El producto no pudo ser agregado al carrito."}
+{"level":"error","message":"El producto no pudo ser agregado al carrito."}
+{"level":"error","message":"El producto no pudo ser agregado al carrito."}
+{"level":"error","message":"El producto no pudo ser agregado al carrito."}
+{"level":"error","message":"El producto no pudo ser agregado al carrito."}
+{"level":"error","message":"El producto no pudo ser agregado al carrito."}
+{"level":"error","message":"El carrito no existe"}
+{"level":"error","message":"El carrito no existe"}
+{"level":"error","message":"El carrito no existe"}
+{"level":"error","message":"Error al intentar actualizar el carrito"}
+{"level":"error","message":"Error al intentar actualizar el carrito"}
+{"level":"error","message":"Error al intentar actualizar el carrito"}
+{"level":"error","message":"Error al intentar actualizar el carrito"}
+{"kind":"ObjectId","message":"Cast to ObjectId failed for value \"6634ec24759964118463c86d3\" (type string) at path \"_id\" for model \"carts\"","name":"CastError","path":"_id","reason":{},"stringValue":"\"6634ec24759964118463c86d3\"","value":"6634ec24759964118463c86d3","valueType":"string"}
+{"level":"error","message":"Error al intentar eliminar el producto del carrito."}
+{"level":"error","message":"Error al intentar eliminar el producto del carrito."}
+{"kind":"ObjectId","message":"Cast to ObjectId failed for value \"6634ec24759964118463c86d4\" (type string) at path \"_id\" for model \"carts\"","name":"CastError","path":"_id","reason":{},"stringValue":"\"6634ec24759964118463c86d4\"","value":"6634ec24759964118463c86d4","valueType":"string"}
+{"level":"fatal","message":"Petición con fatal"}
+{"level":"error","message":"Petición con error"}
+{"level":"fatal","message":"Petición fatal"}
+{"level":"error","message":"Petición error"}

@@ -13,8 +13,9 @@ export default class CartController{
             const { cid } = req.params;
 
             const ticket = await this.cartService.finalizePurchase(cid);
-            console.log(ticket)
+           
             if (!ticket) {
+                req.logger.info('Carrito no encontrado.')
                 return res 
                 .status(400)
                 .json({
@@ -23,7 +24,6 @@ export default class CartController{
             }
 
             return res
-
                 .status(200)
                 .json({
                 message: 'Ticket',
@@ -31,37 +31,50 @@ export default class CartController{
     
             }) 
         }catch(error){
-            console.log('Error... ', error);
+            req.logger.error('Error... ', error);
         }
     }
 
     createCart = async(req, res) => {
-    try{
-        const cartBody = req.body;
-        const newCart = await this.cartService.addCarts1(cartBody); 
-       
-        return res.json({
-            message: 'Nuevo carrito agregado.',
+        try{          
+        const newCart = await this.cartService.addCarts1();
+        req.logger.info('Nuevo carrito vacío agregado.'); 
+        return res
+            .status(200)
+            .json({
+            message: 'Nuevo carrito vacío agregado.',
             cart: newCart
-
-        }) 
+        })
     }catch(error){
-        console.log("Error... ", error)
+        req.logger.error("Error... ", error)
     }
 }
 
 agregaProductoAlCarrito = async(req, res) => { 
     try{
-       // console.log("agregaProductosAlCarrito ", req.session.user)
         const cartData2 = req.body;
-        const result = await this.cartService.addCart2(cartData2, req.session.user); 
-        return res.json({
+        const result = await this.cartService.addCart2(cartData2, req.session.user);
+        console.log(result)
+        if(result || result != null){
+            req.logger.info("Producto agregado al carrito.");
+        return res
+            .status(200)
+            .json({
             message: 'Producto agregado al carrito.',
-            message: result
+            result
 
-        }) 
+        })
+        }else{
+            req.logger.error("El producto no pudo ser agregado al carrito.");
+            return res
+            .status(400)
+            .json({
+            message: 'Producto no pudo ser agregado al carrito.',
+        })
+        } 
+
     }catch(error){
-        console.log("Error... ", error)
+        req.logger.error("Error... ", error)
     }
 }
 
@@ -121,7 +134,8 @@ agregaProductoAlCarrito = async(req, res) => {
         const cartId = req.params.cid;
         const cart = await this.cartService.getCartById(cartId); 
 
-        if(!cart){
+        if(!cart || cart == null){
+            req.logger.error("El carrito no existe");
             return res
             .status(404)
             .json({
@@ -130,13 +144,15 @@ agregaProductoAlCarrito = async(req, res) => {
             })
         }
     
-        return res.json({ 
+        return res
+            .status(200)
+            .json({ 
             ok: true,
             message: 'Productos del carrito...',
             cart,
         })       
     }catch(error){
-        console.log("Error... ", error)
+        res.logger.error("Error... ", error)
     }
 }
 
@@ -157,41 +173,50 @@ agregaProductoAlCarrito = async(req, res) => {
    
        const respuesta = await this.cartService.updateCart(cId, pId, unaCantidad); 
        
-       //console.log(respuesta)
        if(respuesta === null){
-           return res.json({ok: false, message: "Error al intentar actualizar el carrito"}); 
+        req.logger.error("Error al intentar actualizar el carrito");
+        return res
+        .status(400)
+        .json({ok: false, message: "Error al intentar actualizar el carrito"}); 
        }
        
-       return res.json({
+       return res
+       .status(200)
+       .json({
         message: respuesta,
        })
 
        }catch(error){
-        console.log(error)
+        req.logger.error("Error, ", error);
        }
       
-       return res.json({ok: true, message: "Error al intentar actualizar el carrito."}); 
+       return res
+       .status(400)
+       .json({ok: true, message: "Error al intentar actualizar el carrito."}); 
          
        }
 
 
       deleteCart = async(req, res) =>{
+        
         try{
+
             const cId =  req.params.cid;
             const pId =  req.params.pid;
     
             const respuesta = await this.cartService.deleteProductByCart(cId, pId); 
-            
             if(respuesta === null){
+                req.logger.error("Error al intentar eliminar el producto del carrito.");
                 return res.json({ok: false, message: "Error al intentar eliminar el producto del carrito."}); 
             }
             
             return res.json({ok: true, message: "Producto eliminado del carrito.", Carrito: respuesta});
         
             }catch(error){
-                console.log(error)
+                req.logger.error(error);
             }
         }
+
 
          deleteAllProductByCartId = async(req, res) =>{
             try{
@@ -200,13 +225,17 @@ agregaProductoAlCarrito = async(req, res) => {
                 const respuesta = await this.cartService.deleteAllProductByCartId(cId); 
                 
                 if(respuesta === null){
-                    return res.json({ok: false, message: "Error al intentar vaciar el carrito."}); 
+                    return res
+                    .status(400)
+                    .json({ok: false, message: "Error al intentar vaciar el carrito."}); 
                 }
                 
-                return res.json({ok: true, message: "Fueron eliminados todos los productos del carrito.", Carrito: respuesta});
+                return res
+                .status(200)
+                .json({ok: true, message: "Fueron eliminados todos los productos del carrito.", Carrito: respuesta});
             
                 }catch(error){
-                    console.log(error)
+                    req.logger.error(error);
                 }
         }  
 
@@ -216,13 +245,14 @@ agregaProductoAlCarrito = async(req, res) => {
                 const cart = await this.cartService.getCartById(cartId); 
                 
                 if (!cart) {
-                    return res.status(404).json({ message: 'Carrito no encontrado' });
+                    req.logger.info("Carrito no encontrado.")
+                    return res.status(404).json({ message: 'Carrito no encontrado.' });
                 }
                 await cart.save();
         
                 res.json({ message: 'Carrito actualizado correctamente', cart });
             } catch (error) {
-                console.error('Error al actualizar el carrito:', error);
+                req.logger.error('Error al actualizar el carrito:', error);
                 res.status(500).json({ message: 'Error interno del servidor' });
             }
         };
@@ -246,7 +276,7 @@ agregaProductoAlCarrito = async(req, res) => {
             return res.json({ok: true, message: "Actualización correcta.", Carrito: respuesta});
         
             }catch(error){
-                console.log("Error (cart.controller.js) = ", error)
+            req.logger.error("Error (cart.controller.js) = ", error)
              }      
             };
  }

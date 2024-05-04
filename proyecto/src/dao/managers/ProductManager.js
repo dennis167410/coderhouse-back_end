@@ -14,7 +14,7 @@ class ProductManager {
         const products = await productModel.paginate({},{ limit:unLimit, page:unaCantPage, sort: miCriterio})
         return products;
         }catch(error){
-            console.log("Error: ", error);
+           
         }
     }
 
@@ -26,16 +26,20 @@ class ProductManager {
            
             return products;
         }catch(error){
-            console.log("Error: ", error);
+           
         }
     }
 
     getProductById = async (unPid) => {
         try{
+            try{
             const products = await productModel.find({_id: unPid});
             return products;
+            }catch(error){
+                return null;
+            }
         }catch(error){
-            console.log("Error: ", error);
+           
         }
     }
 
@@ -53,7 +57,7 @@ class ProductManager {
         
             return products;
         }catch(error){
-            console.log("Error: ", error);
+           
         }
     }
 
@@ -93,8 +97,7 @@ class ProductManager {
                 }) 
 
         }catch(error){
-            //console.log("Error, clave duplicada.");
-            
+                       
         }
     }
 
@@ -103,7 +106,7 @@ class ProductManager {
             const products = await productModel.deleteOne({_id: unPid});
             return products;
         }catch(error){
-            console.log("Error: ", error);
+           
         }
     }
 
@@ -124,11 +127,11 @@ class ProductManager {
                 {$set: {...datos}}
                 )
            return await productModel.findById(pId)
-           
+            
            //     return product;
         }catch(error){
-            //console.log("Error " + error);
-            throw new Error(error);
+            return null;
+            //throw new Error(error);
         }
     }
 
@@ -148,9 +151,10 @@ class ProductManager {
             // Guardará el producto actualizado en la base de datos
             await product.save();
     
-          //  console.log(`Se descontaron ${quantity} unidades del producto con código ${codProduct}`);
+         
         } catch (error) {
-            console.error('Error al descontar el stock:', error.message);
+            //console.error('Error al descontar el stock:', error.message);
+            return null;
         }
     };
 }

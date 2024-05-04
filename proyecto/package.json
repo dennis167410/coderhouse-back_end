@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start:dev": "cross-env nodemon ./src/app.js",
+    "start:dev": "cross-env NODE_ENV=development nodemon ./src/app.js",
+    "start:prod": "cross-env NODE_ENV=production nodemon ./src/app.js",
     "test": "jest --config ./jest.config.json",
     "test:watch": "npm run test -- --watch"
   },
@@ -38,6 +39,7 @@
     "passport-github2": "^0.1.12",
     "passport-jwt": "^4.0.1",
     "passport-local": "^1.0.0",
-    "socket.io": "^4.7.4"
+    "socket.io": "^4.7.4",
+    "winston": "^3.13.0"
   }
 }

@@ -1,3 +1,4 @@
+import mongoose from 'mongoose';
 import userModel from '../model/user.model.js';
 
 export default class UserManager {
@@ -10,7 +11,8 @@ export default class UserManager {
             let newUser = await userModel.create({usersData});
             return newUser;
         }catch(error){
-            console.log("Error: ", error);
+           // console.log("Error: ", error);
+           throw error;
         }
     }
 
@@ -25,8 +27,12 @@ export default class UserManager {
 
     getUserById = async(unId) => { 
         try{  
-            const userData = await userModel.findById({_id: unId})
-            
+            const userData = null;
+            try{
+              userData = await userModel.findById({_id: unId})
+            }catch(error){
+              //  console.log("Error de id  ", error)
+            }
             if(!userData){
                return null;
             }
@@ -34,7 +40,7 @@ export default class UserManager {
             return userData;
     
         }catch(error){
-            console.log("Error ", error)
+          //  console.log("Error ", error)
         }
     }
 
@@ -42,8 +48,12 @@ export default class UserManager {
     
         try{
           // BUSCAR USUARIO
-         const datosDelUsuario = await userModel.findById({_id: userId});
-      
+          const datosDelUsuario = null;
+          try{
+          datosDelUsuario = await userModel.findById({_id: userId});
+          }catch(error){
+            return null;
+          }
           // AGREGA EL CARRITO AL ARRAY 
           datosDelUsuario.carts.push({cart:cartId});
         
@@ -61,18 +71,31 @@ export default class UserManager {
 
       deleteUserById = async (userId) => {
         try {
-          const deleteUser = await userModel.deleteOne({ _id: userId });
+
+          const deleteUser = null;
+          
+          try{
+            deleteUser = await userModel.deleteOne({ _id: userId });
+          }catch(error){
+            return null;
+          }
+          
           return deleteUser
           } catch (error) {
-          console.log("error, ", error);
+        //  console.log("error, ", error);
         }
       };
       
       getUserEmailByCartId = async (cartId) => {
         try {
-            const user = await userModel.findOne({ 'carts.cart': cartId });
-                        
-            if (!user) {
+          const user = null;
+          try{
+            user = await userModel.findOne({ 'carts.cart': cartId });
+          }catch(error){
+            return null;
+          }          
+            
+          if (!user) {
                 return null;
             }
     
@@ -80,7 +103,7 @@ export default class UserManager {
             const userEmail = user.email;
             return userEmail;
         } catch (error) {
-            console.error('Error al obtener el email del usuario:', error);
+ //           console.error('Error al obtener el email del usuario:', error);
             throw error;
         }
     };

@@ -55,13 +55,12 @@ class CartManager {
 
     totalAmount = async (products) => {
         let totalAmount = 0;
-        console.log("total ", products)
         for (const item of products) {
             const product = await productManager.getProductById(item.productId);
             if (product) {
                  totalAmount += item.quantity * product[0].price;
             } else {
-                console.error(`Producto no encontrado.`);
+               // console.error(`Producto no encontrado.`);
             }
         }
         return totalAmount;
@@ -69,10 +68,11 @@ class CartManager {
 
     addCarts1 = async (cartsData) => {
         try{
-            let newCart = await cartModel.create({cartsData});
+            //let newCart = await cartModel.create({cartsData});
+            let newCart = await cartModel.create({});
             return newCart;
         }catch(error){
-            console.log("Error: ", error);
+            return null;
         }
     }
 
@@ -82,26 +82,31 @@ class CartManager {
 
             const productId = products[0].id;
             const quantity = products[0].quantity;
-        
+         
             const userCart = await userManager.getUserEmailByCartId(cartId);
 
-          //  console.log("user ", user, " - ", userCart)
             if(user !== userCart) return `${user} no es el dueño del carrito.`
 
-            let cart = await cartModel.findOne({_id: cartId});
-        
+            let cart = null;
+            try{
+                cart = await cartModel.findOne({_id: cartId});
+            }catch(error){
+                return null;
+            }
 
         const existeElProduct = cart.products.find(item => item.product.toString() === productId);
-            if (existeElProduct) {
+        
+
+        if (existeElProduct) {    
                 // Si el producto está en el carrito, suma la cantidad.
-                return await cartModel.findOneAndUpdate(
+              return await cartModel.findOneAndUpdate(
                     {_id: cartId, "products.product": productId},
                     { $inc: {"products.$.quantity": quantity}}
                 );
 
-            } else {
+            } else {  
                 // Si el producto no está en el carrito, lo agrega.
-              return  await cartModel.findOneAndUpdate(
+                return await cartModel.findOneAndUpdate(
                     {_id: cartId},
                     {$push: {products: {product: productId, quantity}}}
                 )
@@ -113,7 +118,7 @@ class CartManager {
             const r = await cart.save();
             return r;
         }catch(error){
-            console.log("Error: ", error);
+            return null;
         }
     }
 
@@ -159,7 +164,7 @@ class CartManager {
             const r = await cartModel.updateOne({_id:newCart._id}, newCart)
             return r;
         } catch (error) {
-            console.error('Error al crear el carrito:', error);
+           return null;
             
         }
     };
@@ -172,7 +177,7 @@ class CartManager {
             const carts = await cartModel.find().populate('products.product');
             return carts;
         }catch(error){
-            console.log("Error: ", error);
+           return null;
         }
     }
 
@@ -183,7 +188,7 @@ class CartManager {
             const cart = await cartModel.findOne({_id: unCid}).populate('products.product');
             return cart;
         }catch(error){
-            console.log("Error: ", error);
+            return null;
         }
     
     }
@@ -192,9 +197,7 @@ class CartManager {
 
 elProductoTieneStock= async (pId, quantity) => {
     let retorno = false;
-        console.log(pId, " ", quantity)
             const p = await productManager.getProductById(pId);
-            console.log(p[0].stock)
         if (p[0].stock >= quantity) {
             retorno = true;
           }
@@ -232,7 +235,7 @@ elProductoTieneStock= async (pId, quantity) => {
         }
 
 }catch(error){
-console.log(error)
+    return null;
 }
 
     }
@@ -240,20 +243,27 @@ console.log(error)
 /////////////////////////////////////////////////////////////
 
 deleteProductByCart = async (cId, unPid)=> {
-    console.log("cid ", cId, " PID", unPid)
+    try{
     await cartModel.updateOne(
         { _id: cId },
         { $pull: { products: {product: unPid } } },
         
       );
+    }catch(error){
+        return null;
+    }
 }
 
 
 deleteAllProductByCartId = async (cId)=> {
+   try{
     await cartModel.updateOne(
         { _id: cId },
         { $set: { products: [] } }
       );
+    }catch(error){
+        return null;
+    }
 }
 
 }
