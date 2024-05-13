@@ -5,6 +5,7 @@ const collection = "users";
 const rolType = {
     USER: "USER",
     ADMIN: "ADMIN",
+    PREMIUM: "PREMIUM",
     PUBLIC: "PUBLIC",
 }
 

@@ -6,7 +6,7 @@ const productCtrl = new ProductCtrl();
 
 const router = Router();
 
-router.post('/',handlePolicies(["ADMIN"]), productCtrl.createProduct);
+router.post('/',/* handlePolicies(["ADMIN", "PREMIUM"]),*/ productCtrl.createProduct);
 
 // Ejemplo: http://localhost:8080/api/products?limit=5
 // http://localhost:8080/api/products/?limit=5&sort=asc
@@ -22,8 +22,8 @@ router.get("/category/:category", productCtrl.productsByCategory);
 router.get("/disponibilidad/:disponibilidad", productCtrl.productsByDispo);
 
 // localhost:8080/api/products/65ceb99486869118617b2cef
-router.delete("/:pid", handlePolicies(["ADMIN"]), productCtrl.deleteProductById);
+router.delete("/:pid", /* handlePolicies(["ADMIN", "PREMIUM"]),*/ productCtrl.deleteProductById);
 
-router.put('/:pid', handlePolicies(["ADMIN"]), productCtrl.updateProduct);
+router.put('/:pid', handlePolicies(["ADMIN", "PREMIUM"]), productCtrl.updateProduct);
 
 export default router;

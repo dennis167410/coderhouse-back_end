@@ -17,7 +17,22 @@ const generateJWT = (user) =>{
     });
 };
 
+const verifyTokenJWT = (unToken) => {
+    return new Promise((resolve, reject) => {
+        jwt.verify(unToken, SECRET_JWT, (err, decoded) => {
+          if (err) {
+            reject(err);
+          } else {
+          //  console.log("estoy en verfy() = ", decoded.emailReceiver)
+            resolve(decoded);
+          }
+        });
+      });
+}
+
+
 export {
     generateJWT,
+    verifyTokenJWT,
     SECRET_JWT,
 }

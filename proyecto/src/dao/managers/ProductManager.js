@@ -1,3 +1,4 @@
+import { loggers } from 'winston';
 import productModel from'../model/product.model.js';
 
 class ProductManager {
@@ -79,25 +80,28 @@ class ProductManager {
         }
     }
 
-    addProducts = async (productData) => {
+    addProducts = async (productData, user, userRole) => {
+        
         try{
 
-            const {title, description, code, price, status, stock, category, thumbnails} = productData;
+            const {title, description, code, price, status, stock, category, thumbnails, owner} = productData;
 
             const product = await productModel.findOne({code:code})
 
-            if(!product){
-            const products = await productModel.insertMany(productData)
-            
-            return products;
-            }
+             if(!product){
+                let newProductData = {...productData}
 
-            return res.json({
-                message: "Error, clave duplicada.",
-                }) 
-
+                if(userRole === "PREMIUM"){
+                    newProductData.owner = user;
+                }
+                const newProduct = await productModel.create(newProductData);
+                return newProduct;
+            }else{
+            return null; 
+        }
         }catch(error){
-                       
+            console.log(error)
+         return null;              
         }
     }
 

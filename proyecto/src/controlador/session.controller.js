@@ -1,6 +1,6 @@
 import userModel from '../dao/model/user.model.js';
 import {createHash, isValidPasswd} from '../utils/encrypt.js';
-import {generateJWT} from '../utils/jwt.js';
+import {generateJWT, verifyTokenJWT} from '../utils/jwt.js';
 import UserDto from '../dto/User.dto.js';
 
 const login = async(req, res) => {
@@ -21,21 +21,16 @@ const login = async(req, res) => {
             return res.status(400).json({message: "Credenciales no son válidas."});
         }
 
-        //const {unaPassword, first_name, last_name, email, age, role, carts} = findUser;
-       
         const userDto = new UserDto({
           first_name: findUser.first_name,
-        //  last_name: findUser.last_name,
           email: findUser.email,
           role: findUser.role, 
           carts: findUser.carts
         });
 
-        //const token = await generateJWT({ first_name, last_name, email:emailDb, age, role, carts});
         const token = await generateJWT({userDto});
         req.session.user = userDto.email;
-
-        //console.log(" req.session.user ",  req.session.user)
+        req.session.role = userDto.role;
         return res
         .cookie("cookieToken", token, {
           maxAge: 60*60*1000,
@@ -55,9 +50,78 @@ const logout = async(req, res) => {
     })
 }
 
+async function obtenerEmail(token) {
+  try {
+    const decoded = await verifyTokenJWT(token);
+    const email = decoded.user.email;
+    return email;
+  } catch (error) {
+      return null;
+  }
+}
+
+const recoverPasswd2 = async(req, res) => {
+    try{
+      const {new_password, email, token} = req.body;
+   /*   req.logger.info("token recibido en newPasswd ", new_password)
+      req.logger.info("token recibido en email ", email)
+      req.logger.info("token recibido en el token ", token)*/
+
+  // Verificar y decodifica el token
+  let emailRecibido = await obtenerEmail(token);
+      if(!emailRecibido || emailRecibido == null){
+        return res
+        .status(401)
+        .json({message: "Error, el token expiro. Consulte con el administrador."});     
+      }
+
+  req.logger.info("email = "+ email + " luego de la promesa ", emailRecibido);
+
+   if(email === emailRecibido){
+    req.logger.info("Los emails coinciden.")
+  }else{
+    req.logger.error("Los emails no coinciden.");
+    return res
+    .status(401)
+    .json({message: "Error, los emails no coinciden."});
+  }
+
+  // Obtiene el usuario asociado al token
+   const user = await userModel.findOne({email});
+   
+   if(!user){
+      return res
+      .status(401)
+      .json({message: "Las credenciales no son válidas o son erroneas."});
+   }
+
+   const esValido = await isValidPasswd(new_password, user.password)
+   if(esValido){
+    req.logger.info("Las contraseñas no pueden ser iguales.");
+    return res.redirect('/recover');
+  }else{
+    req.logger.info("Ok.")
+  }
+
+  const newPasswdHasheado = await createHash(new_password);
+
+   const updateUser = await userModel.findByIdAndUpdate(user._id, {password: newPasswdHasheado});
+        if(!updateUser){
+            return res.json({message: "Problemas al actualizar la contraseña."})
+        }
+
+        return res.render("login");
+  
+    }catch(error){
+        req.logger.error("Error, ", error);
+    }   
+}
+
+/*
 const recoverPasswd = async(req, res) => {
     try{
-        const {new_password, email} = req.body;
+  
+      const {new_password, email} = req.body;
         const newPasswdHasheado = await createHash(new_password);
         const user = await userModel.findOne({email});
   
@@ -78,6 +142,7 @@ const recoverPasswd = async(req, res) => {
         req.logger.error("Error, ", error);
     }   
 }
+*/
 
 const register = async(req, res) => {
    /*
@@ -138,7 +203,7 @@ const register = async(req, res) => {
 export default {
   login, 
   logout,
-  recoverPasswd,
+  recoverPasswd2,
   register,
 }
 

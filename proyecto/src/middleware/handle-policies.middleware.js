@@ -7,9 +7,10 @@ function handlePolicies(policies) {
       return next();
     }
 
+   
     // Usa Passport para autenticar al usuario y verificar el rol
     passport.authenticate("jwt", { session: false }, (err, userJWT, info) => {
-      //console.log("userJWT en handle-plicies = ", userJWT)
+     
       if (err) {
         return next(err);
       }
@@ -27,7 +28,9 @@ function handlePolicies(policies) {
           .send({ message: "Acceso denegado. Rol no autorizado." });
       }
     })(req, res, next);
+    console.log(policies)
   };
+ 
 }
 
 export default handlePolicies;

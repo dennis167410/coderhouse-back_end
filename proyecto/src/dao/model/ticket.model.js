@@ -5,13 +5,12 @@ const collection = "tickets";
 const ticketSchema = new mongoose.Schema({
     code: {
         type: String,
-      //  unique: true,
         require: true
     },
     purchase_datetime:  {
         type: Date,
         default: Date.now
-    } , // let now = new Date(); Deberá guardar la fecha y hora exacta en la cual 	se formalizó la compra (básicamente es un created_at)
+    } , 
     amount: {
         type: Number
     }, 

@@ -1,4 +1,3 @@
-
 import mongoose from 'mongoose';
 import mongoosePaginate from'mongoose-paginate-v2';
 
@@ -32,12 +31,14 @@ const productSchema = mongoose.Schema({
     },
     category:{
         type:String,
-        required: true
-        // enum: ["A","B"]  
+        required: true  
     },
     thumbnails:{
-        type: Array,
-        //required: false  
+        type: Array  
+    },
+    owner:{
+        type:String,
+        default: "ADMIN"
     }
     
 });

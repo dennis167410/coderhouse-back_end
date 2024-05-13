@@ -45,10 +45,10 @@ export default class ProductController{
 
 createProduct = async(req, res) => {
     try{
-       
-        const productData2 = req.body; 
-        
-        const result = await this.productService.addProducts(productData2); 
+       const productData = req.body; 
+    
+       req.logger.info("req.session.role ", req.session.role)
+       const result = await this.productService.addProducts(productData, req.session.user, req.session.role); 
         
         if(!result){
             req.logger.warning('No se pudo crear el producto. Faltan datos o la clave puede estar duplicada.');
@@ -157,7 +157,8 @@ productsByDispo = async(req, res) => {
 deleteProductById = async(req, res) => {
     try{
         const productId = req.params.pid;
-        const product = await this.productService.deleteProductById(productId); 
+
+        const product = await this.productService.getProductById(productId);
 
         if(!product){
             req.logger.info("El producto no existe.");
@@ -169,12 +170,29 @@ deleteProductById = async(req, res) => {
             })
         }
 
+        if(req.session.role === "PREMIUM"){
+            if(req.session.user === product[0].owner){
+                req.logger.info("Es premium y es el dueño del producto.")
+            }else{
+                req.logger.warning("Usted es cliente PREMIUM, pero NO eres el dueño del producto.")
+                return res
+                .status(401)
+                .json({
+                    ok: true,
+                    message: 'Usted es cliente PREMIUM, pero NO es el dueño del producto.'
+                })
+
+            }
+        }
+        
+        const productDeleted = await this.productService.deleteProductById(productId); 
+
         return res
         .status(500)
         .json({
             ok: true,
             message: 'Producto eliminado.',
-            product,
+            productDeleted,
         })
     }catch(error){
         req.logger.error("Error ", error);

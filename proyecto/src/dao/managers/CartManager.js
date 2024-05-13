@@ -76,28 +76,32 @@ class CartManager {
         }
     }
 
-    addCart2 = async (cartsData, user) => {
+    addCart2 = async (cartsData, user, role) => {
         try{
             const {cartId, products} = cartsData;
 
             const productId = products[0].id;
             const quantity = products[0].quantity;
          
-            const userCart = await userManager.getUserEmailByCartId(cartId);
-
-            if(user !== userCart) return `${user} no es el dueño del carrito.`
+            console.log("cartId ", cartId)
+           // const userCart = await userManager.getUserEmailByCartId(cartId);
+           // if(user !== userCart) return `${user} no es el dueño del carrito.`
 
             let cart = null;
             try{
                 cart = await cartModel.findOne({_id: cartId});
+                
             }catch(error){
                 return null;
             }
 
         const existeElProduct = cart.products.find(item => item.product.toString() === productId);
-        
 
-        if (existeElProduct) {    
+        if (existeElProduct) {
+            console.log("role ", role, " user ", user, " existeElProducto ", existeElProduct[0].owner)
+                if (role === "PREMIUM" && user === existeElProduct[0].owner) {
+                    return null;
+                } 
                 // Si el producto está en el carrito, suma la cantidad.
               return await cartModel.findOneAndUpdate(
                     {_id: cartId, "products.product": productId},
@@ -105,6 +109,14 @@ class CartManager {
                 );
 
             } else {  
+            // Verifica si es el que creo el producto.
+            const product = await productManager.getProductById(productId);
+            console.log("role ", role, " user ", user, " owner ", product[0].owner)
+                if (role === "PREMIUM" && user === product[0].owner) {
+                    console.log("role ", role, " user ", user, " el usuario es el dueño del producto.")
+                    return null;
+                }
+                
                 // Si el producto no está en el carrito, lo agrega.
                 return await cartModel.findOneAndUpdate(
                     {_id: cartId},
@@ -113,11 +125,8 @@ class CartManager {
                 
             }
 
-//////////////////////
-            cart.products.push({ product: productId, quantity });
-            const r = await cart.save();
-            return r;
         }catch(error){
+//            console.log("error ", error)
             return null;
         }
     }

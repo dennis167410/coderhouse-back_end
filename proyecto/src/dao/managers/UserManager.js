@@ -11,7 +11,6 @@ export default class UserManager {
             let newUser = await userModel.create({usersData});
             return newUser;
         }catch(error){
-           // console.log("Error: ", error);
            throw error;
         }
     }
@@ -21,18 +20,17 @@ export default class UserManager {
             let users = await userModel.find();
             return users;
         }catch(error){
-            console.log("Error, ", error);
+           // console.log("Error, ", error);
         }
     }
 
     getUserById = async(unId) => { 
         try{  
-            const userData = null;
+           let userData = null;
             try{
               userData = await userModel.findById({_id: unId})
-            }catch(error){
-              //  console.log("Error de id  ", error)
-            }
+              console.log(userData)
+            }catch(error){ }
             if(!userData){
                return null;
             }
@@ -40,7 +38,6 @@ export default class UserManager {
             return userData;
     
         }catch(error){
-          //  console.log("Error ", error)
         }
     }
 

@@ -30,6 +30,8 @@ import {PERSISTENCE, PORT, DB_NAME, MONGO_URL, API_PREFIX, COOKIE_SIGN, SECRET_S
 import handlePolicies from './middleware/handle-policies.middleware.js';
 import { useLogger } from './utils/logger.js';
 
+import emailRoutes from "./routing/email.routes.js";
+
 const PORT_APP = Number(PORT) || 8082;
 const app = express();
 
@@ -88,13 +90,23 @@ initializePassport();
 app.use(passport.initialize());
 //app.use(passport.session());
 
+import { fileURLToPath } from 'url';
+const __filename = fileURLToPath(import.meta.url); // get the resolved path to the file
+const __dirname = path.dirname(__filename); // get the name of the directory
+
 //Configuración handlebars:
 app.engine("handlebars", handlebars.engine());
+app.set("views", __dirname + "/views");
 //app.set('views', path.join(`${__dirname}/views`));
 app.set("view engine", "handlebars");
 
 
 ////////////////////////////
+
+// Test envío de mail:
+app.use('/mail', emailRoutes);
+
+///////////////////////
 
 // WebSocket:
  app.get('/realtimeproducts', async(req, res) => {

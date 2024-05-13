@@ -17,4 +17,8 @@ router.post('/:userId/carts/:cartId', handlePolicies(['USER', 'ADMIN']), userCtr
 //Elimina el usuario.
 router.delete("/:userId", handlePolicies(["ADMIN"]), userCtrol.deleteUserById);
 
+/* Permite cambiar el rol de un usuario, de “user” a “premium” y viceversa. */
+router.post("/premium/:uid", userCtrol.updateUserRole);
+
+
 export default router;
