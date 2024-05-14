@@ -7,10 +7,9 @@ function handlePolicies(policies) {
       return next();
     }
 
-   
     // Usa Passport para autenticar al usuario y verificar el rol
     passport.authenticate("jwt", { session: false }, (err, userJWT, info) => {
-     
+      console.log("Roles ", userJWT.user.userDto.role);   
       if (err) {
         return next(err);
       }
@@ -29,6 +28,7 @@ function handlePolicies(policies) {
       }
     })(req, res, next);
     console.log(policies)
+  
   };
  
 }

@@ -8,7 +8,8 @@ import cookieParser from 'cookie-parser';
 import session from 'express-session';
 import mongoStore from "connect-mongo";
 import passport from "passport";
-//import { rejects } from 'assert';
+import swaggerJSDoc from 'swagger-jsdoc';
+import swaggerUi from 'swagger-ui-express';
 
 //RUTAS
 import productsRoutes from './routing/products.routes.js';
@@ -18,6 +19,7 @@ import cookiesRoutes from './routing/cookies.routes.js';
 import sessionRoutes from "./routing/session.routes.js";
 import usersRoutes from './routing/user.routes.js';
 import mocksRoutes from './routing/mocks.routes.js';
+import { swaggerOptions } from "./config/swagger.config.js";
 
 //Solo con la finalidad de test:
 //import ticketsRoutes from './routing/tickets.routes.js';
@@ -122,6 +124,10 @@ app.use(`/${API_PREFIX}/messages`, handlePolicies(["USER"]), async(req, res) => 
 websocket(io);
 
 ///////////////////////////////////////
+// swagger
+const specs = swaggerJSDoc(swaggerOptions)
+
+///////////////////////////////////////
 
 app.use(`/api/views`, viewRoutes);
 app.use(`/api/cookies`, cookiesRoutes);
@@ -141,6 +147,8 @@ app.use(`/${API_PREFIX_APP}/carts`, cartsRouters);
 app.use(`/${API_PREFIX_APP}/user`, usersRoutes);
 
 app.use('/mockingproducts', mocksRoutes);
+
+app.use('/api/docs/', swaggerUi.serve, swaggerUi.setup(specs));
 
 //Solo para test:
 //app.use(`/${API_PREFIX_APP}/tickets`, ticketsRoutes);

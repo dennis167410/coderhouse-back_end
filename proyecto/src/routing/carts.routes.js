@@ -13,7 +13,7 @@ router.post('/:cid/purchase', cartCtrol.finalizePurchase)
 router.post('/', cartCtrol.createCart);
 
 // Agrega un producto al carrito. El mail del USER debe ser igual al mail del dueño del carrito. 
-router.post('/agregar', /*handlePolicies(["USER"]),*/ cartCtrol.agregaProductoAlCarrito); 
+router.post('/agregar', handlePolicies(["USER"]), cartCtrol.agregaProductoAlCarrito); 
 /*
 POSMAN
 {
@@ -50,7 +50,7 @@ router.get("/:cid", cartCtrol.getCartById);
 
 //Si el documento no existe, se insertará en el array products, de lo contrario se le sumará la cantidad
 /* Agrega el producto al arreglo “products” del carrito seleccionado. */
-router.post("/:cid/product/:pid", /*handlePolicies(["USER"]),*/ cartCtrol.updateCart);
+router.post("/:cid/product/:pid", handlePolicies(["USER"]), cartCtrol.updateCart);
 
 /*
 Deberá eliminar del carrito el producto seleccionado.

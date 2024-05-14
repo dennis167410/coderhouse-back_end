@@ -23,7 +23,7 @@ export default class ProductController{
      } = await this.productService.getAllProducts(limit, page, sort);
 
             return res
-            .status(500)
+            .status(200)
             .json({
            
         message:"Todos los productos",
@@ -47,7 +47,6 @@ createProduct = async(req, res) => {
     try{
        const productData = req.body; 
     
-       req.logger.info("req.session.role ", req.session.role)
        const result = await this.productService.addProducts(productData, req.session.user, req.session.role); 
         
         if(!result){
@@ -59,7 +58,9 @@ createProduct = async(req, res) => {
             })
         }
 
-        return res.json({
+        return res
+            .status(200)
+            .json({
             message: result,
         })
         
@@ -85,7 +86,7 @@ getProductById = async( req, res) =>{
         }
 
         return res
-        .status(500)
+        .status(200)
         .json({
             ok: true,
             message: 'Producto...',

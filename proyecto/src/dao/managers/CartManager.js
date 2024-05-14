@@ -1,5 +1,4 @@
 import cartModel from '../model/cart.model.js';
-//import ticketModel from '../model/ticket.model.js';
 import ProductManager from './ProductManager.js';
 import TicketManager from './TicketManager.js';
 import UserManager from './UserManager.js';
@@ -60,7 +59,7 @@ class CartManager {
             if (product) {
                  totalAmount += item.quantity * product[0].price;
             } else {
-               // console.error(`Producto no encontrado.`);
+
             }
         }
         return totalAmount;
@@ -83,10 +82,6 @@ class CartManager {
             const productId = products[0].id;
             const quantity = products[0].quantity;
          
-            console.log("cartId ", cartId)
-           // const userCart = await userManager.getUserEmailByCartId(cartId);
-           // if(user !== userCart) return `${user} no es el dueño del carrito.`
-
             let cart = null;
             try{
                 cart = await cartModel.findOne({_id: cartId});
@@ -98,8 +93,7 @@ class CartManager {
         const existeElProduct = cart.products.find(item => item.product.toString() === productId);
 
         if (existeElProduct) {
-            console.log("role ", role, " user ", user, " existeElProducto ", existeElProduct[0].owner)
-                if (role === "PREMIUM" && user === existeElProduct[0].owner) {
+                 if (role === "PREMIUM" && user === existeElProduct[0].owner) {
                     return null;
                 } 
                 // Si el producto está en el carrito, suma la cantidad.
@@ -111,10 +105,8 @@ class CartManager {
             } else {  
             // Verifica si es el que creo el producto.
             const product = await productManager.getProductById(productId);
-            console.log("role ", role, " user ", user, " owner ", product[0].owner)
                 if (role === "PREMIUM" && user === product[0].owner) {
-                    console.log("role ", role, " user ", user, " el usuario es el dueño del producto.")
-                    return null;
+                  return null;
                 }
                 
                 // Si el producto no está en el carrito, lo agrega.
@@ -126,7 +118,6 @@ class CartManager {
             }
 
         }catch(error){
-//            console.log("error ", error)
             return null;
         }
     }

@@ -1,0 +1,105 @@
+paths:
+  /api/products/:
+    get:
+      summary: Muestra todos los productos registrados.
+      tags: 
+        - Products
+      responses:
+        "200":
+          description: Muestra todos los productos registrados en la Base de Datos.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#components/schemas/Products"
+        "500":
+          description: Error interno del servidor.
+
+  /api/products/{pid}/:
+    get:
+      summary: Muestra un producto por id.
+      tags:
+        - Products
+      parameters:
+        - name: pid
+          in: path
+          required: true
+          description: pid es el id del producto.
+          schema:
+            $type: ObjectId
+      responses:
+        "200":
+          description: Muestra la información del producto.
+        "404":
+          description: Producto no existe.
+        "500":
+          description: Error interno del servidor.
+
+  /api/products/disponibilidad/{disponibilidad}/:
+    get:
+      summary: Muestra todos los productos con disponibilidad mayor al valor.
+      tags: 
+        - Products
+
+  /api/productss/{pid}/:
+    put:
+      summary: Actualiza los datos del producto.
+      tags: 
+        - Products
+
+  /api/product/{pid}/:
+    delete:
+      summary: Elimina el producto que pertenece al id.
+      tags: 
+        - Products 
+
+  
+components:
+  schemas:
+    Products:
+        type: object
+        properties:
+          _id:
+            types: ObjectId
+            description: Id generado por mongo para el producto.
+          title:
+            type: String
+            description: Título del producto.
+          description: 
+            type: String
+            description: Descripción del producto.
+          code:
+            type: String
+            description: Código del producto,
+          price:
+            type: Number
+            description: Precio unitario del producto.  
+          status: 
+            type: Boolean
+            description: No me queda claro el atributo.  
+          stock:
+            type: Number
+            description: Stock del producto.  
+          category:
+            type: String
+            description: Categoría del producto. 
+          thumbnails:
+            type: Array
+            description: "Imagenes del producto." 
+          owner:
+            type: String
+            description: Quien registro el producto en la base de datos.
+        example:
+          owner: ADMIN,
+          _id: 65ceb99486869118617b2cf2,
+          title: Producto 4,
+          description: Producto 4,
+          code: code4,
+          price: 650,
+          status: true,
+          stock: 20,
+          category: cat1,
+          thumbnails: ["img/product4_1.jpg","img/product4_2.jpg"]
+          
+

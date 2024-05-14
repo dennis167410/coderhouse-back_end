@@ -156,9 +156,11 @@ const register = async(req, res) => {
 }
 */
   try{
+   
     const {first_name, last_name, email, age, password, role} = req.body;
-
     const passHasheado = await createHash(password);
+
+   // req.logger.info(first_name + " " + last_name + " " + email + " " +age + " " +password +" " + role)
 
     if(!email){
       return res

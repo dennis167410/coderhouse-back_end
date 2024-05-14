@@ -1,4 +1,3 @@
-import { loggers } from 'winston';
 import productModel from'../model/product.model.js';
 
 class ProductManager {
@@ -76,7 +75,7 @@ class ProductManager {
             const products = await productModel.find({ stock: { $gt: unaDispo } }).sort(sortCriterio);
             return products;
         }catch(error){
-            console.log("Error: ", error);
+           
         }
     }
 
@@ -132,10 +131,8 @@ class ProductManager {
                 )
            return await productModel.findById(pId)
             
-           //     return product;
         }catch(error){
             return null;
-            //throw new Error(error);
         }
     }
 
@@ -157,7 +154,6 @@ class ProductManager {
     
          
         } catch (error) {
-            //console.error('Error al descontar el stock:', error.message);
             return null;
         }
     };
