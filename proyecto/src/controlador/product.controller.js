@@ -115,7 +115,7 @@ productsByCategory = async( req, res) => {
         }
 
         return res
-        .status(500)
+        .status(200)
         .json({
             ok: true,
             message: 'Productos...',
@@ -139,12 +139,12 @@ productsByDispo = async(req, res) => {
             .status(404)
             .json({
                 ok: true,
-                message: 'No existen productos con esa disponibilidad.'
+                message: 'No existen productos para esa disponibilidad.'
             })
         }
 
         return res
-        .status(500)
+        .status(200)
         .json({
             ok: true,
             message: 'Productos con dispopnibilidad' ,
@@ -167,7 +167,7 @@ deleteProductById = async(req, res) => {
             .status(404)
             .json({
                 ok: true,
-                message: 'Producto no existe...'
+                message: 'El producto no existe...'
             })
         }
 
@@ -182,14 +182,13 @@ deleteProductById = async(req, res) => {
                     ok: true,
                     message: 'Usted es cliente PREMIUM, pero NO es el dueño del producto.'
                 })
-
             }
         }
         
         const productDeleted = await this.productService.deleteProductById(productId); 
 
         return res
-        .status(500)
+        .status(200)
         .json({
             ok: true,
             message: 'Producto eliminado.',
@@ -229,7 +228,7 @@ En el body:
         }
 
         return res
-        .status(500)
+        .status(200)
         .json({
             ok: true,
             message: 'Producto actualizado.',

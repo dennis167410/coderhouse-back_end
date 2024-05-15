@@ -35,25 +35,71 @@ paths:
           description: Producto no existe.
         "500":
           description: Error interno del servidor.
+    put:
+      summary: Actualiza los datos del producto.
+      tags: 
+        - Products
+      parameters:
+        - name: pid
+          in: path
+          required: true
+          description: pid es el id del producto.
+          schema:
+            $type: ObjectId
+      responses:
+        "200":
+          description: Producto actualizado.
+        "400":
+          description: El producto no existe, por tal motivo no pudo ser actualizado.
+        "500":
+          description: Error interno del servidor.
+
+    delete:
+      summary: Elimina el producto que pertenece al id.
+      tags: 
+        - Products 
+      parameters:
+        - name: pid
+          in: path
+          required: true
+          description: pid es el id del producto.
+          schema:
+            $type: ObjectId
+      responses:
+        "200":
+          description: Producto eliminado.
+        "401":
+          description: Usted es cliente PREMIUM, pero NO es el dueño del producto.
+        "404":
+          description: El producto no existe.
+        "500":
+          description: Error interno del servidor.
 
   /api/products/disponibilidad/{disponibilidad}/:
     get:
       summary: Muestra todos los productos con disponibilidad mayor al valor.
       tags: 
         - Products
+      responses:
+        "200":
+          description: Muestran los productos con una disponibilidad mayor o igual a la pasada por parámetro.
+        "404":
+          description: No existen productos para esa disponibilidad.
+        "500":
+          description: Error interno del servidor.
 
-  /api/productss/{pid}/:
-    put:
-      summary: Actualiza los datos del producto.
+  /api/products/category/{category}/:
+    get:
+      summary: Muestra todos los productos que pertenecen a esa categoria.
       tags: 
         - Products
-
-  /api/product/{pid}/:
-    delete:
-      summary: Elimina el producto que pertenece al id.
-      tags: 
-        - Products 
-
+      responses:
+        "200":
+          description: Muestran los productos de la categoria pasada por parámetro.
+        "404":
+          description: No existen productos para esa categoria.
+        "500":
+          description: Error interno del servidor.
   
 components:
   schemas:
