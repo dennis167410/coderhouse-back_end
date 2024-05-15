@@ -1,0 +1,72 @@
+paths:
+  /api/carts/:
+    get:
+      summary: Muestra todos los carritos registrados.
+      tags: 
+        - Carts
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: cid es el id del carrito en la base de datos.
+          schema:
+            $type: ObjectId
+      responses:
+        "200":
+          description: Muestra todos los carritos registrados en la Base de Datos.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#components/schemas/Carts"
+        "500":
+          description: Error interno del servidor.
+
+
+components:
+  schemas:
+    Carts:
+        type: object
+        properties:
+          _id:
+            types: ObjectId
+            description: Id generado por mongo para el carrito.
+          products:
+            types: array
+            items:
+              $ref: "#components/schemas/Products" 
+              
+    Products:
+        type: object
+        properties:
+          _id:
+            types: ObjectId
+            description: Id generado por mongo para el producto.
+          title:
+            type: String
+            description: Título del producto.
+          description: 
+            type: String
+            description: Descripción del producto.
+          code:
+            type: String
+            description: Código del producto,
+          price:
+            type: integer
+            description: Precio unitario del producto.  
+          status: 
+            type: Boolean
+            description: No me queda claro el atributo.  
+          stock:
+            type: integer
+            description: Stock del producto.  
+          category:
+            type: String
+            description: Categoría del producto. 
+          thumbnails:
+            type: Array
+            description: "Imagenes del producto." 
+          owner:
+            type: String
+            description: Quien registro el producto en la base de datos.

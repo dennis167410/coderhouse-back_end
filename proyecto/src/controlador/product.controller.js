@@ -133,6 +133,7 @@ productsByDispo = async(req, res) => {
 
         const products = await this.productService.productsByDispo(productDispo, sort); 
 
+        req.logger.info(productDispo)
        if(!products || products.length === 0){
             req.logger.info('No existen productos con esa disponibilidad.');
             return res

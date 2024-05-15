@@ -40,7 +40,7 @@ paths:
         - name: pid
           in: path
           required: true
-          description: pid es el id del producto.
+          description: pid es el id del producto en la base de datos.
           schema:
             $type: ObjectId
       responses:
@@ -58,7 +58,7 @@ paths:
         - name: pid
           in: path
           required: true
-          description: pid es el id del producto.
+          description: pid es el id del producto en la base de datos.
           schema:
             $type: ObjectId
       responses:
@@ -77,14 +77,14 @@ paths:
         - name: pid
           in: path
           required: true
-          description: pid es el id del producto.
+          description: pid es el id del producto en la base de datos.
           schema:
             $type: ObjectId
       responses:
         "200":
           description: Producto eliminado.
         "401":
-          description: Usted es cliente PREMIUM, pero NO es el dueño del producto.
+          description: Usted es cliente PREMIUM, pero NO es el dueño del producto, por tal motivo no puede eliminarlo.
         "404":
           description: El producto no existe.
         "500":
@@ -95,6 +95,13 @@ paths:
       summary: Muestra todos los productos con disponibilidad mayor al valor.
       tags: 
         - Products
+      parameters:
+        - name: stock
+          in: path
+          required: true
+          description: Stock del producto en la base de datos.
+          schema:
+            $type: stock
       responses:
         "200":
           description: Muestran los productos con una disponibilidad mayor o igual a la pasada por parámetro.
@@ -108,6 +115,13 @@ paths:
       summary: Muestra todos los productos que pertenecen a esa categoria.
       tags: 
         - Products
+      parameters:
+        - name: category
+          in: path
+          required: true
+          description: Categoría del producto en la base de datos.
+          schema:
+            $type: category
       responses:
         "200":
           description: Muestran los productos de la categoria pasada por parámetro.
@@ -134,13 +148,13 @@ components:
             type: String
             description: Código del producto,
           price:
-            type: Number
+            type: integer
             description: Precio unitario del producto.  
           status: 
             type: Boolean
             description: No me queda claro el atributo.  
           stock:
-            type: Number
+            type: integer
             description: Stock del producto.  
           category:
             type: String
