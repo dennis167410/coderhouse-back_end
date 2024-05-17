@@ -115,16 +115,7 @@ class ProductManager {
 
 
     updateProduct = async (pId, datos) => { 
-        try{
-            /*const product = await productModel.updateOne(
-                {
-                _id: pId,
-                },
-                {
-                $set: {...datos}
-                }
-            );*/
-            
+        try{           
             await productModel.updateOne(
                 {_id: pId},
                 {$set: {...datos}}

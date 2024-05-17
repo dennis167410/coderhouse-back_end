@@ -1,4 +1,3 @@
-import mongoose from 'mongoose';
 import userModel from '../model/user.model.js';
 
 export default class UserManager {
@@ -11,7 +10,7 @@ export default class UserManager {
             let newUser = await userModel.create({usersData});
             return newUser;
         }catch(error){
-           throw error;
+           return error;
         }
     }
 
@@ -20,7 +19,7 @@ export default class UserManager {
             let users = await userModel.find();
             return users;
         }catch(error){
-           // console.log("Error, ", error);
+           return null;
         }
     }
 
@@ -45,7 +44,7 @@ export default class UserManager {
     
         try{
           // BUSCAR USUARIO
-          const datosDelUsuario = null;
+          let datosDelUsuario = null;
           try{
           datosDelUsuario = await userModel.findById({_id: userId});
           }catch(error){
@@ -63,14 +62,14 @@ export default class UserManager {
           
         }catch(error){
           console.log("Error al intentar agregar el carrito al usuario. ", error);
+          return null;
         }
       }
 
       deleteUserById = async (userId) => {
         try {
 
-          const deleteUser = null;
-          
+          let deleteUser = null;
           try{
             deleteUser = await userModel.deleteOne({ _id: userId });
           }catch(error){
@@ -79,19 +78,21 @@ export default class UserManager {
           
           return deleteUser
           } catch (error) {
-        //  console.log("error, ", error);
+            return null;
         }
       };
       
       getUserEmailByCartId = async (cartId) => {
         try {
-          const user = null;
+          let user = null;
+          console.log(cartId)
           try{
             user = await userModel.findOne({ 'carts.cart': cartId });
           }catch(error){
             return null;
           }          
-            
+          console.log(user)  
+
           if (!user) {
                 return null;
             }
@@ -100,8 +101,7 @@ export default class UserManager {
             const userEmail = user.email;
             return userEmail;
         } catch (error) {
- //           console.error('Error al obtener el email del usuario:', error);
-            throw error;
+            return null;
         }
     };
 

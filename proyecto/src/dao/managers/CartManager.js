@@ -45,10 +45,10 @@ class CartManager {
     
             return noDisponibles;
             }else{
-                return "Error,deberá asociar el carrito al usuario."
+                return 401;//"Error, deberá asociar el carrito al usuario."
             } 
         }catch(error){
-
+            return null;
         }
     }
 

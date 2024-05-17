@@ -4,13 +4,6 @@ paths:
       summary: Muestra todos los carritos registrados.
       tags: 
         - Carts
-      parameters:
-        - name: cid
-          in: path
-          required: true
-          description: cid es el id del carrito en la base de datos.
-          schema:
-            $type: ObjectId
       responses:
         "200":
           description: Muestra todos los carritos registrados en la Base de Datos.
@@ -22,6 +15,200 @@ paths:
                   $ref: "#components/schemas/Carts"
         "500":
           description: Error interno del servidor.
+    
+    post:
+      summary: Crea un carrito vacío.
+      tags: 
+        - Carts 
+      responses:
+        "200":
+          description: Muestra mensaje de que el carrito fue creado.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#components/schemas/Carts"
+        "505":
+          description: Error interno del servidor.
+
+  /api/carts/{cid}/:
+    get:
+      summary: Muestra un carrito.
+      tags: 
+       - Carts 
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: cid es el id del carrito en la base de datos.
+          schema:
+            $type: ObjectId
+      responses:
+        "200":
+          description: Muestra la información del carrito.
+        "404":
+          description: El carrito no existe.
+        "500":
+          description: Error interno del servidor.
+    
+    delete:
+      summary: Elimina todos los productos del carrito.
+      tags: 
+        - Carts
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: cid es el id del carrito en la base de datos.
+          schema:
+            $type: ObjectId    
+      responses:
+        "200":
+          description: Muestra mensaje de confirmación.
+         
+        "404":
+          description: El carrito no existe.
+        "500":
+          description: Error interno del servidor.
+
+/api/carts/{cid}/purchase/:
+    post:
+      summary: Finaliza una compra.
+      tags: 
+        - Carts
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: cid es el id del carrito en la base de datos.
+          schema:
+            $type: ObjectId
+      responses:
+        "200":
+          description: Muestra la información de la compra.
+        "401":
+          description: Error, deberá asociar el carrito al usuario.
+        "404":
+          description: El carrito no existe.
+        "500":
+          description: Error interno del servidor.
+
+/api/carts/agregar/:
+    post:
+      summary: Agrega un producto al carrito.
+      tags: 
+        - Carts
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Carts'
+      responses:
+        "200": Muestra los datos del carrito con el producto agregado.
+        "505": Error interno del servidor.
+
+/api/carts/{cid}/product/{pid}/:
+    post:
+      summary: Si el documento no existe, se agregará en el array products, de lo contrario se le sumará la cantidad.
+      tags: 
+        - Carts
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: cid es el id del carrito en la base de datos.
+          schema:
+            $type: ObjectId
+        - name: pid
+          in: path
+          required: true
+          description: pid es el id del producto en la base de datos.
+          schema:
+            $type: ObjectId    
+      responses:
+        "200":
+          description: Muestra información del carrito.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#components/schemas/Carts"
+        "404":
+          description: El carrito no existe.
+        "500":
+          description: Error interno del servidor.
+
+/api/carts/todo/:
+    post:
+      summary: Crea un carrito con producto.
+      tags: 
+        - Carts
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Carts'
+      responses:
+        "200": Muestra los datos del carrito con el producto creado.
+        "505": Error interno del servidor
+
+/api/carts/{cid}/products/{pid}/:
+    delete:
+      summary: Elimina del carrito el producto seleccionado.
+      tags: 
+        - Carts
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: cid es el id del carrito en la base de datos.
+          schema:
+            $type: ObjectId
+        - name: pid
+          in: path
+          required: true
+          description: pid es el id del producto en la base de datos.
+          schema:
+            $type: ObjectId    
+      responses:
+        "200":
+         description: Muestra mensaje de confirmación.
+         content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#components/schemas/Carts"
+        "404":
+          description: El carrito no existe.
+        "500":
+          description: Error interno del servidor.
+
+    put:
+      summary: Actualiza el producto en el carrito.
+      tags: 
+        - Carts
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: cid es el id del carrito en la base de datos.
+          schema:
+            $type: ObjectId
+        - name: pid
+          in: path
+          required: true
+          description: pid es el id del producto en la base de datos.
+          schema:
+            $type: ObjectId    
+      responses:
+         "200": Muestra mensaje de confirmación.
+         "404": El carrito no existe.
+         "500": Error interno del servidor.
 
 
 components:

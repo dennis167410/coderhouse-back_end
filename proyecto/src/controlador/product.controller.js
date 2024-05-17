@@ -57,16 +57,17 @@ createProduct = async(req, res) => {
                 message: "Error, clave duplicada",
             })
         }
-
+        req.logger.info(result);
+     
         return res
             .status(200)
             .json({
             message: result,
         })
         
-        
     }catch(error){
         req.logger.error("Error ", error);
+        return null;
     }
 }
 

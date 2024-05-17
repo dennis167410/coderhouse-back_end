@@ -13,8 +13,18 @@ export default class CartController{
 
             const ticket = await this.cartService.finalizePurchase(cid);
            
+           // req.logger.error(ticket)
+
+            if(ticket === 401){
+                return res 
+                .status(401)
+                .json({
+                    message: 'Error, deberá asociar el carrito al usuario.',
+                })
+            }
+
             if (!ticket) {
-                req.logger.info('Carrito no encontrado.')
+                req.logger.error('Carrito no encontrado.')
                 return res 
                 .status(400)
                 .json({
@@ -25,7 +35,7 @@ export default class CartController{
             return res
                 .status(200)
                 .json({
-                message: 'Ticket',
+                message: 'Ticket cerrado.',
                 ticket: `Productos que no pudieron procesarse... ${ticket}`
     
             }) 
@@ -108,7 +118,7 @@ agregaProductoAlCarrito = async(req, res) => {
     })
          
         }catch(error){
-            console.log("Error... ", error)
+            req.logger.error("Error... ", error)
         }
 }
 
@@ -117,7 +127,7 @@ agregaProductoAlCarrito = async(req, res) => {
         const carts = await this.cartService.getAllCarts(); 
 
         return resp
-        .status(500)
+        .status(200)
         .json({
             ok: true,
             message: 'Listado de carritos...',

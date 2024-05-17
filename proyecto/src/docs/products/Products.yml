@@ -25,11 +25,21 @@ paths:
         content:
           application/json:
             schema:
+              type: array
               $ref: '#/components/schemas/Products'
       responses:
-        "200": Muestra los datos del producto creado.
-        "404": Error, clave duplicada.
-        "505": Error interno del servidor.
+        "200":
+          description: Muestra todos los productos registrados en la Base de Datos.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#components/schemas/Products"
+        "404": 
+          description: Error, clave duplicada.
+        "505": 
+          description: Error interno del servidor.
 
   /api/products/{pid}/:
     get:
@@ -50,10 +60,18 @@ paths:
           description: Producto no existe.
         "500":
           description: Error interno del servidor.
+    
     put:
       summary: Actualiza los datos del producto.
       tags: 
         - Products
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              $ref: '#/components/schemas/Products'
       parameters:
         - name: pid
           in: path
@@ -96,12 +114,12 @@ paths:
       tags: 
         - Products
       parameters:
-        - name: stock
+        - name: disponibilidad
           in: path
           required: true
           description: Stock del producto en la base de datos.
           schema:
-            $type: stock
+            $type: ObjectId
       responses:
         "200":
           description: Muestran los productos con una disponibilidad mayor o igual a la pasada por parámetro.
@@ -166,15 +184,14 @@ components:
             type: String
             description: Quien registro el producto en la base de datos.
         example:
-          owner: ADMIN,
-          _id: 65ceb99486869118617b2cf2,
-          title: Producto 4,
-          description: Producto 4,
-          code: code4,
-          price: 650,
-          status: true,
-          stock: 20,
-          category: cat1,
+          owner: ADMIN
+          title: Producto 4
+          description: Producto 4
+          code: code4
+          price: 650
+          status: true
+          stock: 20
+          category: cat1
           thumbnails: ["img/product4_1.jpg","img/product4_2.jpg"]
           
 

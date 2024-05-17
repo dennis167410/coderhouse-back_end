@@ -12,7 +12,7 @@ router.get('/', userCtrol.getUsers)
 router.get('/:userId', handlePolicies(['USER', 'ADMIN']), userCtrol.getUserById);
 
 // Agregar carrito al usuario
-router.post('/:userId/carts/:cartId', handlePolicies(['USER', 'ADMIN']), userCtrol.addCartInUser);
+router.post('/:userId/carts/:cartId', /*handlePolicies(['USER', 'ADMIN']),*/ userCtrol.addCartInUser);
 
 //Elimina el usuario.
 router.delete("/:userId", handlePolicies(["ADMIN"]), userCtrol.deleteUserById);

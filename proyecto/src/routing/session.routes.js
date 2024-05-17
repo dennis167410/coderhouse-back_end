@@ -67,7 +67,7 @@ router.get(
 
      return res.redirect('/products/?first_name=' + (req.session?.user?.first_name) + '&last_name=' + (req.session?.user?.last_name) + '&email=' + (req.session?.user?.email) + '&age=' + (req.session?.user?.age) + '&rol='+req.session?.user?.rol);
     } catch (error) {
-      console.log("Error:", error);
+      req.logger.error("Error:", error);
     }
   }
 );
