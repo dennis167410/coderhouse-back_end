@@ -52,7 +52,7 @@ paths:
           required: true
           description: pid es el id del producto en la base de datos.
           schema:
-            $type: ObjectId
+            $type: String
       responses:
         "200":
           description: Muestra la información del producto.
@@ -78,7 +78,7 @@ paths:
           required: true
           description: pid es el id del producto en la base de datos.
           schema:
-            $type: ObjectId
+            $type: String
       responses:
         "200":
           description: Producto actualizado.
@@ -97,7 +97,7 @@ paths:
           required: true
           description: pid es el id del producto en la base de datos.
           schema:
-            $type: ObjectId
+            $type: String
       responses:
         "200":
           description: Producto eliminado.
@@ -119,7 +119,7 @@ paths:
           required: true
           description: Stock del producto en la base de datos.
           schema:
-            $type: ObjectId
+            $type: integer
       responses:
         "200":
           description: Muestran los productos con una disponibilidad mayor o igual a la pasada por parámetro.
@@ -139,7 +139,7 @@ paths:
           required: true
           description: Categoría del producto en la base de datos.
           schema:
-            $type: category
+            $type: String
       responses:
         "200":
           description: Muestran los productos de la categoria pasada por parámetro.

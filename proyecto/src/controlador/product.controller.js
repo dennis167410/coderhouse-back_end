@@ -76,7 +76,7 @@ getProductById = async( req, res) =>{
         const productId = req.params.pid;
         const product = await this.productService.getProductById(productId); 
 
-        if(!product){
+        if(!product || product.length == 0){
             req.logger.warning('El producto no existe.');
             return res
             .status(404)

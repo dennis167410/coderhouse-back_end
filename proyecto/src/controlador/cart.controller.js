@@ -62,6 +62,7 @@ export default class CartController{
 agregaProductoAlCarrito = async(req, res) => { 
     try{
         const cartData2 = req.body;
+
         const result = await this.cartService.addCart2(cartData2, req.session.user, req.session.role);
         
         if(result || result != null){
@@ -112,7 +113,7 @@ agregaProductoAlCarrito = async(req, res) => {
             return res
                 .status(200)
                 .json({
-                message: `Productos no procesados...`,
+                message: `Nuevo carrito con productos creado correctamente`,
                  cart: newCart
 
     })

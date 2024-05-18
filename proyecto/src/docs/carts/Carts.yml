@@ -104,10 +104,32 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Carts'
+              type: object
+              properties:
+                cartId:
+                  type: string
+                  description: El ID del carrito.
+                products:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        description: El ID del producto.
+                      quantity:
+                        type: integer
+                        description: La cantidad del producto a agregar.
+              example:
+                cartId: "65e68bf0989a77be6c6fec88"
+                products:
+                  - id: "6641616fc2e50c062c0cd5b1"
+                    quantity: 1
       responses:
-        "200": Muestra los datos del carrito con el producto agregado.
-        "505": Error interno del servidor.
+        "200": 
+          description: Muestra los datos del carrito con el producto agregado.
+        "505": 
+          description: Error interno del servidor.
 
 /api/carts/{cid}/product/{pid}/:
     post:
@@ -120,13 +142,25 @@ paths:
           required: true
           description: cid es el id del carrito en la base de datos.
           schema:
-            $type: ObjectId
+            $type: String
         - name: pid
           in: path
           required: true
           description: pid es el id del producto en la base de datos.
           schema:
-            $type: ObjectId    
+            $type: String
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                quantity:
+                  type: integer
+                  description: La cantidad del producto a agregar.
+              example:
+                quantity: 3
       responses:
         "200":
           description: Muestra información del carrito.
@@ -151,10 +185,28 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Carts'
+              type: object
+              properties:
+                products:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        description: El ID del producto.
+                      quantity:
+                        type: integer
+                        description: La cantidad del producto a agregar.
+              example:
+                products:
+                  - id: "6641616fc2e50c062c0cd5b1"
+                    quantity: 1
       responses:
-        "200": Muestra los datos del carrito con el producto creado.
-        "505": Error interno del servidor
+        "200": 
+          description: Muestra los datos del carrito con el producto agregado.
+        "505": 
+          description: Error interno del servidor
 
 /api/carts/{cid}/products/{pid}/:
     delete:
@@ -198,17 +250,40 @@ paths:
           required: true
           description: cid es el id del carrito en la base de datos.
           schema:
-            $type: ObjectId
+            $type: String
         - name: pid
           in: path
           required: true
           description: pid es el id del producto en la base de datos.
           schema:
-            $type: ObjectId    
+            $type: String
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                quantity:
+                  type: integer
+                  description: La cantidad del producto a actualizar en el carrito.
+              example:
+                quantity: 5      
       responses:
-         "200": Muestra mensaje de confirmación.
-         "404": El carrito no existe.
-         "500": Error interno del servidor.
+         "200": 
+          description: Muestra mensaje de confirmación.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Producto actualizado en el carrito."
+         "404": 
+          description: El carrito no existe.
+         "500":
+          description: Error interno del servidor.
 
 
 components:
