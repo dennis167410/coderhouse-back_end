@@ -86,7 +86,7 @@ paths:
             $type: ObjectId
       responses:
         "200":
-          description: Muestra la información de la compra.
+          description: Muestra mensaje de ticket cerrado y los productos que no pudieron ser procesados.
         "401":
           description: Error, deberá asociar el carrito al usuario.
         "404":
