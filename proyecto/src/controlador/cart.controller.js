@@ -171,6 +171,7 @@ agregaProductoAlCarrito = async(req, res) => {
         const cartId = req.params.cid;
         const cart = await this.cartService.getCartById(cartId); 
 
+        console.log(cart)
         if(!cart || cart == null){
             req.logger.error("El carrito no existe");
             return res
