@@ -6,7 +6,7 @@
   "scripts": {
     "start:dev": "cross-env NODE_ENV=development nodemon ./src/app.js",
     "start:prod": "cross-env NODE_ENV=production nodemon ./src/app.js",
-    "test": "jest --config ./jest.config.json",
+    "test": "mocha test/supertest.carts.test.js",
     "test:watch": "npm run test -- --watch"
   },
   "keywords": [],
@@ -17,8 +17,11 @@
     "@babel/preset-env": "^7.24.4",
     "@faker-js/faker": "^8.4.1",
     "babel-jest": "^29.7.0",
+    "chai": "^5.1.1",
     "jest": "^29.7.0",
-    "nodemon": "^3.0.3"
+    "mocha": "^10.4.0",
+    "nodemon": "^3.0.3",
+    "supertest": "^7.0.0"
   },
   "dependencies": {
     "bcrypt": "^5.1.1",
