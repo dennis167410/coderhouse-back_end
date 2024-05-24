@@ -60,8 +60,25 @@ export default class CartController{
 }
 
 agregaProductoAlCarrito = async(req, res) => { 
+    /*
+    {
+      cartId: "660570de5c1a20f6af43b13a",
+            products: [
+                
+                 {
+                    id: "65d0331cd7671692a60e8138",
+                    quantity: 1
+                }
+               
+            ]
+
+    }
+    
+    */
+    
     try{
         const cartData2 = req.body;
+        req.logger.info(cartData2)
 
         const result = await this.cartService.addCart2(cartData2, req.session.user, req.session.role);
         
@@ -109,14 +126,24 @@ agregaProductoAlCarrito = async(req, res) => {
             const cartBody = req.body;
             
             let newCart = await this.cartService.addCart3(cartBody); 
-           
+        
+            if(!newCart || newCart === null){
+                return res
+                .status(400)
+                .json({
+                message: `El carrito no pudo ser creado, faltan datos o no existe el prodcuto.`,
+                })
+            }
+
+            req.logger.info("Cart fsfsdffsd",  newCart);
+
             return res
                 .status(200)
                 .json({
                 message: `Nuevo carrito con productos creado correctamente`,
-                 cart: newCart
-
-    })
+                cart: newCart
+           })
+        
          
         }catch(error){
             req.logger.error("Error... ", error)

@@ -153,18 +153,32 @@ class CartManager {
     
     addCart3 = async (cartData) => {
         try {
-
             let newCart = await cartModel.create({});
             const {products} = cartData;
+            
+            for (const unP of products) {
+                const product = await productManager.getProductById(unP.id);
+            
 
-            products.forEach(unP=>{
-                newCart.products.push({product: unP.id, quantity: unP.quantity})
-            });
+                if (product && product.length > 0 ){// product.every(p => p.stock >= unP.quantity)) {
+                    newCart.products.push({product: unP.id, quantity: unP.quantity})
+                    //const product2 = await productManager.discountStock(unP.product, unP.quantity);
+                    //pDisponibles.push({ productId: unP.product, quantity: unP.quantity });
+                  }
+                }
+        
+           
+                
+            if(!newCart.products || newCart.products.length ==0){
+               await cartModel.deleteOne({ _id: newCart._id });
+               return null;
+            }else{
 
-            const r = await cartModel.updateOne({_id:newCart._id}, newCart)
+            let r = await cartModel.updateOne({_id:newCart._id}, newCart)
             return r;
+            }
         } catch (error) {
-           return null;
+            return null;
             
         }
     };

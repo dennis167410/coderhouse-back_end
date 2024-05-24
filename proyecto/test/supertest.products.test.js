@@ -32,8 +32,6 @@ describe("Test funcional para los endpoints de Productos", () => {
       });
       */
 
-//clase 21 -> video 21_p3 -> 29min 43seg 
-
 /*
     it("TEST POST /api/products crear un producto sin código de producto deberá retornar 404 ", async () => {
         const bodyProduct = {

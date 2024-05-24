@@ -17,6 +17,18 @@ router.post('/agregar', /*handlePolicies(["USER"]),*/ cartCtrol.agregaProductoAl
 /*
 POSMAN
 {
+cartId: "660570de5c1a20f6af43b13a",
+            products: [
+                
+                 {
+                    id: "65d0331cd7671692a60e8138",
+                    quantity: 1
+                }
+               
+            ]
+}
+POSMAN
+{
     "cartId": "660570de5c1a20f6af43b13a",
     "productId": "65d0331cd7671692a60e8138",
     "quantity": 28
