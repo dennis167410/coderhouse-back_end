@@ -25,7 +25,6 @@ describe("Test funcional para los endpoints de Productos", () => {
           .post(`${PRODUCTS_ROUTE}`)
           .send(bodyProduct);
     
-          console.log(_body)
         expect(ok).to.be.true;
         expect(statusCode).to.eq(200);
         expect(_body.message).to.have.property("_id");
@@ -61,7 +60,6 @@ describe("Test funcional para los endpoints de Productos", () => {
     it("TEST GET /api/products listar todos los productos, deberá responder código 200", async () => {
       const { statusCode, ok, _body } = await requester.get(`${PRODUCTS_ROUTE}`);
   
-      console.log(ok)
       expect(ok).to.be.true;
       expect(statusCode).to.eq(200);
     });
@@ -72,8 +70,6 @@ describe("Test funcional para los endpoints de Productos", () => {
       let pid = '664f47a765f03397c26e2489';
       const { statusCode, ok, _body } = await requester.get(`${PRODUCTS_ROUTE}/${pid}`);
   
-      console.log(_body)
-      console.log(ok)
       expect(ok).to.be.true;
       expect(statusCode).to.eq(200);
       expect(_body).to.be.an('object');
@@ -84,16 +80,10 @@ describe("Test funcional para los endpoints de Productos", () => {
       let pid = '664f47a765f03397c26e2481';
       const { statusCode, ok, _body } = await requester.get(`${PRODUCTS_ROUTE}/${pid}`);
   
-      //logger.info(_body)
-      console.log(_body)
-      //console.log(ok)
       expect(ok).to.be.false;
       expect(statusCode).to.eq(404);
       expect(_body).to.be.an('object'); 
     });
 
   
-  
-
-
 });

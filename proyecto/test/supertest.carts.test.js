@@ -63,19 +63,16 @@ describe("Test funcional para los endpoints de Carrito", () => {
         let cid = '65e68bf0989a77be6c6fec88';
         const { statusCode, ok, _body } = await requester.get(`${CARTS_ROUTE}/${cid}`);
     
-        console.log(_body)
-        console.log(ok)
         expect(ok).to.be.true;
         expect(statusCode).to.eq(200);
         expect(_body).to.be.an('object');
       });
 
+      
       it("TEST GET /api/carts listar carrito por id, deberá responder código 404, carrito no existe", async () => {
         let cid = '65e75bc9d4e6282b59f19d3';
         const { statusCode, ok, _body } = await requester.get(`${CARTS_ROUTE}/${cid}`);
     
-        console.log(_body)
-        console.log(ok)
         expect(ok).to.be.false;
         expect(statusCode).to.eq(404);
         expect(_body).to.be.an('object');

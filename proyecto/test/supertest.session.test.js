@@ -8,6 +8,7 @@ const SESSION_ROUTE = "/api/session";
 describe("Test funcional para los endpoints de session", () => {
     let requester = supertest(`${BASE_API_URL}`);  
 
+
     it("TEST POST /api/sesssion loggin correcto del usuario, deberá retornar un codigo 200 ", async () => {   
         const bodySession = {
             email: "sdo@gmail.com",
@@ -22,6 +23,7 @@ describe("Test funcional para los endpoints de session", () => {
   
     });
 
+
     it("TEST POST /api/sesssion loggin con error, contraseña incorrecta, deberá retornar un codigo 400 ", async () => {   
         const bodySession = {
             email: "sdo@gmail.com",
@@ -31,8 +33,6 @@ describe("Test funcional para los endpoints de session", () => {
     const { statusCode, ok, _body } = await requester
      .post(`${SESSION_ROUTE}/login`)
      .send(bodySession);
-
-    console.log(_body);
 
       expect(ok).to.be.false;
       expect(statusCode).to.eq(400);
@@ -50,11 +50,10 @@ describe("Test funcional para los endpoints de session", () => {
      .post(`${SESSION_ROUTE}/login`)
      .send(bodySession);
 
-    console.log(_body);
-
       expect(ok).to.be.false;
       expect(statusCode).to.eq(400);
     });
+
 
     it("TEST POST /api/sesssion loggin con error, constraseña y/o email vacíos, deberá retornar un codigo 400 ", async () => {   
         const bodySession = {
@@ -66,11 +65,67 @@ describe("Test funcional para los endpoints de session", () => {
      .post(`${SESSION_ROUTE}/login`)
      .send(bodySession);
 
-     console.log(_body);
-
       expect(ok).to.be.false;
       expect(statusCode).to.eq(400);
   
+    });
+
+    /*
+    it("TEST POST /api/session registra un usuario correctamente, deberá retornar el código 200", async () => {
+        const bodySession = {
+            first_name: "supertest_2",
+            last_name: "supertest_2",
+            email: "supertest2@gmail.com",
+            age: 42,
+            password: "12345",
+            role: "PREMIUM"
+        };
+    
+        const { statusCode, ok, _body } = await requester
+          .post(`${SESSION_ROUTE}/register`)
+          .send(bodySession);
+    
+        expect(ok).to.be.true;
+        expect(statusCode).to.eq(200);
+    });
+    */
+        
+    it("TEST POST /api/session error al registrar un usuario no se ingresó el email, deberá retornar el código 400", async () => {
+        const bodySession = {
+            first_name: "supertest_2",
+            last_name: "supertest_2",
+            email: "",
+            age: 42,
+            password: "12345",
+            role: "PREMIUM"
+        };
+    
+        const { statusCode, ok, _body } = await requester
+          .post(`${SESSION_ROUTE}/register`)
+          .send(bodySession);
+    
+        expect(ok).to.be.false;
+        expect(statusCode).to.eq(400);        
+
+    });
+
+    it("TEST POST /api/session error al registrar un usuario, el email y está registrado, deberá retornar el código 404", async () => {
+        const bodySession = {
+            first_name: "supertest_1",
+            last_name: "supertest_1",
+            email: "supertest1@gmail.com",
+            age: 42,
+            password: "",
+            role: "PREMIUM"
+        };
+    
+        const { statusCode, ok, _body } = await requester
+          .post(`${SESSION_ROUTE}/register`)
+          .send(bodySession);
+    
+        expect(ok).to.be.false;
+        expect(statusCode).to.eq(404);        
+
     });
 
 });

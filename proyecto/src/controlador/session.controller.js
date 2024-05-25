@@ -147,6 +147,7 @@ const recoverPasswd = async(req, res) => {
 const register = async(req, res) => {
    /*
 {
+  POSMAN
     "first_name": "Pepe",
     "last_name": "Salmon",
     "email": "psalmon@yahoo.com",
@@ -164,8 +165,8 @@ const register = async(req, res) => {
 
     if(!email){
       return res
-      .status(500)
-      .json({message: "Error al intentar registrar el usuario. Datos nullos o vacíos."});
+      .status(400)
+      .json({message: "Error al intentar registrar el usuario. Datos nulos o vacíos."});
     }
 
     //Controla que el mail no exista en la base de datos.
@@ -187,15 +188,17 @@ const register = async(req, res) => {
 
     if(!newUser){
       return res
-      .status(500)
+      .status(400)
       .json({message: "Error al intentar registrar el usuario. Datos nullos o vacíos."});
     }
 
     //res.session.user = {email, role, id: newUser._id}
-    return res.json({
+    return res
+    .status(200)
+    .json({
       message: "Usuario creado correctamente.",
       user: newUser
-    });
+    })
 
    }catch(error){
       req.logger.error("Error de registro: ", error);
