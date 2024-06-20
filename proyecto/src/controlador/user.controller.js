@@ -11,6 +11,9 @@ export default class UserController{
     getUsers = async(req, res) => {
         try{
             let users = await this.userService.getUsers();
+
+          //  req.logger.info("Users: ", users);  
+
             return res.json({message: "Usuarios registrados ", user: users});
     
         }catch(error){

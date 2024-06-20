@@ -1,4 +1,3 @@
-
 import {Router} from 'express';
 import handlePolicies from '../middleware/handle-policies.middleware.js';
 import UserCtrol from '../controlador/user.controller.js';

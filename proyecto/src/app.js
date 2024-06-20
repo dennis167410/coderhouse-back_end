@@ -73,7 +73,6 @@ app.use(cookieParser(COOKIE_SIGN_APP));
 
 const DB_NAME_APP = DB_NAME;
 const MONGO_URL_APP =  `${MONGO_URL}/${DB_NAME_APP}`
-//console.log(MONGO_URL_APP)
 app.use(
     session({
         store: mongoStore.create({
@@ -95,6 +94,7 @@ app.use(passport.initialize());
 import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url); // get the resolved path to the file
 const __dirname = path.dirname(__filename); // get the name of the directory
+app.use(express.static(path.join(__dirname, '/public')));
 
 //Configuración handlebars:
 app.engine("handlebars", handlebars.engine());
@@ -144,7 +144,7 @@ app.use(`/${API_PREFIX_APP}/products`, productsRoutes);
 app.use(`/`, viewRoutes);
 
 app.use(`/${API_PREFIX_APP}/carts`, cartsRouters);
-app.use(`/${API_PREFIX_APP}/user`, usersRoutes);
+app.use(`/${API_PREFIX_APP}/users`, usersRoutes);
 
 app.use('/mockingproducts', mocksRoutes);
 

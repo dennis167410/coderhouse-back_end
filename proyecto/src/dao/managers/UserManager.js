@@ -1,4 +1,5 @@
 import userModel from '../model/user.model.js';
+import UserDto from '../../dto/User.dto.js';
 
 export default class UserManager {
     constructor(dao){
@@ -17,7 +18,22 @@ export default class UserManager {
     getUsers = async() => {
         try{
             let users = await userModel.find();
-            return users;
+
+
+           let users2= [];
+      
+            users.forEach(u => {        
+              let userDto = new UserDto({
+                first_name: u.first_name,
+                last_name: u.last_name,
+                email: u.email,
+                role: u.role, 
+              });
+              users2.push(userDto);
+            }
+            );
+
+            return users2;
         }catch(error){
            return null;
         }

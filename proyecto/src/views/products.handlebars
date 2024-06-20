@@ -1,34 +1,66 @@
-<div>
-    <h1>Hola, {{this.first_name}} {{this.last_name}} {{this.email}} {{this.rol}}</h1>
-    <div>
-        <form action="/api/session/logout" method="get">
-            <button type="submit">logout</button>
+<main class="container-fluid">
+
+    <section class="row">
+        <h2 class="col-12">
+            Hola, {{this.first_name}} {{this.last_name}} {{this.email}} {{this.rol}}
+        </h2>
+    </section>
+
+    <section class="row">
+        <form class="d-flex justify-content-end align-items-end" action="/api/session/logout" method="get">
+            <button type="submit" class="btn btn-sm logout">logout</button>
         </form>
-    </div>
-    
-</div>
+    </section>
+
+    <section class="row">
+        <h2 class="col-12">
+            Lista de productos
+        </h2>
+
+        <table class="table table-sm table-striped">
+            <thead>
+                <tr>
+                    <th>Id.</th>
+                    <th>Título</th>
+                    <th>Descripción</th>
+                    <th>Precio</th>
+                    <th>Categoría</th>
+                    <th></th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {{#each products}}
+                    <tr> 
+                        <td>{{this.id}}</td> 
+                        <td>{{this.title}}</td>
+                        <td>{{this.description}}</td>
+                        <td>{{this.price}}</td>
+                        <td>{{this.category}}</td>
+                        <td><button class="btn btn-sm agregarcarrito">Agregar al carrito</button></td>
+                    </tr>
+                    {{/each}}                
+            </tbody>
+        </table>
+    </section>
 
 
-<div>
-    <h2>Lista de productos</h2>
+    <section class="row">
+        <article class="col-6">
+            <p>Página actual {{page}}</p>
+        </article>
 
-{{#each products}}
-   <p> Id.: {{this.id}} Título: {{this.title}} Descripción: {{this.description}} Precio: {{this.price}} Categoria: {{this.category}} <button>Agregar al carrito</button></p>
-{{/each}}
+        <article class="col-6">
+            <p>
+            {{#if hasPrevPage}}
+                <a href="/api/views/products?page={{prevPage}}"><button class="btn btn-sm btn-secondary">Anterior</button></a>
+            {{/if}}
 
+            {{#if hasNextPage}}
+                <a href="/api/views/products?page={{nextPage}}"><button class="btn btn-sm btn-primary">Siguiente</button></a>
+            {{/if}}
+            </p>
+        </article>
+    </section>
 
-</div>
-
-<div>
-    <p>Página actual {{page}}</p>
-</div>
-
-<div>
-{{#if hasPrevPage}}
-    <a href="/api/views/products?page={{prevPage}}"><button>Anterior</button></a>
-{{/if}}
-
-{{#if hasNextPage}}
-    <a href="/api/views/products?page={{nextPage}}"><button>Siguiente</button></a>
-{{/if}}
-</div>
+</main>
