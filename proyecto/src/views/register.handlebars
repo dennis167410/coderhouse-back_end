@@ -1,33 +1,62 @@
-<div>
-<h1>
+<main class="container-fluid">
+
+<section class="row">
+<h1 class="col-12 text-center text-uppercase">
     Registro de usuario
 </h1>
-    <div>
-        <form action="/api/session/register" method="post">
+</section>
+
+<section class="container">
+    <section class="row justify-content-start align-items-center">
+        <article class="col-5 col-md-5 mt-4 text-left">
+            <form action="/api/session/register" method="post">
             <label for="first_name">Nombre:</label>
             <input type="text" name="first_name" id="first_name" placeholder="ingrese su nombre" />
             <br />
 
-             <label for="last_name">Apellido:</label>
+            <label for="last_name">Apellido:</label>
             <input type="text" name="last_name" id="last_name" placeholder="ingrese su apellido" />
-            <br />
-
-             <label for="email">*Mail:</label>
+            <br /> 
+            
+            <label for="email">*Mail:</label>
             <input type="email" name="email" id="email" placeholder="ingrese su email" required />
             <br />
 
-             <label for="age">Edad:</label>
+            <label for="age">Edad:</label>
             <input type="number" name="age" id="age" placeholder="ingrese su edad" />
             <br />
 
-             <label for="password">*Password:</label>
+            <label for="password">*Password:</label>
             <input type="password" name="password" id="password" placeholder="ingrese su password" required />
             <br />
+            <br />
+            <label for="role">Role:</label>
+                <select name="role" id="role" required>
+                    <option value="PUBLIC">public</option>
+                    <option value="USER">user</option>
+                    <option value="PREMIUM">premium</option>
+                    <option value="ADMIN">admin</option>
+                </select>
 
-            <button type="submit">Registrar</button>
-        </form>
+            <br />
+            <br />
+            <button type="submit" class="mt-1">Registrar</button>   
+            </form>
+        </article>
 
-    <p>(*)Campo requerido</p>
-    </div>
+        <article class="mt-1">
+            <p>(*)Campo requerido</p>
+        </article>
 
-</div>
+    </section>
+
+</section>
+
+<section>
+     {{#if message}}
+        <p>{{message}}</p>
+    {{/if}}
+
+</section>
+
+</main>

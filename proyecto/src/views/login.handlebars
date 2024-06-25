@@ -26,11 +26,13 @@
 
 </section>
    
- <section class="row">
-    <article class="col text-center">
-            <a href="recover">Restaurar contraseña</a>
-    </article>
- </section>
+
+ <section class="row justify-content-center align-items-center">
+        <form class="col-12 mt-4 text-center" action="/api/views/recover" method="get">
+                <button type="submit" class="btn registro">Restaurar contraseña</button>   
+        </form>
+    </section>
+
            
  <section class="row">
     <article class="col text-center">
@@ -38,5 +40,10 @@
     </article>
  </section>
 
+    <section>
+        {{#if message}}
+            <p>{{message}}</p>
+        {{/if}}
+    </section>
 
 </main>

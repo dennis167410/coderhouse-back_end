@@ -33,4 +33,6 @@ function handlePolicies(policies) {
  
 }
 
+
+
 export default handlePolicies;

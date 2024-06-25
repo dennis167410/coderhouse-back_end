@@ -2,7 +2,7 @@ import express from 'express';
 import handlebars from 'express-handlebars';
 import path from 'path';
 import {Server} from 'socket.io';
-import mongoose from 'mongoose';
+//import mongoose from 'mongoose';
 import displayRoutes from 'express-routemap';
 import cookieParser from 'cookie-parser';
 import session from 'express-session';
@@ -31,6 +31,9 @@ import initializePassport from "./config/passport.config.js";
 import {PERSISTENCE, PORT, DB_NAME, MONGO_URL, API_PREFIX, COOKIE_SIGN, SECRET_SESSION} from "./config/config.js";
 import handlePolicies from './middleware/handle-policies.middleware.js';
 import { useLogger } from './utils/logger.js';
+
+import setupCronJobs from './utils/cronjob.js';
+
 
 import emailRoutes from "./routing/email.routes.js";
 
@@ -104,6 +107,9 @@ app.set("view engine", "handlebars");
 
 
 ////////////////////////////
+
+// Cron job
+setupCronJobs();
 
 // Test envío de mail:
 app.use('/mail', emailRoutes);

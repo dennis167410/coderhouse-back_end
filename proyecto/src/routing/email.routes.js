@@ -56,15 +56,23 @@ router.post("/send", async (req, res) => {
       resultEmail
     );*/
 
-    return res.send({ ok: true, message: `email enviado a ${email}` });
+    return handleResponseRecover(req, res, {message: `Éxito, email enviado a ${email}`}, 200);
+
+//    return res.send({ ok: true, message: `email enviado a ${email}` });
   } catch (error) {
     req.logger.error("error:", error);
 
     //AGREGADO SIN TESTEAR
     res.redirect('/recover');
-
-
   }
 });
+
+const handleResponseRecover = (req, res, response, statusCode) => {
+  if (req.headers['content-type'] === 'application/json' || req.xhr) {
+      return res.status(statusCode).json(response);
+  } else {
+      return res.status(statusCode).render('recover', response);
+  }
+};
 
 export default router;
