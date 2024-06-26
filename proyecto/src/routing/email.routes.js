@@ -67,6 +67,22 @@ router.post("/send", async (req, res) => {
   }
 });
 
+
+export const sendEmail = (to, subject, text) => {
+  const mailOptions = {
+    from: EMAIL,
+    to,
+    subject,
+    text,
+  };
+
+  return transporter.sendMail(mailOptions);
+};
+
+
+
+
+
 const handleResponseRecover = (req, res, response, statusCode) => {
   if (req.headers['content-type'] === 'application/json' || req.xhr) {
       return res.status(statusCode).json(response);

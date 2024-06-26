@@ -4,12 +4,31 @@ import cron from 'node-cron';
 import userModel from '../dao/model/user.model.js';
 //import {UserService} from '../repository/index.js';
 
+import { sendEmail } from '../routing/email.routes.js';
+
+
 //const userService = new UserService();
 
 // Función para eliminar usuarios inactivos
 const deleteInactiveUsers = async () => {
-    const thirtyMinutesAgo = new Date(Date.now() - 30 * 60 * 1000);
+    const thirtyMinutesAgo = new Date(Date.now() - 20 * 60 * 1000);
     try {
+
+        const usersToDelete = await userModel.find({ last_connection: { $lt: thirtyMinutesAgo } });
+        
+        console.log(usersToDelete)
+
+        if (usersToDelete.length > 0) {
+            // Enviar correos electrónicos a los usuarios
+            usersToDelete.forEach(user => {
+                sendEmail(
+                    user.email,
+                    "Cuenta Eliminada por Inactividad",
+                    `Hola ${user.first_name}, tu cuenta ha sido eliminada por inactividad.`
+                );
+            });
+        }
+
         const result = await userModel.deleteMany({ last_connection: { $lt: thirtyMinutesAgo } });
         let fecha = new Date();
         console.log("Fecha actual = " + fecha)

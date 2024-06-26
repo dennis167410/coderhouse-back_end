@@ -29,7 +29,7 @@ const login = async(req, res) => {
         await findUser.save();
 
 
-        req.logger.info(findUser)
+       // req.logger.info(findUser)
 
         const userDto = new UserDto({
           first_name: findUser.first_name,
@@ -54,6 +54,16 @@ const login = async(req, res) => {
 }
 
 const logout = async(req, res) => {
+  const email = req.session.user;
+
+  req.logger.info("email = " + email)
+  // Buscar al usuario y actualizar la fecha de la última conexión
+  const findUser = await userModel.findOne({ email });
+  if (findUser) {
+      findUser.last_connection = new Date();
+      await findUser.save();
+  }
+
     req.session.destroy(error => {
         if(!error) return res.redirect('/login');
         return res.send({message: "logout error", body: error});
