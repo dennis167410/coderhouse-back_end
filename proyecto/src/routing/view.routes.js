@@ -52,6 +52,14 @@ router.get("/profile",authMdw ,async(req, res) => {
     });
 })
 
+// A esta ruta solo pueden ingresar el adminiatrador:
+router.get("/users", async(req, res) => {
+    const user = req.session.user;
+    res.render("users", {
+        user,
+    });
+})
+
 router.get("/products", authMdw, async (req, res) => {
     const {limit=10, page=1, sort, query, first_name, last_name, email, rol} = req.query;
 

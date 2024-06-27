@@ -11,11 +11,15 @@ export default class UserController{
     getUsers = async(req, res) => {
         try{
             let users = await this.userService.getUsers();
-
-          //  req.logger.info("Users: ", users);  
-
-            return res.json({message: "Usuarios registrados ", user: users});
-    
+/*
+           req.logger.info(users);  
+            users.forEach((e) =>{
+              console.log(e)
+            }
+          )
+*/
+       // return res.json({message: "Usuarios ", users: users});
+        return this.handleResponse(req, res, {message: "Usuarios registrados", users}, 200);
         }catch(error){
           req.logger.error("Error: ", error);
         }
@@ -25,15 +29,21 @@ export default class UserController{
     getUserById = async(req, res) => { 
         try{
             const uId = req.params.userId;
-          req.logger.info(uId)
+         
             const userData = await this.userService.getUserById(uId);
     
+            req.logger.info(userData)
+            
+              console.log(userData.email)
+            
             if(!userData || userData === null){
                req.logger.error("Error usuario no encontrado o el formato del id no es válido.");
                return res.status(404).json({message: "Usuario no encontrado o formato del id no es válido."})
             }
-    
-            return res.json({message: "Usuario ", user: userData});
+
+            return this.handleResponse(req, res, {user:userData}, 200);
+      
+           // return res.json({message: "Usuario ", user: userData});
     
         }catch(error){
             req.logger.error("Error: ", error);
@@ -113,4 +123,23 @@ export default class UserController{
         }
       };
 
+      handleResponse = (req, res, response, statusCode) => {
+        req.logger.info("hand " + response)
+        if (req.headers['content-type'] === 'application/json' || req.xhr) {
+            return res.status(statusCode).json(response);
+        } else {
+            return res.status(statusCode).render('users', response);
+        }
+      };
+     
 }
+
+/*
+const handleResponse = (req, res, response, statusCode) => {
+  req.logger.info("hand " + response)
+  if (req.headers['content-type'] === 'application/json' || req.xhr) {
+      return res.status(statusCode).json(response);
+  } else {
+      return res.status(statusCode).render('users', response);
+  }
+};*/

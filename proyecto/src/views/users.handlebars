@@ -1,0 +1,66 @@
+<main class="container-fluid">
+
+    <section class="row">
+        <h2 class="col-12">
+            Hola, {{this.first_name}} {{this.last_name}} {{this.email}} {{this.rol}}
+        </h2>
+    </section>
+
+    <section class="row">
+        <form class="d-flex justify-content-end align-items-end" action="/api/session/logout" method="get">
+            <button type="submit" class="btn btn-sm logout">logout</button>
+        </form>
+    </section>
+
+     <section class="row justify-content-center align-items-center">
+        <article class="col-md-5 mt-4 text-center">
+            <form action="/api/users" method="get">
+               <!-- <input type="text" name="id" id="id" placeholder="id" required /> -->
+              <!--  <button type="submit" class="btn col-8 mt-1 login">Aceptar</button> -->    
+            </form>
+        </article>
+    </section>
+
+    <section class="row">
+        <h2 class="col-12">
+            Usuarios registrados 
+        </h2>
+        </h2>
+
+        <table class="table table-sm table-striped">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Nombre</th>
+                    <th>Apellido</th>
+                    <th>Email</th>
+                    <th>Edad</th>
+                    <th>Contraseña</th>
+                    <th>Rol</th>
+                    <th>Última conexión</th>
+                    <th></th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {{#each users}}
+                    <tr> 
+                        <td>{{this._id}}</td> 
+                        <td>{{this.first_name}}</td>
+                        <td>{{this.last_name}}</td>
+                        <td>{{this.email}}</td>
+                        <td>{{this.age}}</td>
+                        <td>{{this.password}}</td>
+                        <td>{{this.role}}</td>
+                        <td>{{this.last_connection}}</td>
+                        <td><button class="btn btn-sm login">Modificar</button></td>
+                    </tr>
+                    {{/each}}   
+                       
+            </tbody>
+        </table>
+    </section>
+
+
+
+</main>

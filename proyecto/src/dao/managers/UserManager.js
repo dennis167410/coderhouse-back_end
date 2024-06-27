@@ -44,7 +44,6 @@ export default class UserManager {
            let userData = null;
             try{
               userData = await userModel.findById({_id: unId})
-              console.log(userData)
             }catch(error){ }
             if(!userData){
                return null;

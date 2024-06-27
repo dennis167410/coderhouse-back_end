@@ -8,7 +8,7 @@ const router = Router();
 
 router.get('/', userCtrol.getUsers)
 
-router.get('/:userId', handlePolicies(['USER', 'ADMIN']), userCtrol.getUserById);
+router.get('/:userId', /*handlePolicies(['USER', 'ADMIN']),*/ userCtrol.getUserById);
 
 // Agregar carrito al usuario
 router.post('/:userId/carts/:cartId', /*handlePolicies(['USER', 'ADMIN']),*/ userCtrol.addCartInUser);

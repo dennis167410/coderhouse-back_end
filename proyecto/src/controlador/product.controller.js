@@ -35,7 +35,6 @@ export default class ProductController{
         hasNextPage,
         prevPage,
         nextPage
-
             })
 
     }catch(error){
