@@ -16,7 +16,7 @@
         <article class="col-md-5 mt-4 text-center">
             <form action="/api/users" method="get">
                <!-- <input type="text" name="id" id="id" placeholder="id" required /> -->
-              <!--  <button type="submit" class="btn col-8 mt-1 login">Aceptar</button> -->    
+               <button type="submit" class="btn col-8 mt-1 login">Actualizar lista</button>   
             </form>
         </article>
     </section>
@@ -30,12 +30,9 @@
         <table class="table table-sm table-striped">
             <thead>
                 <tr>
-                    <th>Id</th>
                     <th>Nombre</th>
                     <th>Apellido</th>
                     <th>Email</th>
-                    <th>Edad</th>
-                    <th>Contraseña</th>
                     <th>Rol</th>
                     <th>Última conexión</th>
                     <th></th>
@@ -45,15 +42,19 @@
             <tbody>
                 {{#each users}}
                     <tr> 
-                        <td>{{this._id}}</td> 
                         <td>{{this.first_name}}</td>
                         <td>{{this.last_name}}</td>
                         <td>{{this.email}}</td>
-                        <td>{{this.age}}</td>
-                        <td>{{this.password}}</td>
                         <td>{{this.role}}</td>
                         <td>{{this.last_connection}}</td>
-                        <td><button class="btn btn-sm login">Modificar</button></td>
+                        <td> 
+                            <form action="" method="POST">
+                                <button type="submit">Actualizar</button>
+                            </form>
+                             <form action="" method="POST">
+                                <button type="submit">Eliminar</button>
+                            </form>
+                            </td>
                     </tr>
                     {{/each}}   
                        
