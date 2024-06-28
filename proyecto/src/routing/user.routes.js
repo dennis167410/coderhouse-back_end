@@ -14,10 +14,12 @@ router.get('/:userId', handlePolicies(['USER', 'ADMIN']), userCtrol.getUserById)
 router.post('/:userId/carts/:cartId', /*handlePolicies(['USER', 'ADMIN']),*/ userCtrol.addCartInUser);
 
 //Elimina el usuario.
-//router.delete("/:userId", handlePolicies(["ADMIN"]), userCtrol.deleteUserById);
-router.delete("/:email", userCtrol.deleteUserByEmail);
+router.delete("/:userId", handlePolicies(["ADMIN"]), userCtrol.deleteUserById);
+router.delete("/elimina/:email", userCtrol.deleteUserByEmail);
 
-/* Permite cambiar el rol de un usuario, de “user” a “premium” y viceversa. */
+
+
+/* Permite cambiar el rol de un usuario, de "user" a "premium" y viceversa. */
 //router.post("/premium/:uid", userCtrol.updateUserRole);
 router.post("/premium/:uid", userCtrol.updateUserRolePorEmail);
 

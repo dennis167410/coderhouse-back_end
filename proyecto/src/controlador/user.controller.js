@@ -91,7 +91,6 @@ export default class UserController{
       };
 
       deleteUserByEmail = async (req, res) => {
-        console.log("ESTOY A ")
         try {
           const deleteUser = await this.userService.deleteUserByEmail(req.params.email);
          

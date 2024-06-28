@@ -56,7 +56,7 @@
                                 <button type="submit">Actualizar</button>
                             </form>
                             <br/>
-                             <form action="/api/users/{{this.email}}" method="DELETE">
+                             <form onsubmit="deleteUser(event, '{{this.email}}')">
                                 <button type="submit">Eliminar</button>
                             </form>
                             </td>
@@ -67,6 +67,19 @@
         </table>
     </section>
 
-
-
 </main>
+
+<script>
+    function deleteUser(event, userEmail) {
+        event.preventDefault();
+        fetch(`/api/users/elimina/${userEmail}`, {
+            method: 'DELETE'
+        }).then(response => {
+            if (response.ok) {
+                window.location.reload();
+            } else {
+                alert('Error al eliminar el usuario');
+            }
+        });
+    }
+</script>
