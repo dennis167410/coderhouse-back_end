@@ -48,10 +48,15 @@
                         <td>{{this.role}}</td>
                         <td>{{this.last_connection}}</td>
                         <td> 
-                            <form action="" method="POST">
+                            <form action="/api/users/premium/{{this.email}}" method="POST">
+                                    <select name="role">
+                                        <option value="USER" {{#if this.isUser}}selected{{/if}}>Usuario</option>
+                                        <option value="PREMIUM" {{#if this.isAdmin}}selected{{/if}}>Premium</option>
+                                    </select>
                                 <button type="submit">Actualizar</button>
                             </form>
-                             <form action="" method="POST">
+                            <br/>
+                             <form action="/api/users/{{this.email}}" method="DELETE">
                                 <button type="submit">Eliminar</button>
                             </form>
                             </td>

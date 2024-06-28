@@ -55,6 +55,25 @@ export default class UserManager {
         }
     }
 
+    getUserByEmail = async(unEmail) => { 
+      try{  
+         let userData = null;
+         console.log("USERDATA " + unEmail)
+          try{
+            userData = await userModel.findOne({email:unEmail})
+            
+          }catch(error){ }
+          if(!userData){
+             return null;
+          }
+  
+          return userData;
+  
+      }catch(error){
+      }
+  }
+
+
     addCartInUser = async(userId, cartId) => {
     
         try{
@@ -97,6 +116,23 @@ export default class UserManager {
         }
       };
       
+
+      deleteUserByEmail = async (userId) => {
+        try {
+          console.log("user manager")
+          let deleteUser = null;
+          try{
+            deleteUser = await userModel.deleteOne({ email: userId });
+          }catch(error){
+            return null;
+          }
+          
+          return deleteUser
+          } catch (error) {
+            return null;
+        }
+      };
+
       getUserEmailByCartId = async (cartId) => {
         try {
           let user = null;

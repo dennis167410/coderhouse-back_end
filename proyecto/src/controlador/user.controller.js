@@ -73,9 +73,27 @@ export default class UserController{
       }
 
     deleteUserById = async (req, res) => {
-
         try {
           const deleteUser = await this.userService.deleteUserById(req.params.userId);
+         
+          if(!deleteUser || deleteUser === null){
+            req.logger.error("Error al intentar eliminar el usuario. ");
+            return res.status(404).json({message: "Error, no se pudo eliminar el usuario."})
+         }
+         
+          return res.json({
+            message: `El Administrador eliminó el usuario.`,
+            user: deleteUser,
+          });
+        } catch (error) {
+          req.logger.error("Error ", error);
+        }
+      };
+
+      deleteUserByEmail = async (req, res) => {
+        console.log("ESTOY A ")
+        try {
+          const deleteUser = await this.userService.deleteUserByEmail(req.params.email);
          
           if(!deleteUser || deleteUser === null){
             req.logger.error("Error al intentar eliminar el usuario. ");
@@ -111,7 +129,7 @@ export default class UserController{
             if (role !== "USER" && role !== "PREMIUM") {
                 return res.status(400).json({ message: 'Rol no válido' });
             }
-    
+            
             // Actualizar el rol del usuario
             user.role = role;
             await user.save();
@@ -123,8 +141,41 @@ export default class UserController{
         }
       };
 
+
+      
+      updateUserRolePorEmail = async (req, res) => {
+        try {
+            const uid = req.params.uid;
+            const { role } = req.body;
+
+           const user = await this.userService.getUserByEmail(uid);
+    
+            if (!user) {
+               // return res.status(404).json({ message: 'Usuario no encontrado' });
+               return this.handleResponse(req, res, {message: "Usuario no encontrado."}, 400);
+            }
+    
+           
+            // Verificar si el nuevo rol es válido
+            if (role !== "USER" && role !== "PREMIUM") {
+               // return res.status(400).json({ message: 'Rol no válido' });
+               return this.handleResponse(req, res, {message: "Rol no válido."}, 400);
+            }
+    
+            // Actualizar el rol del usuario
+            user.role = role;
+            await user.save();
+            return this.handleResponse(req, res, {message: "Rol actualizado correctamente.", user}, 200);
+      
+      //      return res.status(200).json({ message: 'Rol actualizado exitosamente', user });
+        } catch (error) {
+            req.logger.error('Error al intentar cambiar el rol del usuario:', error);
+           // return res.status(500).json({ message: 'Error interno del servidor' });
+           return this.handleResponse(req, res, {message: "Error interno del servidor... ", error}, 500);
+        }
+      };
+
       handleResponse = (req, res, response, statusCode) => {
-        req.logger.info("hand " + response)
         if (req.headers['content-type'] === 'application/json' || req.xhr) {
             return res.status(statusCode).json(response);
         } else {
@@ -134,12 +185,3 @@ export default class UserController{
      
 }
 
-/*
-const handleResponse = (req, res, response, statusCode) => {
-  req.logger.info("hand " + response)
-  if (req.headers['content-type'] === 'application/json' || req.xhr) {
-      return res.status(statusCode).json(response);
-  } else {
-      return res.status(statusCode).render('users', response);
-  }
-};*/
