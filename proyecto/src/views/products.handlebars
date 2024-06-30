@@ -17,6 +17,7 @@
             Lista de productos
         </h2>
 
+        <form action="/api/views/purcharse" method="POST">
         <table class="table table-sm table-striped">
             <thead>
                 <tr>
@@ -37,11 +38,17 @@
                         <td>{{this.description}}</td>
                         <td>{{this.price}}</td>
                         <td>{{this.category}}</td>
-                        <td><button class="btn btn-sm agregarcarrito">Agregar al carrito</button></td>
+                        <td>
+                            <input type="checkbox" name="selectedProducts" value="{{this.id}}">
+                        </td>
                     </tr>
                     {{/each}}                
             </tbody>
         </table>
+           
+                <button class="btn btn-sm agregarcarrito">Comprar</button>
+        </form>
+
     </section>
 
 

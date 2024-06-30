@@ -97,4 +97,10 @@ router.get("/products", authMdw, async (req, res) => {
      });
 });
 
+
+router.post('/purcharse', (req, res) => {
+    const { selectedProducts } = req.body;
+    res.render('purcharse', { selectedProducts });
+});
+
 export default router;

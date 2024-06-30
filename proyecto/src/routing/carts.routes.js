@@ -36,6 +36,7 @@ POSMAN
 */
 
 // Crea un carrito con productos:
+router.post('/todo2', /*handlePolicies(["USER"]),*/ cartCtrol.creaCarritoConProductosDesdeLaVista);
 router.post('/todo', /*handlePolicies(["USER"]),*/ cartCtrol.creaCarritoConProductos);
 /*
  // POSMAN - body:

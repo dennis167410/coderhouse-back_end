@@ -122,7 +122,7 @@ class CartManager {
         }
     }
 
-    
+
  tieneStock= async (products) => {
     let pDisponibles = [];
     for (const unP of products) {
@@ -182,6 +182,36 @@ class CartManager {
             
         }
     };
+
+
+    addCart4 = async (cartData) => {
+        try {
+            let newCart = await cartModel.create({});
+            const {products} = cartData;
+            
+            for (const unP of products) {
+                const product = await productManager.getProductById(unP.id);
+            
+
+                if (product && product.length > 0 ){
+                    newCart.products.push({product: unP.id, quantity: unP.quantity})
+                  }
+                }
+        
+            if(!newCart.products || newCart.products.length ==0){
+               await cartModel.deleteOne({ _id: newCart._id });
+               return null;
+            }else{
+
+            let r = await cartModel.updateOne({_id:newCart._id}, newCart)
+            return r;
+            }
+        } catch (error) {
+            return null;
+            
+        }
+    };
+
 
 
 /////////////////////////////////////////////////////////////

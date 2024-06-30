@@ -1,5 +1,6 @@
 
 import {ProductService} from '../repository/index.js';
+import { sendEmail } from '../routing/email.routes.js';
 
 export default class ProductController{
     productService;
@@ -172,6 +173,7 @@ deleteProductById = async(req, res) => {
             })
         }
 
+        
         if(req.session.role === "PREMIUM"){
             if(req.session.user === product[0].owner){
                 req.logger.info("Es premium y es el dueño del producto.")
@@ -187,6 +189,15 @@ deleteProductById = async(req, res) => {
         }
         
         const productDeleted = await this.productService.deleteProductById(productId); 
+
+        req.logger.info( req.session.user)
+        if(product[0].owner === "PREMIUM"){
+            sendEmail(
+                req.session.user,
+                "Aviso de producto eliminado",
+                `Hola, el producto ${product[0].title} fue eliminado por ${ req.session.user}.`
+            );
+        }
 
         return res
         .status(200)

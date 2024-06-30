@@ -1,0 +1,38 @@
+<main class="container-fluid">
+    <section class="row">
+        <h2 class="col-12">
+            Comprar Productos
+        </h2>
+    </section>
+
+    <section class="row">
+        <form action="/api/carts/todo2" method="POST" class="col-8">
+            <table class="table table-sm table-striped">
+                <thead>
+                    <tr>
+                        <th>Id.</th>
+                        <th>Cantidad</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each selectedProducts}}
+                    <tr>
+                        <td>
+                            <input type="hidden" name="products[{{@index}}][id]" value="{{this}}">
+                            {{this}}
+                        </td>
+                        <td>
+                            <input type="number" name="products[{{@index}}][quantity]" class="form-control" required>
+                        </td>
+                    </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+            <button type="submit" class="btn btn-primary">Agregar al carrito</button>
+        </form>
+    </section>
+
+    <section>
+        <p>{{message}}</p>
+    </section>
+</main>

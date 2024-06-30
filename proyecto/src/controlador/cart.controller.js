@@ -105,6 +105,38 @@ agregaProductoAlCarrito = async(req, res) => {
     }
 }
 
+creaCarritoConProductosDesdeLaVista = async(req, res) => { 
+     
+            try{
+    
+                const cartData2 = req.body;
+                req.logger.info("Agrega desde la vista = " + cartData2)
+
+               let newCart = await this.cartService.addCart4(cartData2, req.session.user, req.session.role); 
+    
+                if(!newCart || newCart === null){
+                    return this.handleResponsePurcharse(req, res, {message: "El carrito no pudo ser creado, faltan datos o no existe el prodcuto."}, 400); 
+                  /*  return res
+                    .status(400)
+                    .json({
+                    message: `El carrito no pudo ser creado, faltan datos o no existe el prodcuto.`,
+                    })*/
+                }
+    
+                return this.handleResponsePurcharse(req, res, {message: "Nuevo carrito con productos creado correctamente ", newCart}, 200);
+              /*  return res
+                    .status(200)
+                    .json({
+                    message: `Nuevo carrito con productos creado correctamente`,
+                    cart: newCart
+            })*/
+            
+             
+            }catch(error){
+                req.logger.error("Error... ", error)
+            }
+    }
+
  creaCarritoConProductos = async(req, res) => { 
 // POSMAN - body:
         /*
@@ -123,10 +155,16 @@ agregaProductoAlCarrito = async(req, res) => {
         */
 
         try{
+
+            const { productId, quantity } = req.body;
+       
+            req.logger.info("A ver  a ver =" + productId + " " + quantity)
+
             const cartBody = req.body;
             
-            let newCart = await this.cartService.addCart3(cartBody); 
-        
+           // let newCart = await this.cartService.addCart3(cartBody); 
+           let newCart = await this.cartService.addCart3(productId, quantity); 
+
             if(!newCart || newCart === null){
                 return res
                 .status(400)
@@ -317,6 +355,14 @@ agregaProductoAlCarrito = async(req, res) => {
             req.logger.error("Error (cart.controller.js) = ", error)
              }      
             };
+
+            handleResponsePurcharse = (req, res, response, statusCode) => {
+                if (req.headers['content-type'] === 'application/json' || req.xhr) {
+                    return res.status(statusCode).json(response);
+                } else {
+                    return res.status(statusCode).render('purcharse', response);
+                }
+              };
  }
 
          
