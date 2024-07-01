@@ -44,19 +44,22 @@
             </form>
         </article>
 
-        <article class="mt-1">
+        <article class="col-10 mt-1">
             <p>(*)Campo requerido</p>
         </article>
 
+        <article class="col-7">
+            {{#if message}}
+                <p>{{message}}</p>
+            {{/if}}
+        </article>
     </section>
-
 </section>
 
-<section>
-     {{#if message}}
-        <p>{{message}}</p>
-    {{/if}}
-
-</section>
+    <section class="row">
+        <form class="col-12 mt-1 text-center" action="/api/views/login" method="get">
+                <button type="submit" class="btn login">Login</button>   
+        </form>
+    </section>
 
 </main>

@@ -39,11 +39,20 @@ class CartManager {
             const amount = await this.totalAmount(pDisponibles);
             const t = await ticketManager.addTicket(amount,purchaser);           
             cart.products = cart.products.filter(product =>{
-                return noDisponibles.includes(product.product);
+               return noDisponibles.includes(product.product);
             })
             await cart.save(); 
     
-            return noDisponibles;
+           // return noDisponibles;
+           console.log("t en CartManaeger= " + t);
+        console.log("noDisp en CartManager= " + noDisponibles);
+
+        //let retorno = [];
+
+       // retorno.push(noDisponibles, t.amount)
+        //console.log("retorno en manager  = " +retorno )
+           return t;//noDisponibles;
+
             }else{
                 return 401;//"Error, deberá asociar el carrito al usuario."
             } 
@@ -184,7 +193,7 @@ class CartManager {
     };
 
 
-    addCart4 = async (cartData) => {
+    addCart4 = async (cartData, userId, rol) => {
         try {
             let newCart = await cartModel.create({});
             const {products} = cartData;
@@ -198,13 +207,22 @@ class CartManager {
                   }
                 }
         
+
             if(!newCart.products || newCart.products.length ==0){
                await cartModel.deleteOne({ _id: newCart._id });
                return null;
             }else{
 
-            let r = await cartModel.updateOne({_id:newCart._id}, newCart)
-            return r;
+            // Asocia el carrito al usuario:
+            let userService = new UserManager();
+            console.log("userId = " + userId)
+            console.log("newCartId = " + newCart._id)
+    
+           let r =  await userService.addCartInUserPorVista(userId, newCart._id);
+                console.log("r = " + r)
+
+            await cartModel.updateOne({_id:newCart._id}, newCart)
+            return newCart._id;
             }
         } catch (error) {
             return null;

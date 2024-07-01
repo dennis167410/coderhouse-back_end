@@ -41,13 +41,32 @@ const login = async(req, res) => {
         const token = await generateJWT({userDto});
         req.session.user = userDto.email;
         req.session.role = userDto.role;
-        return res
+        /*return res
         .cookie("cookieToken", token, {
           maxAge: 60*60*1000,
-          httpOnly: true, // Para que los datos sean seguros.
+          httpOnly: true, 
         })
         .send({message: "Felicitaciones, te haz logueado correctamente. Levantá el token en las cookies."})
-              
+    */
+
+        return handleResponseLogin2(
+          req,
+          res,
+          { message: "Felicitaciones, te haz logueado correctamente. Levantá el token en las cookies." },
+          200,
+          {
+            name: "cookieToken",
+            value: token,
+            options: {
+              maxAge: 60 * 60 * 1000,
+              httpOnly: true
+            }
+          }
+        );
+      
+
+    
+
     }catch(error){
         console.log("Error de login, ", error);
     } 
@@ -232,13 +251,35 @@ const handleResponseLogin = (req, res, response, statusCode) => {
   }
 };
 
+/*
+ return res.redirect('/products/?first_name=' + (req.session?.user?.first_name) + '&last_name=' + (req.session?.user?.last_name) + '&email=' + (req.session?.user?.email) + '&age=' + (req.session?.user?.age) + '&rol='+req.session?.user?.rol);
+    
+*/
+const handleResponseLogin2 = (req, res, response, statusCode, cookieOptions = null) => {
+  if (cookieOptions) {
+    res.cookie(cookieOptions.name, cookieOptions.value, cookieOptions.options);
+  }
+
+  if (req.headers['content-type'] === 'application/json' || req.xhr) {
+    return res.status(statusCode).json(response);
+  } else {
+    return res
+    .status(200)
+    .redirect('/products/?first_name=' + ( req.session.user) + '&rol=' + (req.session.role));
+ 
+    //res.status(statusCode).render('products', response);
+  }
+};
+
 const handleResponseRecover = (req, res, response, statusCode) => {
   if (req.headers['content-type'] === 'application/json' || req.xhr) {
       return res.status(statusCode).json(response);
   } else {
       return res.status(statusCode).render('recover', response);
   }
+
 };
+
 
 export default {
   login, 

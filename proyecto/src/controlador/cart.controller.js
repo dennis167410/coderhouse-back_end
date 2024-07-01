@@ -11,11 +11,12 @@ export default class CartController{
         try{
             const { cid } = req.params;
 
-            const ticket = await this.cartService.finalizePurchase(cid);
-           
-           // req.logger.error(ticket)
+           req.logger.info("finalizar cid = " + cid)
+            const result = await this.cartService.finalizePurchase(cid);
+          
+            req.logger.error(result)
 
-            if(ticket === 401){
+            if(result === 401){
                 return res 
                 .status(401)
                 .json({
@@ -23,7 +24,7 @@ export default class CartController{
                 })
             }
 
-            if (!ticket) {
+            if (!result) {
                 req.logger.error('Carrito no encontrado.')
                 return res 
                 .status(400)
@@ -32,13 +33,30 @@ export default class CartController{
                 })
             }
 
-            return res
+            console.log("result = " + result)
+            /*
+            return res.status(200).json({
+                message: 'Ticket cerrado.',
+                ticket: result.ticket.amount, 
+                noDisponibles: result.noDisponibles
+            });*/
+
+          
+            let retorno = "";
+            result.forEach(r =>{
+                retorno += "Sr./a: " + r.purchaser+ " el ticket de número: " + r.code + " fue cerrado correctamente. Usted debe abonar " + r.amount + " pesos.";
+            }
+            )
+          
+            return this.handleResponsePurcharse(req, res, {message: `${retorno}`}, 200); 
+       
+            /*return res
                 .status(200)
                 .json({
                 message: 'Ticket cerrado.',
                 ticket: `Productos que no pudieron procesarse... ${ticket}`
     
-            }) 
+            })*/ 
         }catch(error){
             req.logger.error('Error... ', error);
         }
@@ -115,7 +133,7 @@ creaCarritoConProductosDesdeLaVista = async(req, res) => {
                let newCart = await this.cartService.addCart4(cartData2, req.session.user, req.session.role); 
     
                 if(!newCart || newCart === null){
-                    return this.handleResponsePurcharse(req, res, {message: "El carrito no pudo ser creado, faltan datos o no existe el prodcuto."}, 400); 
+                    return this.handleResponsePurcharse(req, res, {message: "El carrito no pudo ser creado, faltan datos o no existe el producto."}, 400); 
                   /*  return res
                     .status(400)
                     .json({
@@ -123,7 +141,8 @@ creaCarritoConProductosDesdeLaVista = async(req, res) => {
                     })*/
                 }
     
-                return this.handleResponsePurcharse(req, res, {message: "Nuevo carrito con productos creado correctamente ", newCart}, 200);
+               
+                return this.handleResponsePurcharse(req, res, {message: "Nuevo carrito con productos creado correctamente ", cart:newCart}, 200);
               /*  return res
                     .status(200)
                     .json({

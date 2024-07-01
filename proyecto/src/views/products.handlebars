@@ -3,6 +3,7 @@
     <section class="row">
         <h2 class="col-12">
             Hola, {{this.first_name}} {{this.last_name}} {{this.email}} {{this.rol}}
+            {{this.user}} 
         </h2>
     </section>
 
@@ -11,6 +12,15 @@
             <button type="submit" class="btn btn-sm logout">logout</button>
         </form>
     </section>
+
+     <section class="row justify-content-center align-items-center">
+        <article class="col-md-5 mt-4 text-center">
+            <form action="/api/views/products" method="get">
+               <button type="submit" class="btn col-8 mt-1 login">Actualizar lista</button>   
+            </form>
+        </article>
+    </section>
+
 
     <section class="row">
         <h2 class="col-12">

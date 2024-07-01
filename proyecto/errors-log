@@ -145,3 +145,86 @@
 {"level":"error","message":"El producto no pudo ser agregado al carrito."}
 {"level":"error","message":"El producto no pudo ser agregado al carrito."}
 {"level":"error","message":"Error...  productId is not defined","stack":"ReferenceError: productId is not defined\n    at creaCarritoConProductosDesdeLaVista (file:///D:/Programacion_BackEnd/coderhouse-back_end/proyecto/src/controlador/cart.controller.js:137:62)\n    at Layer.handle [as handle_request] (D:\\Programacion_BackEnd\\coderhouse-back_end\\proyecto\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at next (D:\\Programacion_BackEnd\\coderhouse-back_end\\proyecto\\node_modules\\express\\lib\\router\\route.js:144:13)\n    at Route.dispatch (D:\\Programacion_BackEnd\\coderhouse-back_end\\proyecto\\node_modules\\express\\lib\\router\\route.js:114:3)\n    at Layer.handle [as handle_request] (D:\\Programacion_BackEnd\\coderhouse-back_end\\proyecto\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at D:\\Programacion_BackEnd\\coderhouse-back_end\\proyecto\\node_modules\\express\\lib\\router\\index.js:284:15\n    at Function.process_params (D:\\Programacion_BackEnd\\coderhouse-back_end\\proyecto\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next (D:\\Programacion_BackEnd\\coderhouse-back_end\\proyecto\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at Function.handle (D:\\Programacion_BackEnd\\coderhouse-back_end\\proyecto\\node_modules\\express\\lib\\router\\index.js:175:3)\n    at router (D:\\Programacion_BackEnd\\coderhouse-back_end\\proyecto\\node_modules\\express\\lib\\router\\index.js:47:12)"}
+{"level":"error","message":"Error...  result is not defined","stack":"ReferenceError: result is not defined\n    at finalizePurchase (file:///D:/Programacion_BackEnd/coderhouse-back_end/proyecto/src/controlador/cart.controller.js:44:144)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)"}
+{"level":"error","message":"Error...  result is not defined","stack":"ReferenceError: result is not defined\n    at finalizePurchase (file:///D:/Programacion_BackEnd/coderhouse-back_end/proyecto/src/controlador/cart.controller.js:44:144)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)"}
+{"level":"error","message":"Error...  Cannot read properties of undefined (reading 'amount')","stack":"TypeError: Cannot read properties of undefined (reading 'amount')\n    at finalizePurchase (file:///D:/Programacion_BackEnd/coderhouse-back_end/proyecto/src/controlador/cart.controller.js:17:72)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)"}
+{"level":"error","message":"Error...  Cannot read properties of undefined (reading 'amount')","stack":"TypeError: Cannot read properties of undefined (reading 'amount')\n    at finalizePurchase (file:///D:/Programacion_BackEnd/coderhouse-back_end/proyecto/src/controlador/cart.controller.js:18:72)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)"}
+{"level":"error","message":"Error...  Cannot read properties of undefined (reading 'amount')","stack":"TypeError: Cannot read properties of undefined (reading 'amount')\n    at finalizePurchase (file:///D:/Programacion_BackEnd/coderhouse-back_end/proyecto/src/controlador/cart.controller.js:18:72)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)"}
+{"level":"error","message":"Error...  Cannot read properties of undefined (reading 'amount')","stack":"TypeError: Cannot read properties of undefined (reading 'amount')\n    at finalizePurchase (file:///D:/Programacion_BackEnd/coderhouse-back_end/proyecto/src/controlador/cart.controller.js:45:56)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)"}
+{"level":"error","message":"Error...  Cannot read properties of undefined (reading 'amount')","stack":"TypeError: Cannot read properties of undefined (reading 'amount')\n    at finalizePurchase (file:///D:/Programacion_BackEnd/coderhouse-back_end/proyecto/src/controlador/cart.controller.js:45:56)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)"}
+{"level":"error","message":"Error...  Cannot read properties of undefined (reading 'amount')","stack":"TypeError: Cannot read properties of undefined (reading 'amount')\n    at finalizePurchase (file:///D:/Programacion_BackEnd/coderhouse-back_end/proyecto/src/controlador/cart.controller.js:18:72)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)"}
+{"level":"error","message":"Error...  Cannot read properties of undefined (reading 'amount')","stack":"TypeError: Cannot read properties of undefined (reading 'amount')\n    at finalizePurchase (file:///D:/Programacion_BackEnd/coderhouse-back_end/proyecto/src/controlador/cart.controller.js:18:72)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)"}
+{"level":"error","message":"Error...  Cannot read properties of undefined (reading 'amount')","stack":"TypeError: Cannot read properties of undefined (reading 'amount')\n    at finalizePurchase (file:///D:/Programacion_BackEnd/coderhouse-back_end/proyecto/src/controlador/cart.controller.js:18:72)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)"}
+{"level":"error","message":"Error...  Cannot read properties of undefined (reading 'amount')","stack":"TypeError: Cannot read properties of undefined (reading 'amount')\n    at finalizePurchase (file:///D:/Programacion_BackEnd/coderhouse-back_end/proyecto/src/controlador/cart.controller.js:18:72)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)"}
+{"level":"error","message":"Error...  Cannot read properties of undefined (reading 'amount')","stack":"TypeError: Cannot read properties of undefined (reading 'amount')\n    at finalizePurchase (file:///D:/Programacion_BackEnd/coderhouse-back_end/proyecto/src/controlador/cart.controller.js:18:72)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)"}
+{"level":"error","message":401}
+{"level":"error","message":401}
+{"level":"error","message":"Error, no se pudo agregar el carrito al usuario."}
+{"level":"error","message":"Error, no se pudo agregar el carrito al usuario."}
+{"level":"error","message":"Error, no se pudo agregar el carrito al usuario."}
+{"level":"error","message":"Error, no se pudo agregar el carrito al usuario."}
+{"level":"error","message":"Error, no se pudo agregar el carrito al usuario."}
+{"level":"error","message":"Error, no se pudo agregar el carrito al usuario."}
+{"level":"error","message":"Error, no se pudo agregar el carrito al usuario."}
+{"level":"error","message":"Error, no se pudo agregar el carrito al usuario."}
+{"level":"error","message":"Error, no se pudo agregar el carrito al usuario."}
+{"level":"error","message":"Error, no se pudo agregar el carrito al usuario."}
+{"level":"error","message":"Error, no se pudo agregar el carrito al usuario."}
+{"level":"error","message":"Error, no se pudo agregar el carrito al usuario."}
+{"level":"error","message":"Error, no se pudo agregar el carrito al usuario."}
+{"level":"error","message":"Error, no se pudo agregar el carrito al usuario."}
+{"level":"error","message":"Error, no se pudo agregar el carrito al usuario."}
+{"level":"error","message":"Error, no se pudo agregar el carrito al usuario."}
+{"level":"error","message":"Error, no se pudo agregar el carrito al usuario."}
+{"level":"error","message":"Error, no se pudo agregar el carrito al usuario."}
+{"level":"error","message":"Error, no se pudo agregar el carrito al usuario."}
+{"level":"error","message":"Error, no se pudo agregar el carrito al usuario."}
+{"level":"error","message":401}
+{"level":"error","message":401}
+{"level":"error","message":401}
+{"level":"error","message":[]}
+{"level":"error","message":"Error...  Cannot read properties of undefined (reading 'amount')","stack":"TypeError: Cannot read properties of undefined (reading 'amount')\n    at finalizePurchase (file:///D:/Programacion_BackEnd/coderhouse-back_end/proyecto/src/controlador/cart.controller.js:43:56)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)"}
+{"level":"error","message":[]}
+{"level":"error","message":"Error...  Cannot read properties of undefined (reading 'amount')","stack":"TypeError: Cannot read properties of undefined (reading 'amount')\n    at finalizePurchase (file:///D:/Programacion_BackEnd/coderhouse-back_end/proyecto/src/controlador/cart.controller.js:43:56)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)"}
+{"level":"error","message":[]}
+{"level":"error","message":"Error...  Cannot read properties of undefined (reading 'amount')","stack":"TypeError: Cannot read properties of undefined (reading 'amount')\n    at finalizePurchase (file:///D:/Programacion_BackEnd/coderhouse-back_end/proyecto/src/controlador/cart.controller.js:43:56)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)"}
+{"level":"error","message":[]}
+{"level":"error","message":"Error...  Cannot read properties of undefined (reading 'amount')","stack":"TypeError: Cannot read properties of undefined (reading 'amount')\n    at finalizePurchase (file:///D:/Programacion_BackEnd/coderhouse-back_end/proyecto/src/controlador/cart.controller.js:43:56)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)"}
+{"level":"error","message":[]}
+{"level":"error","message":"Error...  Cannot read properties of undefined (reading 'amount')","stack":"TypeError: Cannot read properties of undefined (reading 'amount')\n    at finalizePurchase (file:///D:/Programacion_BackEnd/coderhouse-back_end/proyecto/src/controlador/cart.controller.js:43:61)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)"}
+{"level":"error","message":[]}
+{"level":"error","message":"Error...  Cannot read properties of undefined (reading 'amount')","stack":"TypeError: Cannot read properties of undefined (reading 'amount')\n    at finalizePurchase (file:///D:/Programacion_BackEnd/coderhouse-back_end/proyecto/src/controlador/cart.controller.js:45:190)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)"}
+{"level":"error","message":[]}
+{"level":"error","message":"Error...  Cannot read properties of undefined (reading 'amount')","stack":"TypeError: Cannot read properties of undefined (reading 'amount')\n    at finalizePurchase (file:///D:/Programacion_BackEnd/coderhouse-back_end/proyecto/src/controlador/cart.controller.js:46:190)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)"}
+{"level":"error","message":[]}
+{"level":"error","message":"Error...  Cannot read properties of undefined (reading 'amount')","stack":"TypeError: Cannot read properties of undefined (reading 'amount')\n    at finalizePurchase (file:///D:/Programacion_BackEnd/coderhouse-back_end/proyecto/src/controlador/cart.controller.js:46:190)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)"}
+{"level":"error","message":[[],null]}
+{"level":"error","message":"Error...  Cannot read properties of undefined (reading 'amount')","stack":"TypeError: Cannot read properties of undefined (reading 'amount')\n    at finalizePurchase (file:///D:/Programacion_BackEnd/coderhouse-back_end/proyecto/src/controlador/cart.controller.js:46:190)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)"}
+{"level":"error","message":[[],null]}
+{"level":"error","message":"Error...  Cannot read properties of undefined (reading 'amount')","stack":"TypeError: Cannot read properties of undefined (reading 'amount')\n    at finalizePurchase (file:///D:/Programacion_BackEnd/coderhouse-back_end/proyecto/src/controlador/cart.controller.js:46:190)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)"}
+{"level":"error","message":[[],null]}
+{"level":"error","message":"Error...  Cannot read properties of undefined (reading 'amount')","stack":"TypeError: Cannot read properties of undefined (reading 'amount')\n    at finalizePurchase (file:///D:/Programacion_BackEnd/coderhouse-back_end/proyecto/src/controlador/cart.controller.js:46:190)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)"}
+{"level":"error","message":[]}
+{"level":"error","message":"Error...  Cannot read properties of undefined (reading 'amount')","stack":"TypeError: Cannot read properties of undefined (reading 'amount')\n    at finalizePurchase (file:///D:/Programacion_BackEnd/coderhouse-back_end/proyecto/src/controlador/cart.controller.js:46:190)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)"}
+{"level":"error","message":[]}
+{"level":"error","message":[]}
+{"level":"error","message":[{"__v":0,"_id":"6682287c19933ea41e408cee","amount":1200,"code":"2","purchase_datetime":"2024-07-01T03:54:36.673Z","purchaser":"pato@lino.com"}]}
+{"level":"error","message":[{"__v":0,"_id":"668229223f2fd5b97b16584f","amount":550,"code":"3","purchase_datetime":"2024-07-01T03:57:22.419Z","purchaser":"pato@lino.com"}]}
+{"level":"error","message":[{"__v":0,"_id":"668229993f2fd5b97b16587c","amount":550,"code":"4","purchase_datetime":"2024-07-01T03:59:21.310Z","purchaser":"pato@lino.com"}]}
+{"level":"error","message":[{"__v":0,"_id":"668229bc3f2fd5b97b1658a9","amount":550,"code":"5","purchase_datetime":"2024-07-01T03:59:56.700Z","purchaser":"pato@lino.com"}]}
+{"level":"error","message":[{"__v":0,"_id":"66822a0b3f2fd5b97b1658de","amount":550,"code":"6","purchase_datetime":"2024-07-01T04:01:15.984Z","purchaser":"pato@lino.com"}]}
+{"level":"error","message":[{"__v":0,"_id":"66822a233f2fd5b97b165913","amount":550,"code":"7","purchase_datetime":"2024-07-01T04:01:39.186Z","purchaser":"pato@lino.com"}]}
+{"level":"error","message":[{"__v":0,"_id":"66822a923c6d248f030bb814","amount":550,"code":"8","purchase_datetime":"2024-07-01T04:03:30.226Z","purchaser":"pato@lino.com"}]}
+{"level":"error","message":[{"__v":0,"_id":"66822aaa3c6d248f030bb851","amount":550,"code":"9","purchase_datetime":"2024-07-01T04:03:54.518Z","purchaser":"pato@lino.com"}]}
+{"level":"error","message":[{"__v":0,"_id":"66822ac53c6d248f030bb891","amount":0,"code":"10","purchase_datetime":"2024-07-01T04:04:21.887Z","purchaser":"pato@lino.com"}]}
+{"level":"error","message":[{"__v":0,"_id":"66822b353c6d248f030bb8d7","amount":0,"code":"11","purchase_datetime":"2024-07-01T04:06:13.270Z","purchaser":"pato@lino.com"}]}
+{"level":"error","message":[{"__v":0,"_id":"66822b643c6d248f030bb91f","amount":0,"code":"12","purchase_datetime":"2024-07-01T04:07:00.590Z","purchaser":"pato@lino.com"}]}
+{"level":"error","message":[{"__v":0,"_id":"66822bc77774a0d8a934c395","amount":0,"code":"13","purchase_datetime":"2024-07-01T04:08:39.468Z","purchaser":"pato@lino.com"}]}
+{"level":"error","message":[{"__v":0,"_id":"66822be5e802dec7d7d9519b","amount":0,"code":"14","purchase_datetime":"2024-07-01T04:09:09.505Z","purchaser":"pato@lino.com"}]}
+{"level":"error","message":[{"__v":0,"_id":"66822c08a2bc27bfc05df257","amount":0,"code":"15","purchase_datetime":"2024-07-01T04:09:44.308Z","purchaser":"pato@lino.com"}]}
+{"level":"error","message":[{"__v":0,"_id":"66822dc97128aae626bff698","amount":829,"code":"1","purchase_datetime":"2024-07-01T04:17:13.075Z","purchaser":"pato@lino.com"}]}
+{"level":"error","message":[{"__v":0,"_id":"66822e2161dea7e6307d06e1","amount":829,"code":"2","purchase_datetime":"2024-07-01T04:18:41.701Z","purchaser":"pato@lino.com"}]}
+{"level":"error","message":[{"__v":0,"_id":"66822e82f17e6c93eb88d010","amount":829,"code":"3","purchase_datetime":"2024-07-01T04:20:18.426Z","purchaser":"pato@lino.com"}]}
+{"level":"error","message":[{"__v":0,"_id":"66822f14796e1b2a7224b648","amount":829,"code":"4","purchase_datetime":"2024-07-01T04:22:44.096Z","purchaser":"pato@lino.com"}]}
+{"level":"error","message":[{"__v":0,"_id":"66822f82362ea4b110e6d425","amount":829,"code":"5","purchase_datetime":"2024-07-01T04:24:34.695Z","purchaser":"pato@lino.com"}]}
+{"level":"error","message":[{"__v":0,"_id":"6682300f7bc6995b18eefda9","amount":829,"code":"6","purchase_datetime":"2024-07-01T04:26:55.686Z","purchaser":"pato@lino.com"}]}

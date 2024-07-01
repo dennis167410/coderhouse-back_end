@@ -1,9 +1,13 @@
 import userModel from '../model/user.model.js';
 import UserDto from '../../dto/User.dto.js';
+import CartManager from './CartManager.js';
+//import {CartService} from '../../repository/index.js';
 
 export default class UserManager {
+  
     constructor(dao){
-        this.dao = dao; 
+  
+      this.dao = dao; 
     }
 
     addUser = async (usersData) => {
@@ -74,31 +78,60 @@ export default class UserManager {
   }
 
 
-    addCartInUser = async(userId, cartId) => {
+  addCartInUserPorVista = async(userId, cartId) => {
+    let r = await this.getUserByEmail(userId);
     
-        try{
-          // BUSCAR USUARIO
-          let datosDelUsuario = null;
-          try{
-          datosDelUsuario = await userModel.findById({_id: userId});
-          }catch(error){
-            return null;
-          }
-          // AGREGA EL CARRITO AL ARRAY 
-          datosDelUsuario.carts.push({cart:cartId});
-        
-          const usuarioActualizado = await userModel.updateOne(
-            {_id: userId || req.user.id},
-            {$set: {...datosDelUsuario}});
-      
-      //////////
-          return usuarioActualizado
-          
-        }catch(error){
-          console.log("Error al intentar agregar el carrito al usuario. ", error);
-          return null;
-        }
+    console.log("r en vista " + r._id);
+    return await this.addCartInUser(r._id,cartId);
+  }
+
+  addCartInUser = async(userId, cartId) => {
+    
+    try{
+      // BUSCAR USUARIO
+      let datosDelUsuario = null;
+      try{
+      datosDelUsuario = await userModel.findById({_id: userId});
+      }catch(error){
+        return null;
       }
+      let cartService = new CartManager();
+      // Buscar si el carrito fue creado:
+     let carritoFueCreado = await cartService.getCartById(cartId); 
+
+     if(!carritoFueCreado){
+        return null;      
+     }
+
+      console.log("carritoFueCreado = " + carritoFueCreado);
+
+      const carritoExistente = datosDelUsuario.carts.find(cart => cart.cart.toString() === cartId);
+
+      console.log("carrito Existen " + carritoExistente)
+
+      if(carritoExistente){
+        console.log("El carrito ya estaba agregado");
+        return datosDelUsuario;
+      }
+
+      // AGREGA EL CARRITO AL ARRAY 
+      datosDelUsuario.carts.push({cart:cartId});
+    
+      const usuarioActualizado = await userModel.updateOne(
+        {_id: userId || req.user.id},
+        {$set: {...datosDelUsuario}});
+  
+  //////////
+      console.log("carrito asociado con éxito");
+      return usuarioActualizado
+      
+    }catch(error){
+      console.log("Error al intentar agregar el carrito al usuario. ", error);
+      return null;
+    }
+  }
+
+
 
       deleteUserById = async (userId) => {
         try {

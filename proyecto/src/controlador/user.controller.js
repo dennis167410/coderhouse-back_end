@@ -53,14 +53,20 @@ export default class UserController{
     addCartInUser = async(req, res) => {    
         try{
           const {userId, cartId} = req.params;
-         
+          console.log("en user.controler user = " + userId + " cart = " + cartId)
+
           const user = await this.userService.addCartInUser(userId || req.user.id, cartId);
       
-          if(!user || user === null){
+         /* if(!user || user === null){
             req.logger.error("Error, no se pudo agregar el carrito al usuario.");
             return res.status(404).json({message: "Error, no se pudo agregar el carrito al usuario."})
-         }
+         }*/
       
+         if (!user) {
+          req.logger.error("Error, no se pudo agregar el carrito al usuario.");
+          return res.status(404).json({ message: "Error, no se pudo agregar el carrito al usuario." });
+        }
+
       //////////
           return res.json({
             message: "Se agregó correctamente el carrito al usuario.",

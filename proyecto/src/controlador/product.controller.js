@@ -23,10 +23,10 @@ export default class ProductController{
         nextPage
      } = await this.productService.getAllProducts(limit, page, sort);
 
-            return res
-            .status(200)
-            .json({
-           
+     
+        return res
+        .status(200)
+        .json({   
         message:"Todos los productos",
         products: docs,
         length: totalDocs,
@@ -37,7 +37,25 @@ export default class ProductController{
         prevPage,
         nextPage
             })
-
+        
+            
+//console.log("req.session.user " + req.session.user)
+        /*    const response = {
+                message: "Todos los productos",
+                products: docs,
+                length: totalDocs,
+                limit: limitPage,
+                page,
+                totalPages,
+                hasNextPage,
+                prevPage,
+                nextPage,
+                user: req.session.user
+            };
+            console.log("response ", response)
+    
+            return this.handleResponse(req, res, response, 200);
+*/
     }catch(error){
         req.logger.error("Error ", error);
     }
@@ -250,5 +268,13 @@ En el body:
        req.logger.error("Error, ", error)
     }
 }
+
+handleResponse = (req, res, response, statusCode) => {
+    if (req.headers['content-type'] === 'application/json' || req.xhr) {
+        return res.status(statusCode).json(response);
+    } else {
+        return res.status(statusCode).render('products', response);
+    }
+  };
 
 }

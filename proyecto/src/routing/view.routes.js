@@ -97,10 +97,21 @@ router.get("/products", authMdw, async (req, res) => {
      });
 });
 
-
+/*
 router.post('/purcharse', (req, res) => {
     const { selectedProducts } = req.body;
     res.render('purcharse', { selectedProducts });
+});*/
+
+router.post('/purcharse', (req, res) => {
+    const { selectedProducts } = req.body;
+    const quantities = {}; // Aquí deberías obtener las cantidades desde alguna fuente si es necesario
+
+    selectedProducts.forEach(product => {
+        quantities[product] = 1; // O la cantidad que tengas por defecto
+    });
+
+    res.render('purcharse', { selectedProducts, quantities, cartId: req.session.cartId });
 });
 
 export default router;

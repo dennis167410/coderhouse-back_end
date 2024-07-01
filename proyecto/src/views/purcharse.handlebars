@@ -22,7 +22,7 @@
                             {{this}}
                         </td>
                         <td>
-                            <input type="number" name="products[{{@index}}][quantity]" class="form-control" required>
+                            <input type="number" name="products[{{@index}}][quantity]" class="form-control" min="0" required>
                         </td>
                     </tr>
                     {{/each}}
@@ -32,7 +32,55 @@
         </form>
     </section>
 
-    <section>
-        <p>{{message}}</p>
+    <section class="row">
+        <article class="col-4">
+            <p>{{message}}</p>
+            <p>Id. de su carrito: {{cart}}</p>
+        </article>
+    </section class="mb-2">
+
+    <section class="row">
+        <article class="col-8">
+            <label for="cartId">Por seguridad usted debe copiar y pegar aquí el ID de su carrito para finalizar el proceso de compra:</label>
+            <input type="text" id="cartId" class="form-control" required>
+        </article>
+        <article class="col-4">
+              <button class="btn btn-success" onclick="finalizePurchase()">Finalizar Compra</button>
+        </article>
     </section>
+
+    <section class="row mt-2">
+        <article class="col-12">
+            <p id="totalAmount"></p>
+            <p id="unavailableProducts"></p>
+        </article>
+    </section>
+
 </main>
+
+<script>
+    async function finalizePurchase() {
+        const cartId = document.getElementById('cartId').value;
+        if (!cartId) {
+            alert('¡Por favor ingrese el ID del carrito que le fue proporcionado para finalizar el proceso de compra!');
+            return;
+        }
+
+        const response = await fetch(`/api/carts/${cartId}/purchase`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+
+        const result = await response.json();
+
+        if (response.status === 200) {
+            document.getElementById('totalAmount').innerText = `Ticket: ${result.message}`;
+         /*   document.getElementById('unavailableProducts').innerText = `Productos no disponibles: ${result.noDisponibles.join(', ')}`;*/
+        } else {
+            alert(result.message);
+        }
+    }
+</script>
+
