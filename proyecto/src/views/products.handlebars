@@ -15,7 +15,9 @@
 
      <section class="row justify-content-center align-items-center">
         <article class="col-md-5 mt-4 text-center">
-            <form action="/api/views/products" method="get">
+            <form action="/api/views/products/" method="get">
+               <input type="hidden" name="first_name" value="{{this.first_name}}">
+               <input type="hidden" name="rol" value="{{this.rol}}">
                <button type="submit" class="btn col-8 mt-1 login">Actualizar lista</button>   
             </form>
         </article>
@@ -28,6 +30,9 @@
         </h2>
 
         <form action="/api/views/purcharse" method="POST">
+            <input type="hidden" name="first_name" value="{{first_name}}">
+            <input type="hidden" name="rol" value="{{rol}}">
+
         <table class="table table-sm table-striped">
             <thead>
                 <tr>

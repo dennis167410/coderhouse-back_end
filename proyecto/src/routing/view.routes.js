@@ -63,6 +63,12 @@ router.get("/users", async(req, res) => {
 router.get("/products", authMdw, async (req, res) => {
     const {limit=10, page=1, sort, query, first_name, last_name, email, rol} = req.query;
 
+    req.session.first_name = first_name;
+    req.session.last_name = last_name;
+    req.session.email = email;
+    req.session.rol = rol;
+
+
     const productManager = new ProductManager();
 
     const { 
@@ -83,11 +89,11 @@ router.get("/products", authMdw, async (req, res) => {
         };
     });
 
-     res.render(`products`, {
-        first_name:first_name,
-        last_name:last_name,
-        email:email,
-        rol:rol,
+    res.render(`products`, {
+        first_name,
+        last_name,
+        email,
+        rol,
         products: formatoDelDocumento,
         page,
         hasNextPage,
@@ -104,14 +110,30 @@ router.post('/purcharse', (req, res) => {
 });*/
 
 router.post('/purcharse', (req, res) => {
-    const { selectedProducts } = req.body;
-    const quantities = {}; // Aquí deberías obtener las cantidades desde alguna fuente si es necesario
+        let selectedProducts = req.body.selectedProducts;
+    
+        if (!Array.isArray(selectedProducts)) {
+            selectedProducts = [selectedProducts];
+        }
+
+        res.render('purcharse', {
+            first_name: req.body.first_name,
+            last_name: req.body.last_name,
+            email: req.body.email,
+            rol: req.body.rol,
+            user: req.body.user,
+            selectedProducts: selectedProducts
+        });
+    
+    
+    /*const { selectedProducts } = req.body;
+    const quantities = {}; 
 
     selectedProducts.forEach(product => {
-        quantities[product] = 1; // O la cantidad que tengas por defecto
+        quantities[product] = 1;
     });
 
-    res.render('purcharse', { selectedProducts, quantities, cartId: req.session.cartId });
+    res.render('purcharse', { selectedProducts, quantities, cartId: req.session.cartId }); */
 });
 
 export default router;

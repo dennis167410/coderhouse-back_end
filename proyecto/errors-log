@@ -228,3 +228,6 @@
 {"level":"error","message":[{"__v":0,"_id":"66822f14796e1b2a7224b648","amount":829,"code":"4","purchase_datetime":"2024-07-01T04:22:44.096Z","purchaser":"pato@lino.com"}]}
 {"level":"error","message":[{"__v":0,"_id":"66822f82362ea4b110e6d425","amount":829,"code":"5","purchase_datetime":"2024-07-01T04:24:34.695Z","purchaser":"pato@lino.com"}]}
 {"level":"error","message":[{"__v":0,"_id":"6682300f7bc6995b18eefda9","amount":829,"code":"6","purchase_datetime":"2024-07-01T04:26:55.686Z","purchaser":"pato@lino.com"}]}
+{"level":"error","message":[{"__v":0,"_id":"6682f399d32d91a7786a9e03","amount":1393,"code":"1","purchase_datetime":"2024-07-01T18:21:13.395Z","purchaser":"plino@gmail.com"}]}
+{"level":"error","message":[{"__v":0,"_id":"6683056c6996cd4c5a9d9511","amount":547,"code":"2","purchase_datetime":"2024-07-01T19:37:16.508Z","purchaser":"dennis.mrodriguezc@gmail.com"}]}
+{"level":"error","message":[{"__v":0,"_id":"6683058a6996cd4c5a9d9531","amount":2990,"code":"3","purchase_datetime":"2024-07-01T19:37:46.561Z","purchaser":"dennis.mrodriguezc@gmail.com"}]}

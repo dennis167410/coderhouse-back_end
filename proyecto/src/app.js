@@ -105,6 +105,17 @@ app.set("views", __dirname + "/views");
 //app.set('views', path.join(`${__dirname}/views`));
 app.set("view engine", "handlebars");
 
+handlebars.create({
+    helpers: {
+        ifArray: function (value, options) {
+            if (Array.isArray(value)) {
+                return options.fn(this);
+            } else {
+                return options.inverse(this);
+            }
+        }
+    }
+});
 
 ////////////////////////////
 

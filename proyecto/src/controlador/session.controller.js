@@ -141,7 +141,7 @@ const recoverPasswd2 = async(req, res) => {
    const esValido = await isValidPasswd(new_password, user.password)
    if(esValido){
     req.logger.info("Las contraseñas no pueden ser iguales.");
-    return res.redirect('/recover');
+    return res.redirect('/recover/?first_name=' + (req.session?.user?.first_name) + '&last_name=' + (req.session?.user?.last_name) + '&email=' + (req.session?.user?.email) + '&age=' + (req.session?.user?.age) + '&rol='+req.session?.user?.rol);
   }else{
     req.logger.info("Ok.")
   }

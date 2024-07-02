@@ -273,6 +273,11 @@ handleResponse = (req, res, response, statusCode) => {
     if (req.headers['content-type'] === 'application/json' || req.xhr) {
         return res.status(statusCode).json(response);
     } else {
+        req.session.first_name = response.first_name;
+        req.session.last_name = response.last_name;
+        req.session.email = response.email;
+        req.session.role = response.role;
+        req.session.user = response.user;
         return res.status(statusCode).render('products', response);
     }
   };

@@ -37,12 +37,19 @@
 
 </section>
 
-<section>
+<section class="row">
+    <article class="col">
      {{#if message}}
         <p>{{message}}</p>
     {{/if}}
-
+    </article>
 </section>
+
+    <section class="row">
+        <form class="col-12 mt-1 text-center" action="/api/views/login" method="get">
+                <button type="submit" class="btn login">Login</button>   
+        </form>
+    </section>
 
 </main>
 

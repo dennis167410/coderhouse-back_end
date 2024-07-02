@@ -1,5 +1,6 @@
 <main class="container-fluid">
     <section class="row">
+       <h2>{{first_name}} {{last_name}} {{email}} {{rol}} {{user}}</h2>
         <h2 class="col-12">
             Comprar Productos
         </h2>
@@ -15,17 +16,14 @@
                     </tr>
                 </thead>
                 <tbody>
+            
                     {{#each selectedProducts}}
                     <tr>
-                        <td>
-                            <input type="hidden" name="products[{{@index}}][id]" value="{{this}}">
-                            {{this}}
-                        </td>
-                        <td>
-                            <input type="number" name="products[{{@index}}][quantity]" class="form-control" min="0" required>
-                        </td>
+                        <td><input type="hidden" name="products[{{@index}}][id]" value="{{this}}">{{this}}</td>
+                        <td><input type="number" name="products[{{@index}}][quantity]" class="form-control" min="0" required></td>
                     </tr>
                     {{/each}}
+                   
                 </tbody>
             </table>
             <button type="submit" class="btn btn-primary">Agregar al carrito</button>
@@ -55,6 +53,18 @@
             <p id="unavailableProducts"></p>
         </article>
     </section>
+
+    <section class="row">
+         <form class="col-6 mt-1 text-center" action="/api/views/products" method="get">
+            <input type="hidden" name="first_name" value="{{first_name}}">
+            <input type="hidden" name="last_name" value="{{last_name}}">
+            <input type="hidden" name="email" value="{{email}}">
+            <input type="hidden" name="rol" value="{{rol}}">
+            <input type="hidden" name="user" value="{{user}}">
+            <button type="submit" class="btn login">Atrás</button>
+        </form>
+    </section>
+
 
 </main>
 
