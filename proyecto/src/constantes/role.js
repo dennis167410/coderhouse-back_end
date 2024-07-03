@@ -1,4 +1,4 @@
 
-const ROLES = ["USER", "ADMIN", "PUBLIC"];
+const ROLES = ["USER", "ADMIN", "PUBLIC", "PREMIUM"];
 
 export default ROLES;

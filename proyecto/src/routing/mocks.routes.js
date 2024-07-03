@@ -12,7 +12,7 @@ const httpResponse = new HttpResponse;
 const MAX_PRODUCTS = 100;
 let products = [];
 
-// TESTEADO
+
 router.get("/", async (req, res) => {
  
   for (let index = 0; index < MAX_PRODUCTS; index++) {
@@ -22,7 +22,7 @@ router.get("/", async (req, res) => {
   
 }); 
 
-//TESTEADO
+
 router.get("/:pid", async (req, res) => {
     const { pid } = req.params;
   
@@ -38,7 +38,7 @@ router.get("/:pid", async (req, res) => {
       product);
   });
 
-//TESTEADO
+
 router.post("/", async (req, res) => {
     try {
       const { title, description, code, price, stock=0, category } = req.body;
@@ -77,7 +77,7 @@ router.post("/", async (req, res) => {
   }
 });
 
-// TESTEADO
+
 router.get("/category/:category", async (req, res) => {
     const { category} = req.params;
     if (!category || !isNaN(category)) {
@@ -97,7 +97,7 @@ return httpResponse.OK(res, `Productos en la categoría = ${category} `,
 });
 
 
-//TESTEADO
+
 router.get("/disponibilidad/:disponibilidad", async (req, res) => {
     const {disponibilidad} = req.params;
     if (!disponibilidad || isNaN(disponibilidad) || disponibilidad < 0) {
@@ -118,7 +118,7 @@ for (let index = 0; index < MAX_PRODUCTS; index++) {
     });
   });
 
-//TESTEADO
+
 router.delete("/:pid", async (req, res) => {
     const {pid} = req.params;
     if (!pid || isNaN(pid) || pid < 0) {
@@ -140,21 +140,18 @@ router.delete("/:pid", async (req, res) => {
 router.put("/:pid", async (req, res) => {
     const {pid} = req.params;
 
-   // const { title, description, code, price, stock=0, category } = req.body;
-   // console.log( title, description, code, price, stock, category)
-    //if (!pid || isNaN(pid) || pid < 0 || !title || !description || !code || !price || isNaN(price) || price <0 || isNaN(stock) || stock <0 || !category) {
-    if (!pid || isNaN(pid) || pid < 0) {
+  if (!pid || isNaN(pid) || pid < 0) {
     return httpResponse.BadRequest(
         res,
         `${DictionaryErrors.ERROR_PARAMETROS_NO_VALIDOS} - Los parámetros para el producto no son válidos.`
       );
-}  
+  }  
     return httpResponse.OK(res, `Producto ${pid} fue actualizado.`);
 })
 
 
 let carts = [];
-//TESTEADO
+
 /* Agrega el producto al arreglo “products” del carrito seleccionado. */
 router.post("/:cid/product/:pid", async (req, res) => {
     const {cid, pid} = req.params;
@@ -174,7 +171,7 @@ const cart = {
     return httpResponse.OK(res, `Producto agregado con éxito al carrito.`, cart)
   }); 
 
-//TESTEADO
+
 router.put("/:cid/product/:pid", async (req, res) => {
     const cid =  req.params.cid;
     const pid =  req.params.pid;
@@ -202,28 +199,5 @@ carts.forEach((c) => {
 ) 
     return httpResponse.OK(res, `Cantidad de productos fue actualizada con éxito en el carrito.`)
   }); 
-
-
-  /*
-  router.post("/", async (req, res) => {
-    try {
-      const { name } = req.body;
-      if (!name) {
-        return httpResponse.BadRequest(res, `missing name in body`);
-      }
-      //throw new Error(DictionaryErrors.DATABASE_ERROR);
-      return httpResponse.OK(res, `Producto creado de título `, { title: `fake producto ${name}` });
-    } catch (error) {
-      console.log("error: ", error);
-      return httpResponse.Error(
-        res,
-        `something wrong happens`,
-        error.message,
-        `${DictionaryErrors.SERVICE_ERROR}-${DictionaryErrors.DATABASE_ERROR}`
-      );
-    }
-  }); */
-  
-
 
 export default router;

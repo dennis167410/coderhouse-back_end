@@ -103,11 +103,6 @@ router.get("/products", authMdw, async (req, res) => {
      });
 });
 
-/*
-router.post('/purcharse', (req, res) => {
-    const { selectedProducts } = req.body;
-    res.render('purcharse', { selectedProducts });
-});*/
 
 router.post('/purcharse', (req, res) => {
         let selectedProducts = req.body.selectedProducts;
@@ -124,16 +119,6 @@ router.post('/purcharse', (req, res) => {
             user: req.body.user,
             selectedProducts: selectedProducts
         });
-    
-    
-    /*const { selectedProducts } = req.body;
-    const quantities = {}; 
-
-    selectedProducts.forEach(product => {
-        quantities[product] = 1;
-    });
-
-    res.render('purcharse', { selectedProducts, quantities, cartId: req.session.cartId }); */
 });
 
 export default router;

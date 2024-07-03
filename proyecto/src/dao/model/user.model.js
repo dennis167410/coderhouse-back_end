@@ -34,7 +34,10 @@ const userSchema = new mongoose.Schema({
         type: String,
         enum: Object.values(rolType),
     },
-    last_connection: Date
+    last_connection: {
+        type: Date,
+        default: Date.now
+    }
 
 });
 

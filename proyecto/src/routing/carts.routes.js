@@ -73,8 +73,7 @@ router.delete("/:cid/products/:pid", /*handlePolicies(["USER", "ADMIN", "PREMIUM
 //////////////////////////////////////////////////
 
  /* DELETE api/carts/:cid 
-  Deberá eliminar todos los productos del carrito
-  */
+  Deberá eliminar todos los productos del carrito */
   router.delete("/:cid", cartCtrol.deleteAllProductByCartId);
     
  ///////////////////////////////////////////////////////////////

@@ -8,7 +8,7 @@ const transporter = nodemailer.createTransport({
   service: "gmail",
   host: "smtp.gmail.com",
   port: 587,
-  secure: true, // Use `true` for port 465, `false` for all other ports
+  secure: true, // Use `true` para usar el puerto 465, `false` para otros puertos.
   auth: {
     user: EMAIL,
     pass: PSW_EMAIL,
@@ -27,13 +27,13 @@ router.post("/send", async (req, res) => {
       email
     );
 
-  // Generar token
+  // Genera el token
   const token = await generateJWT({email});
   req.logger.info("token: ", token)
 
     let resultEmail = await transporter.sendMail({
       from: EMAIL,
-      to: EMAIL,//email,
+      to: EMAIL,
       subject: `email enviado para ${email}!!`,
       html: `
       <div>
@@ -51,18 +51,13 @@ router.post("/send", async (req, res) => {
       </div>
       `,
     });
-    /*req.logger.info(
-      "resultEmail:",
-      resultEmail
-    );*/
+  
 
     return handleResponseRecover(req, res, {message: `Éxito, email enviado a ${email}`}, 200);
 
 //    return res.send({ ok: true, message: `email enviado a ${email}` });
   } catch (error) {
     req.logger.error("error:", error);
-
-    //AGREGADO SIN TESTEAR
     res.redirect('/recover');
   }
 });
@@ -78,9 +73,6 @@ export const sendEmail = (to, subject, text) => {
 
   return transporter.sendMail(mailOptions);
 };
-
-
-
 
 
 const handleResponseRecover = (req, res, response, statusCode) => {

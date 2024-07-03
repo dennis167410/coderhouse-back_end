@@ -2,7 +2,6 @@ import {Router} from 'express';
 
 const router = Router();
 
-//setCookie
 router.post(`/setCookie`, (req, res)=>{
     const body = req.body;
     return res
@@ -14,7 +13,6 @@ router.post(`/setCookie`, (req, res)=>{
     .send();
 });
 
-//getCookie
 router.get(`/`, (req, res)=>{
     return res.json({cookie: req.cookies, signedCookies: req.signedCookies});
 });
