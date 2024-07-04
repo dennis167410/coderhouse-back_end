@@ -82,22 +82,17 @@ agregaProductoAlCarrito = async(req, res) => {
     {
       cartId: "660570de5c1a20f6af43b13a",
             products: [
-                
                  {
                     id: "65d0331cd7671692a60e8138",
                     quantity: 1
-                }
-               
+                }  
             ]
-
     }
     
     */
     
     try{
-        const cartData2 = req.body;
-        req.logger.info(cartData2)
-
+        const cartData2 = req.body;       
         const result = await this.cartService.addCart2(cartData2, req.session.user, req.session.role);
         
         if(result || result != null){
@@ -175,33 +170,25 @@ creaCarritoConProductosDesdeLaVista = async(req, res) => {
 
         try{
 
-            const { productId, quantity } = req.body;
-       
-            req.logger.info("A ver  a ver =" + productId + " " + quantity)
-
-            const cartBody = req.body;
-            
+            const { products} = req.body;
+                   
            // let newCart = await this.cartService.addCart3(cartBody); 
-           let newCart = await this.cartService.addCart3(productId, quantity); 
+           let newCart = await this.cartService.addCart3(products, req.session.user); 
 
             if(!newCart || newCart === null){
                 return res
                 .status(400)
                 .json({
-                message: `El carrito no pudo ser creado, faltan datos o no existe el prodcuto.`,
+                message: `El carrito no pudo ser creado, faltan datos o no existe el producto.`,
                 })
             }
-
-            req.logger.info("Cart fsfsdffsd",  newCart);
 
             return res
                 .status(200)
                 .json({
                 message: `Nuevo carrito con productos creado correctamente`,
                 cart: newCart
-           })
-        
-         
+           })     
         }catch(error){
             req.logger.error("Error... ", error)
         }

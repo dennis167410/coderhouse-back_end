@@ -85,53 +85,60 @@ class CartManager {
     }
 
     addCart2 = async (cartsData, user, role) => {
-        try{
-            const {cartId, products} = cartsData;
-
+        try {
+            const { cartId, products } = cartsData;
             const productId = products[0].id;
             const quantity = products[0].quantity;
-         
-            let cart = null;
-            try{
-                cart = await cartModel.findOne({_id: cartId});
-                
-            }catch(error){
-                return null;
+    
+            // Buscar el carrito por ID
+            const cart = await cartModel.findOne({ _id: cartId });
+            if (!cart) {
+                return { message: "Carrito no encontrado" };
             }
-
-        const existeElProduct = cart.products.find(item => item.product.toString() === productId);
-
-        if (existeElProduct) {
-                 if (role === "PREMIUM" && user === existeElProduct[0].owner) {
-                    return null;
-                } 
-                // Si el producto está en el carrito, suma la cantidad.
-              return await cartModel.findOneAndUpdate(
-                    {_id: cartId, "products.product": productId},
-                    { $inc: {"products.$.quantity": quantity}}
+    
+            // Buscar el usuario por email
+            const findUser = await userManager.getUserByEmail(user);
+            if (!findUser) {
+                return { message: "Usuario no encontrado" };
+            }
+    
+            // Verificar si el carrito ya está asociado con el usuario
+            const myCart = findUser.carts.find(cart => cart.cart.toString() === cartId.toString());
+            if (!myCart) {
+                // Asociar el carrito al usuario si no está ya asociado
+                findUser.carts.push({ cart: cartId });
+                await findUser.save();
+            }
+    
+            // Verificar si el producto ya está en el carrito
+            const existeElProduct = cart.products.find(item => item.product.toString() === productId.toString());
+            if (existeElProduct) {
+                // Si el producto está en el carrito, sumar la cantidad
+                await cartModel.findOneAndUpdate(
+                    { _id: cartId, "products.product": productId },
+                    { $inc: { "products.$.quantity": quantity } }
                 );
-
-            } else {  
-            // Verifica si es el que creo el producto.
-            const product = await productManager.getProductById(productId);
-                if (role === "PREMIUM" && user === product[0].owner) {
-                  return null;
+            } else {
+                // Obtener el producto por ID
+                const product = await productManager.getProductById(productId);
+                if (role === "PREMIUM" && user === product.owner) {
+                    return { message: "Los usuarios PREMIUM no pueden agregar sus propios productos al carrito" };
                 }
-                
-                // Si el producto no está en el carrito, lo agrega.
-                return await cartModel.findOneAndUpdate(
-                    {_id: cartId},
-                    {$push: {products: {product: productId, quantity}}}
-                )
-                
+    
+                // Si el producto no está en el carrito, agregarlo
+                await cartModel.findOneAndUpdate(
+                    { _id: cartId },
+                    { $push: { products: { product: productId, quantity } } }
+                );
             }
-
-        }catch(error){
+    
+            return { message: "Producto agregado al carrito con éxito" };
+        } catch (error) {
             return null;
         }
-    }
+    };
 
-
+    
  tieneStock= async (products) => {
     let pDisponibles = [];
     for (const unP of products) {
@@ -160,11 +167,13 @@ class CartManager {
     }
     */
     
-    addCart3 = async (cartData) => {
+    addCart3 = async (products, user) => {
         try {
             let newCart = await cartModel.create({});
-            const {products} = cartData;
             
+            let r1 = await userManager.getUserByEmail(user);
+            let r =  await userManager.addCartInUser(r1._id, newCart._id);
+         
             for (const unP of products) {
                 const product = await productManager.getProductById(unP.id);
             

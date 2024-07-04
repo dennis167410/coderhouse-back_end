@@ -235,3 +235,36 @@
 {"_message":"users validation failed","errors":{"role":{"kind":"enum","message":"`` is not a valid enum value for path `role`.","name":"ValidatorError","path":"role","properties":{"enumValues":["USER","ADMIN","PREMIUM","PUBLIC"],"message":"`` is not a valid enum value for path `role`.","path":"role","type":"enum","value":""},"value":""}},"level":"error","message":"Error de registro:  users validation failed: role: `` is not a valid enum value for path `role`.","stack":"ValidationError: users validation failed: role: `` is not a valid enum value for path `role`.\n    at Document.invalidate (D:\\Programacion_BackEnd\\coderhouse-back_end\\proyecto\\node_modules\\mongoose\\lib\\document.js:3201:32)\n    at D:\\Programacion_BackEnd\\coderhouse-back_end\\proyecto\\node_modules\\mongoose\\lib\\document.js:2994:17\n    at D:\\Programacion_BackEnd\\coderhouse-back_end\\proyecto\\node_modules\\mongoose\\lib\\schemaType.js:1370:9\n    at process.processTicksAndRejections (node:internal/process/task_queues:77:11)"}
 {"_message":"users validation failed","errors":{"role":{"kind":"enum","message":"`` is not a valid enum value for path `role`.","name":"ValidatorError","path":"role","properties":{"enumValues":["USER","ADMIN","PREMIUM","PUBLIC"],"message":"`` is not a valid enum value for path `role`.","path":"role","type":"enum","value":""},"value":""}},"level":"error","message":"Error de registro:  users validation failed: role: `` is not a valid enum value for path `role`.","stack":"ValidationError: users validation failed: role: `` is not a valid enum value for path `role`.\n    at Document.invalidate (D:\\Programacion_BackEnd\\coderhouse-back_end\\proyecto\\node_modules\\mongoose\\lib\\document.js:3201:32)\n    at D:\\Programacion_BackEnd\\coderhouse-back_end\\proyecto\\node_modules\\mongoose\\lib\\document.js:2994:17\n    at D:\\Programacion_BackEnd\\coderhouse-back_end\\proyecto\\node_modules\\mongoose\\lib\\schemaType.js:1370:9\n    at process.processTicksAndRejections (node:internal/process/task_queues:77:11)"}
 {"level":"error","message":"Error  UserService is not a constructor","stack":"TypeError: UserService is not a constructor\n    at deleteProductById (file:///D:/Programacion_BackEnd/coderhouse-back_end/proyecto/src/controlador/product.controller.js:211:33)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)"}
+{"level":"error","message":"Error...  productId is not defined","stack":"ReferenceError: productId is not defined\n    at creaCarritoConProductos (file:///D:/Programacion_BackEnd/coderhouse-back_end/proyecto/src/controlador/cart.controller.js:187:58)\n    at Layer.handle [as handle_request] (D:\\Programacion_BackEnd\\coderhouse-back_end\\proyecto\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at next (D:\\Programacion_BackEnd\\coderhouse-back_end\\proyecto\\node_modules\\express\\lib\\router\\route.js:144:13)\n    at file:///D:/Programacion_BackEnd/coderhouse-back_end/proyecto/src/middleware/handle-policies.middleware.js:23:16\n    at strategy.success (D:\\Programacion_BackEnd\\coderhouse-back_end\\proyecto\\node_modules\\passport\\lib\\middleware\\authenticate.js:222:18)\n    at verified (D:\\Programacion_BackEnd\\coderhouse-back_end\\proyecto\\node_modules\\passport-jwt\\lib\\strategy.js:115:41)\n    at JwtStrategy._verify (file:///D:/Programacion_BackEnd/coderhouse-back_end/proyecto/src/config/passport.config.js:37:28)\n    at D:\\Programacion_BackEnd\\coderhouse-back_end\\proyecto\\node_modules\\passport-jwt\\lib\\strategy.js:123:34\n    at D:\\Programacion_BackEnd\\coderhouse-back_end\\proyecto\\node_modules\\jsonwebtoken\\verify.js:261:12\n    at getSecret (D:\\Programacion_BackEnd\\coderhouse-back_end\\proyecto\\node_modules\\jsonwebtoken\\verify.js:97:14)"}
+{"level":"error","message":"El producto no pudo ser agregado al carrito."}
+{"level":"error","message":"El producto no pudo ser agregado al carrito."}
+{"level":"error","message":"El producto no pudo ser agregado al carrito."}
+{"level":"error","message":"El producto no pudo ser agregado al carrito."}
+{"level":"error","message":"El producto no pudo ser agregado al carrito."}
+{"level":"error","message":"El producto no pudo ser agregado al carrito."}
+{"level":"error","message":"El producto no pudo ser agregado al carrito."}
+{"level":"error","message":"El producto no pudo ser agregado al carrito."}
+{"level":"error","message":"El producto no pudo ser agregado al carrito."}
+{"level":"error","message":"El producto no pudo ser agregado al carrito."}
+{"level":"error","message":"El producto no pudo ser agregado al carrito."}
+{"level":"error","message":"El producto no pudo ser agregado al carrito."}
+{"level":"error","message":"El producto no pudo ser agregado al carrito."}
+{"level":"error","message":"El producto no pudo ser agregado al carrito."}
+{"level":"error","message":"El producto no pudo ser agregado al carrito."}
+{"level":"error","message":"El producto no pudo ser agregado al carrito."}
+{"level":"error","message":"El producto no pudo ser agregado al carrito."}
+{"level":"error","message":"El producto no pudo ser agregado al carrito."}
+{"level":"error","message":"El producto no pudo ser agregado al carrito."}
+{"level":"error","message":"El producto no pudo ser agregado al carrito."}
+{"level":"error","message":"El producto no pudo ser agregado al carrito."}
+{"level":"error","message":"El producto no pudo ser agregado al carrito."}
+{"level":"error","message":"El producto no pudo ser agregado al carrito."}
+{"level":"error","message":"El producto no pudo ser agregado al carrito."}
+{"level":"error","message":"El producto no pudo ser agregado al carrito."}
+{"level":"error","message":"El producto no pudo ser agregado al carrito."}
+{"level":"error","message":"El producto no pudo ser agregado al carrito."}
+{"level":"error","message":"El producto no pudo ser agregado al carrito."}
+{"level":"error","message":"El producto no pudo ser agregado al carrito."}
+{"level":"error","message":"El producto no pudo ser agregado al carrito."}
+{"level":"error","message":"El producto no pudo ser agregado al carrito."}
+{"level":"error","message":"El producto no pudo ser agregado al carrito."}
