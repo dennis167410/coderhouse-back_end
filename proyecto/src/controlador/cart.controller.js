@@ -109,7 +109,7 @@ agregaProductoAlCarrito = async(req, res) => {
             return res
             .status(400)
             .json({
-            message: 'Producto no pudo ser agregado al carrito.',
+            message: 'Error, el producto no pudo ser agregado al carrito. Motivos: El carrito no le pertence o no existe o el producto no tiene stock disponible.',
         })
         } 
 

@@ -268,3 +268,10 @@
 {"level":"error","message":"El producto no pudo ser agregado al carrito."}
 {"level":"error","message":"El producto no pudo ser agregado al carrito."}
 {"level":"error","message":"El producto no pudo ser agregado al carrito."}
+{"level":"error","message":[{"__v":0,"_id":"6686a6d7ea75217346a07691","amount":1060,"code":"1","purchase_datetime":"2024-07-04T13:42:47.005Z","purchaser":"dennis.mrodriguezc@gmail.com"}]}
+{"level":"error","message":[{"__v":0,"_id":"6686a700ea75217346a076c1","amount":11193,"code":"2","purchase_datetime":"2024-07-04T13:43:28.636Z","purchaser":"dennis.mrodriguezc@gmail.com"}]}
+{"level":"error","message":"El producto no pudo ser agregado al carrito."}
+{"level":"error","message":"El producto no pudo ser agregado al carrito."}
+{"level":"error","message":"El producto no pudo ser agregado al carrito."}
+{"level":"error","message":"El producto no pudo ser agregado al carrito."}
+{"level":"error","message":"El producto no pudo ser agregado al carrito."}

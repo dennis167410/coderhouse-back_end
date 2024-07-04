@@ -188,4 +188,14 @@ export default class UserManager {
         }
     };
 
+    isCartAssociated = async (cartId) => {
+      try {
+          const usersWithCart = await userModel.find({ 'carts.cart': cartId });
+          return usersWithCart.length > 0;
+      } catch (error) {
+          console.error("Error al verificar la asociación del carrito: ", error);
+          return false;
+      }
+  }
+
 }

@@ -92,6 +92,7 @@ class CartManager {
     
             // Buscar el carrito por ID
             const cart = await cartModel.findOne({ _id: cartId });
+       
             if (!cart) {
                 return { message: "Carrito no encontrado" };
             }
@@ -102,13 +103,20 @@ class CartManager {
                 return { message: "Usuario no encontrado" };
             }
     
-            // Verificar si el carrito ya está asociado con el usuario
+            // Verificar si el carrito ya está asociado a un usuario
             const myCart = findUser.carts.find(cart => cart.cart.toString() === cartId.toString());
-            if (!myCart) {
-                // Asociar el carrito al usuario si no está ya asociado
-                findUser.carts.push({ cart: cartId });
-                await findUser.save();
-            }
+
+            if(!myCart){
+               const isAssociated = await userManager.isCartAssociated(cartId);
+               console.log("addCart2 -> myCart -> " + isAssociated)
+                if (!isAssociated) {
+                    //Asociar el carrito al usuario si no está ya asociado
+                    findUser.carts.push({ cart: cartId });
+                    await findUser.save();
+                }else if(isAssociated){
+                    return null;//{ message: "Producto no pudo ser agregado al carrito, porque el carrito no le pertenece." };   
+                }   
+            }  
     
             // Verificar si el producto ya está en el carrito
             const existeElProduct = cart.products.find(item => item.product.toString() === productId.toString());
