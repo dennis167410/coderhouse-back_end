@@ -1,4 +1,5 @@
 import {CartService} from '../repository/index.js';
+import { sendEmail } from '../routing/email.routes.js';
 
 export default class CartController{
     cartService;
@@ -48,6 +49,12 @@ export default class CartController{
             }
             )
           
+            sendEmail(
+                req.session.user,
+                "Ticket cerrado",
+                `${retorno}`
+            );
+
             return this.handleResponsePurcharse(req, res, {message: `${retorno}`}, 200); 
        
             /*return res

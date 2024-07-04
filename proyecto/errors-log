@@ -276,3 +276,5 @@
 {"level":"error","message":"El producto no pudo ser agregado al carrito."}
 {"level":"error","message":"El producto no pudo ser agregado al carrito."}
 {"level":"error","message":[{"__v":0,"_id":"6686d714174e25d3d4a8395d","amount":273,"code":"3","purchase_datetime":"2024-07-04T17:08:36.889Z","purchaser":"dennis.mrodriguezc@gmail.com"}]}
+{"level":"error","message":[{"__v":0,"_id":"6686e3515f1b0fdcfd30e926","amount":5300,"code":"4","purchase_datetime":"2024-07-04T18:00:49.813Z","purchaser":"plucas@gmail.com"}]}
+{"level":"error","message":[{"__v":0,"_id":"6686e4805f1b0fdcfd30e979","amount":2730,"code":"5","purchase_datetime":"2024-07-04T18:05:52.190Z","purchaser":"dennis.mrodriguezc@gmail.com"}]}
