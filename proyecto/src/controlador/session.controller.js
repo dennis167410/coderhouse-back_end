@@ -10,26 +10,17 @@ const login = async(req, res) => {
         const findUser = await userModel.findOne({email});
 
         if(!findUser){
-          /*  return res
-            .status(400)
-            .json({message: "Usuario no registrado."});
-            */
             return handleResponseLogin(req, res, {message: "Error, usuario no registrado."}, 400);
         }
 
         const isValidComparePassword = await isValidPasswd(password, findUser.password);
 
         if(!isValidComparePassword){
-         //   return res.status(400).json({message: "Credenciales no son válidas."});
-         return handleResponseLogin(req, res, {message: "Error, sus credenciales no son válidas."}, 400);
-    
+         return handleResponseLogin(req, res, {message: "Error, sus credenciales no son válidas."}, 400);    
         }
 
         findUser.last_connection = new Date();
         await findUser.save();
-
-
-       // req.logger.info(findUser)
 
         const userDto = new UserDto({
           first_name: findUser.first_name,
@@ -64,11 +55,8 @@ const login = async(req, res) => {
           }
         );
       
-
-    
-
     }catch(error){
-        console.log("Error de login, ", error);
+      return handleResponseLogin(req, res, {message: "Error de login."}, 400);
     } 
 }
 
@@ -82,6 +70,9 @@ const logout = async(req, res) => {
       findUser.last_connection = new Date();
       await findUser.save();
   }
+
+  // Limpiar la cookie
+    res.clearCookie('cookieToken');
 
     req.session.destroy(error => {
         if(!error) return res.redirect('/login');
@@ -102,16 +93,10 @@ async function obtenerEmail(token) {
 const recoverPasswd2 = async(req, res) => {
     try{
       const {new_password, email, token} = req.body;
-   /*   req.logger.info("token recibido en newPasswd ", new_password)
-      req.logger.info("token recibido en email ", email)
-      req.logger.info("token recibido en el token ", token)*/
 
   // Verificar y decodifica el token
   let emailRecibido = await obtenerEmail(token);
       if(!emailRecibido || emailRecibido == null){
-     /*   return res
-        .status(401)
-        .json({message: "Error, el token expiro. Consulte con el administrador."}); */
         return handleResponseRecover(req, res, {message: "Error, el token expiro. Consulte al administrador."}, 400);          
       }
 
@@ -121,9 +106,6 @@ const recoverPasswd2 = async(req, res) => {
     req.logger.info("Los emails coinciden.")
   }else{
     req.logger.error("Los emails no coinciden.");
-    /*return res
-    .status(401)
-    .json({message: "Error, los emails no coinciden."});*/
     return handleResponseLogin(req, res, {message: "Error, los mails no coinciden."}, 400);
   }
 
@@ -131,10 +113,6 @@ const recoverPasswd2 = async(req, res) => {
    const user = await userModel.findOne({email});
    
    if(!user){
-     /* return res
-      .status(401)
-      .json({message: "Las credenciales no son válidas o son erroneas."});
-      */
       return handleResponseRecover(req, res, {message: "Error, credenciales no son válidas o son erroneas."}, 400);
    }
 
@@ -150,11 +128,8 @@ const recoverPasswd2 = async(req, res) => {
 
    const updateUser = await userModel.findByIdAndUpdate(user._id, {password: newPasswdHasheado});
         if(!updateUser){
-           // return res.json({message: "Problemas al actualizar la contraseña."})
             return handleResponseRecover(req, res, {message: "Error, al intentar actualizar la contraseña."}, 404);
           }
-
-       // return handleResponseLogin(req, res, {message: "Error, al intentar registrar el usuario, existen datos nulos o vacíos."}, 400);
  
         return res.render("login");
   
@@ -183,23 +158,20 @@ const register = async(req, res) => {
     req.logger.info(first_name + " " + last_name + " " + email + " " +age + " " +password +" " + role);
 
     if(!email){
-     /* return res
-      .status(400)
-      .json({message: "Error al intentar registrar el usuario. Datos nulos o vacíos."});*/
       return handleResponse(req, res, {message: "Error, al intentar registrar el usuario, existen datos nulos o vacíos."}, 400);
     }
+
+    if(!email){
+       return handleResponse(req, res, {message: "Error, al intentar registrar el usuario, existen datos nulos o vacíos."}, 400);
+     }
 
     //Controla que el mail no exista en la base de datos.
     const user = await userModel.findOne({email});
     if(user){
-    /*  return res
-      .status(404)
-      .json({message: "Error, existe un usuario con ese email."});*/
       return handleResponse(req, res, {message: "Error, existe un usuario con ese email."}, 404);
     
     }
 
-    //Cambiar esto:
     let last_connection = new Date();
     const newUser = await userModel.create({
       first_name, 
@@ -212,29 +184,17 @@ const register = async(req, res) => {
     });
 
     if(!newUser){
-      /*return res
-      .status(400)
-      .json({message: "Error al intentar registrar el usuario. Datos nullos o vacíos."});*/
       return handleResponse(req, res, {message: "Error al intentar registrar el usuario. Datos nulos o vacíos."}, 400);
     }
-
-    //res.session.user = {email, role, id: newUser._id}
-    /*return res
-    .status(200)
-    .json({
-      message: "Usuario creado correctamente.",
-      user: newUser
-    })*/
-
    
     return handleResponse(req, res, {message: "Usuario registrado correctamente", user:newUser}, 200);
 
    }catch(error){
-      req.logger.error("Error de registro: ", error);
+      return handleResponse(req, res, {message: "Error al intentar registrar el usuario. Datos nulos o vacíos."}, 400);
    }
 }
 
-// Función para manejar la respuesta
+// Manejadores de respuestas
 const handleResponse = (req, res, response, statusCode) => {
   if (req.headers['content-type'] === 'application/json' || req.xhr) {
       return res.status(statusCode).json(response);
@@ -251,10 +211,6 @@ const handleResponseLogin = (req, res, response, statusCode) => {
   }
 };
 
-/*
- return res.redirect('/products/?first_name=' + (req.session?.user?.first_name) + '&last_name=' + (req.session?.user?.last_name) + '&email=' + (req.session?.user?.email) + '&age=' + (req.session?.user?.age) + '&rol='+req.session?.user?.rol);
-    
-*/
 const handleResponseLogin2 = (req, res, response, statusCode, cookieOptions = null) => {
   if (cookieOptions) {
     res.cookie(cookieOptions.name, cookieOptions.value, cookieOptions.options);
@@ -266,9 +222,7 @@ const handleResponseLogin2 = (req, res, response, statusCode, cookieOptions = nu
     return res
     .status(200)
     .redirect('/products/?first_name=' + ( req.session.user) + '&rol=' + (req.session.role));
- 
-    //res.status(statusCode).render('products', response);
-  }
+   }
 };
 
 const handleResponseRecover = (req, res, response, statusCode) => {

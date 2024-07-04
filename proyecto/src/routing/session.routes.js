@@ -12,7 +12,6 @@ router.get("/logout", sessionCtrol.logout);
 
 router.post("/recover-psw", sessionCtrol.recoverPasswd2);
 
-// FALTA: crear una estrategia local para el registro.
 router.post('/register', sessionCtrol.register);
 /*
 {
@@ -27,7 +26,6 @@ router.post('/register', sessionCtrol.register);
 
 // Agregar el Bearer token que me da la cookie del login
 //router.get("/current", checkAuthJwt("jwt"), sessionCtrol.getCurrent);
-
 router.get("/current", checkAuthJwt("jwt"), async (req, res) => {
   return res.json({ message: `Ver jwt en las cookies` });
 });

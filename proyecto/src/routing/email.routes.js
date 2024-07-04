@@ -19,7 +19,7 @@ const transporter = nodemailer.createTransport({
 });
 
 
-router.post("/send", async (req, res) => {
+router.post("/send", /*handlePolicies(["USER"]),*/ async (req, res) => {
   try {
     const email = req.body.email;
     req.logger.info(

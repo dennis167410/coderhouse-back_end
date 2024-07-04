@@ -36,8 +36,8 @@ POSMAN
 */
 
 // Crea un carrito con productos:
-router.post('/todo2', /*handlePolicies(["USER"]),*/ cartCtrol.creaCarritoConProductosDesdeLaVista);
-router.post('/todo', /*handlePolicies(["USER"]),*/ cartCtrol.creaCarritoConProductos);
+router.post('/todo2',handlePolicies(["USER"]), cartCtrol.creaCarritoConProductosDesdeLaVista);
+router.post('/todo', handlePolicies(["USER"]), cartCtrol.creaCarritoConProductos);
 /*
  // POSMAN - body:
         /*
@@ -63,7 +63,7 @@ router.get("/:cid", cartCtrol.getCartById);
 
 //Si el documento no existe, se insertará en el array products, de lo contrario se le sumará la cantidad
 /* Agrega el producto al arreglo “products” del carrito seleccionado. */
-router.post("/:cid/product/:pid", /*handlePolicies(["USER"]),*/ cartCtrol.updateCart);
+router.post("/:cid/product/:pid", handlePolicies(["USER", "PREMIUM"]), cartCtrol.updateCart);
 
 /*
 Deberá eliminar del carrito el producto seleccionado.
@@ -79,7 +79,7 @@ router.delete("/:cid/products/:pid", /*handlePolicies(["USER", "ADMIN", "PREMIUM
  ///////////////////////////////////////////////////////////////
 
  /* PUT api/carts/:cid 
- deberá actualizar el carrito con un arreglo de productos con el formato especificado arriba.
+ Deberá actualizar el carrito con un arreglo de productos con el formato especificado arriba.
  */
  router.put('/:cid', cartCtrol.updateCartByProduct); 
 

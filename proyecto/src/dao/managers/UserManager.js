@@ -62,7 +62,6 @@ export default class UserManager {
     getUserByEmail = async(unEmail) => { 
       try{  
          let userData = null;
-         console.log("USERDATA " + unEmail)
           try{
             userData = await userModel.findOne({email:unEmail})
             
@@ -152,7 +151,6 @@ export default class UserManager {
 
       deleteUserByEmail = async (userId) => {
         try {
-          console.log("user manager")
           let deleteUser = null;
           try{
             deleteUser = await userModel.deleteOne({ email: userId });

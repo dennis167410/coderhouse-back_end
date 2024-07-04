@@ -11,7 +11,7 @@ import { sendEmail } from '../routing/email.routes.js';
 
 // Función para eliminar usuarios inactivos
 const deleteInactiveUsers = async () => {
-    const thirtyMinutesAgo = new Date(Date.now() - 20 * 60 * 1000);
+    const thirtyMinutesAgo = new Date(Date.now() - 2 * 60 * 60 * 1000);
     try {
 
         const usersToDelete = await userModel.find({ last_connection: { $lt: thirtyMinutesAgo } });

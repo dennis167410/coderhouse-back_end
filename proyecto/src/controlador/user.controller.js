@@ -11,13 +11,7 @@ export default class UserController{
     getUsers = async(req, res) => {
         try{
             let users = await this.userService.getUsers();
-/*
-           req.logger.info(users);  
-            users.forEach((e) =>{
-              console.log(e)
-            }
-          )
-*/
+
        // return res.json({message: "Usuarios ", users: users});
         return this.handleResponse(req, res, {message: "Usuarios registrados", users}, 200);
         }catch(error){
@@ -28,23 +22,18 @@ export default class UserController{
 
     getUserById = async(req, res) => { 
         try{
-            const uId = req.params.userId;
-         
+            const uId = req.params.userId;         
             const userData = await this.userService.getUserById(uId);
     
             req.logger.info(userData)
-            
-              console.log(userData.email)
-            
+              
             if(!userData || userData === null){
                req.logger.error("Error usuario no encontrado o el formato del id no es válido.");
                return res.status(404).json({message: "Usuario no encontrado o formato del id no es válido."})
             }
 
             return this.handleResponse(req, res, {user:userData}, 200);
-      
-           // return res.json({message: "Usuario ", user: userData});
-    
+          
         }catch(error){
             req.logger.error("Error: ", error);
         }
@@ -132,7 +121,8 @@ export default class UserController{
     
             // Verificar si el nuevo rol es válido
             if (role !== "USER" && role !== "PREMIUM") {
-                return res.status(400).json({ message: 'Rol no válido' });
+                return res.status(400).json({ message: 'Error, rol no es válido' });
+    
             }
             
             // Actualizar el rol del usuario
