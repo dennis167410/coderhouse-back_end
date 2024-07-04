@@ -4,6 +4,7 @@ import passport from "passport";
 
 import ProductManager from '../dao/managers/ProductManager.js';
 import authMdw from'../middleware/auth.middleware.js';
+import handlePolicies from '../middleware/handle-policies.middleware.js';
 
 const router = Router();
 
@@ -53,11 +54,18 @@ router.get("/profile",authMdw ,async(req, res) => {
 })
 
 // A esta ruta solo pueden ingresar el adminiatrador:
-router.get("/users", async(req, res) => {
+router.get("/users",handlePolicies(['ADMIN']),  async(req, res) => {
     const user = req.session.user;
-    res.render("users", {
+    if(!user)
+        return handleResponse(req, res, {message: "Error interno del servidor... "}, 500);
+    
+    
+    return handleResponse(req, res, {message: "ok "}, 200);
+    
+    
+    /*res.render("users", {
         user,
-    });
+    });*/
 })
 
 router.get("/products", authMdw, async (req, res) => {
@@ -120,5 +128,13 @@ router.post('/purcharse', (req, res) => {
             selectedProducts: selectedProducts
         });
 });
+
+const handleResponse = (req, res, response, statusCode) => {
+    if (req.headers['content-type'] === 'application/json' || req.xhr) {
+        return res.status(statusCode).json(response);
+    } else {
+        return res.status(statusCode).render('users', response);
+    }
+  };
 
 export default router;

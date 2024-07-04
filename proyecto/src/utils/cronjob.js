@@ -11,10 +11,13 @@ import { sendEmail } from '../routing/email.routes.js';
 
 // Función para eliminar usuarios inactivos
 const deleteInactiveUsers = async () => {
-    const thirtyMinutesAgo = new Date(Date.now() - 2 * 60 * 60 * 1000);
+   // const thirtyMinutesAgo = new Date(Date.now() - 30 * 60 * 1000); // 30 minutos
+    const twoDaysAgo = new Date(Date.now() - 2 * 24 * 60 * 60 * 1000); // 2 días
+
+   // const twoHoursAgo = new Date(Date.now() - 2 * 60 * 60 * 1000); // 2hs
     try {
 
-        const usersToDelete = await userModel.find({ last_connection: { $lt: thirtyMinutesAgo } });
+        const usersToDelete = await userModel.find({ last_connection: { $lt: twoDaysAgo} });
         
         console.log(usersToDelete)
 
@@ -28,8 +31,8 @@ const deleteInactiveUsers = async () => {
                 );
             });
         }
-
-        const result = await userModel.deleteMany({ last_connection: { $lt: thirtyMinutesAgo } });
+       // const result = await userModel.deleteMany({ last_connection: { $lt: thirtyMinutesAgo } })
+        const result = await userModel.deleteMany({ last_connection: { $lt: twoDaysAgo} });
         let fecha = new Date();
         console.log("Fecha actual = " + fecha)
         console.log(`${result.deletedCount} usuarios inactivos eliminados.`);
@@ -41,7 +44,7 @@ const deleteInactiveUsers = async () => {
 const setupCronJobs = () => {
     // La tarea para que se ejecute cada minuto
     cron.schedule('* * * * *', deleteInactiveUsers);
-    console.log('Tarea cron configurada para eliminar usuarios inactivos cada minuto.');
+    console.log('Tarea cron configurada para eliminar usuarios inactivos, se ejecuta cada minuto.');
 };
 
 export default setupCronJobs;

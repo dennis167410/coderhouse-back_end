@@ -275,3 +275,4 @@
 {"level":"error","message":"El producto no pudo ser agregado al carrito."}
 {"level":"error","message":"El producto no pudo ser agregado al carrito."}
 {"level":"error","message":"El producto no pudo ser agregado al carrito."}
+{"level":"error","message":[{"__v":0,"_id":"6686d714174e25d3d4a8395d","amount":273,"code":"3","purchase_datetime":"2024-07-04T17:08:36.889Z","purchaser":"dennis.mrodriguezc@gmail.com"}]}

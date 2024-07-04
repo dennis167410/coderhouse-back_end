@@ -177,6 +177,5 @@ export default class UserController{
             return res.status(statusCode).render('users', response);
         }
       };
-     
 }
 
