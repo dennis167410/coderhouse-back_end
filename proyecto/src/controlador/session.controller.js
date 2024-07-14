@@ -9,6 +9,8 @@ const login = async(req, res) => {
 
         const findUser = await userModel.findOne({email});
 
+        req.logger.info("FINDUSER = " + findUser)
+
         if(!findUser){
             return handleResponseLogin(req, res, {message: "Error, usuario no registrado."}, 400);
         }
@@ -157,14 +159,11 @@ const register = async(req, res) => {
 
     req.logger.info(first_name + " " + last_name + " " + email + " " +age + " " +password +" " + role);
 
-    if(!email){
+    if(!email || !password){
       return handleResponse(req, res, {message: "Error, al intentar registrar el usuario, existen datos nulos o vacíos."}, 400);
     }
 
-    if(!email){
-       return handleResponse(req, res, {message: "Error, al intentar registrar el usuario, existen datos nulos o vacíos."}, 400);
-     }
-
+  
     //Controla que el mail no exista en la base de datos.
     const user = await userModel.findOne({email});
     if(user){
