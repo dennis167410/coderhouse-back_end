@@ -9,7 +9,6 @@ const login = async(req, res) => {
 
         const findUser = await userModel.findOne({email});
 
-        req.logger.info("FINDUSER = " + findUser)
 
         if(!findUser){
             return handleResponseLogin(req, res, {message: "Error, usuario no registrado."}, 400);
@@ -34,14 +33,7 @@ const login = async(req, res) => {
         const token = await generateJWT({userDto});
         req.session.user = userDto.email;
         req.session.role = userDto.role;
-        /*return res
-        .cookie("cookieToken", token, {
-          maxAge: 60*60*1000,
-          httpOnly: true, 
-        })
-        .send({message: "Felicitaciones, te haz logueado correctamente. Levantá el token en las cookies."})
-    */
-
+  
         return handleResponseLogin2(
           req,
           res,
@@ -92,7 +84,7 @@ async function obtenerEmail(token) {
   }
 }
 
-const recoverPasswd2 = async(req, res) => {
+const recoverPasswd = async(req, res) => {
     try{
       const {new_password, email, token} = req.body;
 
@@ -133,10 +125,12 @@ const recoverPasswd2 = async(req, res) => {
             return handleResponseRecover(req, res, {message: "Error, al intentar actualizar la contraseña."}, 404);
           }
  
-        return res.render("login");
+          return handleResponseRecover2(req, res, {message: "Se actualizó correctamente la contraseña."}, 200);
+          //return res.render("login");
   
     }catch(error){
         req.logger.error("Error, ", error);
+        return handleResponseRecover(req, res, {message: "Error interno al intentar registrar el usuario"}, 500);
     }   
 }
 
@@ -233,11 +227,19 @@ const handleResponseRecover = (req, res, response, statusCode) => {
 
 };
 
+const handleResponseRecover2 = (req, res, response, statusCode) => {
+  if (req.headers['content-type'] === 'application/json' || req.xhr) {
+      return res.status(statusCode).json(response);
+  } else {
+      return res.status(statusCode).render('login', response);
+  }
+
+};
 
 export default {
   login, 
   logout,
-  recoverPasswd2,
+  recoverPasswd,
   register,
 }
 

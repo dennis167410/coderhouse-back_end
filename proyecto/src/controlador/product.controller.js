@@ -64,7 +64,16 @@ export default class ProductController{
 createProduct = async(req, res) => {
     try{
        const productData = req.body; 
-    
+       const {title, description, code, price, status, stock, category, thumbnails, owner} = productData;
+
+       req.logger.info(title + " " + description + " " + code + " " + price + " " + status + " " + stock + " " + category + " " + thumbnails + " " + owner) 
+
+       if(!code || !title || !description || !price || !status || !stock || !category) return res
+       .status(404)
+       .json({
+           message: 'Datos nulos o vacíos.'
+       });
+
        const result = await this.productService.addProducts(productData, req.session.user, req.session.role); 
         
         if(!result){

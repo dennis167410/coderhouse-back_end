@@ -10,7 +10,7 @@ router.post('/login', sessionCtrol.login);
 
 router.get("/logout", sessionCtrol.logout);
 
-router.post("/recover-psw", sessionCtrol.recoverPasswd2);
+router.post("/recover-psw", sessionCtrol.recoverPasswd);
 
 router.post('/register', sessionCtrol.register);
 /*

@@ -80,9 +80,7 @@ class ProductManager {
     }
 
     addProducts = async (productData, user, userRole) => {
-        
         try{
-
             const {title, description, code, price, status, stock, category, thumbnails, owner} = productData;
 
             const product = await productModel.findOne({code:code})
