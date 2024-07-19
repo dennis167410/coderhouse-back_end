@@ -4,7 +4,7 @@ import supertest from "supertest";
 const BASE_API_URL = "http://localhost:8080";
 const SESSION_ROUTE = "/api/session";
 
-describe("Test funcional para los endpoints de session", () => {
+describe("Test funcional para los endpoints de session - POST", () => {
     let requester = supertest(`${BASE_API_URL}`);  
 
     it("TEST POST /api/sesssion recovery password con error, NO se ingresó email, contraseña ni token, deberá retornar un codigo 400 ", async () => {   

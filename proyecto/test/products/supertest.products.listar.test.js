@@ -4,7 +4,7 @@ import supertest from "supertest";
 const BASE_API_URL = "http://localhost:8080";
 const PRODUCTS_ROUTE = "/api/products";
 
-describe("Test funcional para los endpoints de Productos", () => {
+describe("Test funcional para los endpoints de Productos - GET", () => {
     let requester = supertest(`${BASE_API_URL}`);  
 
     it("TEST GET /api/products listar todos los productos, deberá responder código 200", async () => {
@@ -24,7 +24,6 @@ describe("Test funcional para los endpoints de Productos", () => {
       expect(_body).to.be.an('object');
     });
     
-
     
     it("TEST GET /api/products listar producto por id, producto no existe, deberá responder código 404", async () => {
       let pid = '664f47a765f03397c26e2481';
@@ -35,5 +34,13 @@ describe("Test funcional para los endpoints de Productos", () => {
       expect(_body).to.be.an('object'); 
     });
   
+    it("TEST GET /api/products listar producto por id, formato del id no es válido, deberá responder código 500", async () => {
+      let pid = '664f47a765f03397c26e248';
+  
+      const { statusCode, ok, _body } = await requester.get(`${PRODUCTS_ROUTE}/${pid}`);
+  
+      expect(ok).to.be.false;
+      expect(statusCode).to.eq(500);
+    });
   
 });

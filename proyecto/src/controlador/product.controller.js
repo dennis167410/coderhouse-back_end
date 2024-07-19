@@ -2,7 +2,7 @@
 import {UserService} from '../repository/index.js';
 import {ProductService} from '../repository/index.js';
 import { sendEmail } from '../routing/email.routes.js';
-
+import { ObjectId} from 'mongodb';
 export default class ProductController{
     productService;
     userService;
@@ -11,7 +11,6 @@ export default class ProductController{
         this.productService = ProductService;
         this.userService = UserService;
     }
-
 
  getAllProducts = async(req, res) => {
     try{
@@ -101,6 +100,12 @@ createProduct = async(req, res) => {
 getProductById = async( req, res) =>{
     try{
         const productId = req.params.pid;
+      
+        if (!ObjectId.isValid(productId)) {
+            req.logger.error('El formato del ID no es válido');
+            return this.handleResponse(req, res, {message: "Error, El formato del ID no es válido."}, 500);          
+        }
+
         const product = await this.productService.getProductById(productId); 
 
         if(!product || product.length == 0){

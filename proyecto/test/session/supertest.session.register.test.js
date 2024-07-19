@@ -5,7 +5,7 @@ const BASE_API_URL = "http://localhost:8080";
 const SESSION_ROUTE = "/api/session";
 
 //video c21_p3 29:35
-describe("Test funcional para los endpoints de session", () => {
+describe("Test funcional para los endpoints de session - POST", () => {
     let requester = supertest(`${BASE_API_URL}`);  
  
  // LOGIN - Usuario No registrado, datos nulos o vacíos.
