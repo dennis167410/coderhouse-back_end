@@ -9,8 +9,9 @@
     "test:login": "mocha test/session/supertest.session.login.test.js",
     "test:register": "mocha test/session/supertest.session.register.test.js",
     "test:recover": "mocha test/session/supertest.session.recoverpswd.test.js",
-    "test:prodcrear": "mocha test/products/supertest.products.crear.test.js",
-    "test:prodlistar": "mocha test/products/supertest.products.listar.test.js",
+    "test:prodadd": "mocha test/products/supertest.products.add.test.js",
+    "test:prodlist": "mocha test/products/supertest.products.listar.test.js",
+    "test:produpdate": "mocha test/products/supertest.products.update.test.js",
     "test:watch": "npm run test -- --watch"
   },
   "keywords": [],

@@ -2,6 +2,8 @@ import productModel from'../model/product.model.js';
 
 class ProductManager {
 
+    validFields = ['title', 'description', 'code', 'price', 'status', 'stock', 'category', 'thumbnails', 'owner'];
+
     constructor(dao){
         this.dao = dao; 
     }
@@ -113,6 +115,13 @@ class ProductManager {
 
 
     updateProduct = async (pId, datos) => { 
+        
+        const invalidFields = Object.keys(datos).filter(key => !this.validFields.includes(key));
+        if (invalidFields.length > 0) {
+           return null;
+            // throw new Error(`Campos inválidos: ${invalidFields.join(', ')}`);
+        }
+
         try{           
             await productModel.updateOne(
                 {_id: pId},

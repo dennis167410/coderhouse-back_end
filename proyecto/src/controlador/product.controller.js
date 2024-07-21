@@ -277,27 +277,40 @@ En el body:
     try{
         const productId =  req.params.pid;
     
+        req.logger.info("PID = " + productId)
+        if (!ObjectId.isValid(productId)) {
+            req.logger.error('El formato del ID no es válido');
+            return this.handleResponse(req, res, {message: "Error, El formato del ID no es válido."}, 500);          
+        }
+
         const product = await this.productService.updateProduct(productId, req.body); 
-       
+
+        
         if(!product){
             req.logger.info("El producto no existe, por tal motivo no pudo ser actualizado.");
-            return res
+           /* return res
             .status(400)
             .json({
                 ok: false,
                 message: 'El producto no existe, por tal motivo no pudo ser actualizado.'
-            })     
+            })*/
+            return this.handleResponse(req, res, {message: "El producto no existe, por tal motivo no pudo ser actualizado."}, 400);            
         }
 
-        return res
+      /*  return res
         .status(200)
         .json({
             ok: true,
             message: 'Producto actualizado.',
             product,
         })
+        */
+        return this.handleResponse(req, res, {message: "El producto actualizado."}, 200);          
+        
+
     }catch(error){
        req.logger.error("Error, ", error)
+       return this.handleResponse(req, res, {message: "Error interno del servidor."}, 500);          
     }
 }
 
