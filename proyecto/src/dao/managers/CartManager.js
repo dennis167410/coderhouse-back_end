@@ -184,7 +184,11 @@ class CartManager {
          
             for (const unP of products) {
                 const product = await productManager.getProductById(unP.id);
-            
+
+                if (!ObjectId.isValid(unP.id)) {
+                    req.logger.error('El formato del ID no es válido');
+                    return this.handleResponse(req, res, {message: "Error, El formato del ID no es válido."}, 500);          
+                }
 
                 if (product && product.length > 0 ){// product.every(p => p.stock >= unP.quantity)) {
                     newCart.products.push({product: unP.id, quantity: unP.quantity})

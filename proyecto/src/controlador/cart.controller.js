@@ -177,7 +177,7 @@ creaCarritoConProductosDesdeLaVista = async(req, res) => {
 
         try{
 
-            const { products} = req.body;
+           const { products} = req.body;
                    
            // let newCart = await this.cartService.addCart3(cartBody); 
            let newCart = await this.cartService.addCart3(products, req.session.user); 

@@ -33,7 +33,13 @@ class ProductManager {
     }
 
     getProductById = async (unPid) => {
-        try{
+        try {
+            const product = await productModel.findById(unPid); 
+            return product; 
+        } catch (error) {
+            return null;
+        }
+        /* try{
             try{
             const products = await productModel.find({_id: unPid});
             return products;
@@ -41,8 +47,8 @@ class ProductManager {
                 return null;
             }
         }catch(error){
-           
-        }
+            return null;
+        }*/
     }
 
     productsByCategory = async (unaCat, miCriterio) => {
@@ -109,7 +115,7 @@ class ProductManager {
             const products = await productModel.deleteOne({_id: unPid});
             return products;
         }catch(error){
-           
+           return null;
         }
     }
 

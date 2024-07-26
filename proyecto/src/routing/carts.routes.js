@@ -13,7 +13,7 @@ router.post('/:cid/purchase', cartCtrol.finalizePurchase)
 router.post('/', cartCtrol.createCart);
 
 // Agrega un producto al carrito. El mail del USER debe ser igual al mail del dueño del carrito. 
-router.post('/agregar', handlePolicies(["USER", "PREMIUM"]), cartCtrol.agregaProductoAlCarrito); 
+router.post('/agregar', /*handlePolicies(["USER", "PREMIUM"]),*/ cartCtrol.agregaProductoAlCarrito); 
 /*
 POSMAN
 {
@@ -37,7 +37,7 @@ POSMAN
 
 // Crea un carrito con productos:
 router.post('/todo2',handlePolicies(["USER", "PREMIUM"]), cartCtrol.creaCarritoConProductosDesdeLaVista);
-router.post('/todo', handlePolicies(["USER", "PREMIUM"]), cartCtrol.creaCarritoConProductos);
+router.post('/todo', /*handlePolicies(["USER", "PREMIUM"]),*/ cartCtrol.creaCarritoConProductos);
 /*
  // POSMAN - body:
         /*

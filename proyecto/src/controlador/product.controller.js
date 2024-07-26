@@ -191,39 +191,69 @@ productsByDispo = async(req, res) => {
 
 deleteProductById = async(req, res) => {
     try{
+
+        //Solo para supertest:
+        //req.session.user = "ADMIN";
+        //req.session.role = "ADMIN";
+        ///////////////////////////
+
         const productId = req.params.pid;
+
+        req.logger.info("productId = "+ productId);
+
+        if (!ObjectId.isValid(productId)) {
+            req.logger.error('El formato del ID no es válido');
+            return this.handleResponse(req, res, {message: "Error, El formato del ID no es válido."}, 500);          
+        }
 
         const product = await this.productService.getProductById(productId);
 
+        req.logger.info("product find = " + product)
+
         if(!product){
             req.logger.info("El producto no existe.");
-            return res
+           /* return res
             .status(404)
             .json({
                 ok: true,
                 message: 'El producto no existe...'
-            })
+            })*/
+            return this.handleResponse(req, res, {ok: false, message: "Error, el producto no existe."}, 404);          
         }
 
-        let owner =  product[0].owner;
+        req.logger.info("product.owner = " + product.owner);
+        let owner =  product.owner;
 
         req.logger.info("Dueño del producto = " + owner)
+        req.logger.info("Rol del usuario logueado = " + req.session.role)
 
         if(req.session.role === "PREMIUM"){
-            if(req.session.user === product[0].owner){
+            if(req.session.user === product.owner){
                 req.logger.info("Es premium y es el dueño del producto.")
             }else{
                 req.logger.warning("Usted es cliente PREMIUM, pero NO eres el dueño del producto.")
-                return res
+                return this.handleResponse(req, res, {ok: false, message: "Usted es cliente PREMIUM, pero NO es el dueño del producto."}, 401);          
+ 
+                /*return res
                 .status(401)
                 .json({
-                    ok: true,
+                    ok: false,
                     message: 'Usted es cliente PREMIUM, pero NO es el dueño del producto.'
-                })
+                })*/
             }
         }
 
-        const findUser = await this.userService.getUserByEmail(owner);
+        let findUser = "";
+
+        if(req.session.role === "PREMIUM"){
+            findUser = await this.userService.getUserByEmail(owner);
+        }
+
+        if(req.session.role === "ADMIN"){
+            findUser = await this.userService.getUserByRole(owner);
+        }
+
+        req.logger.info("findUser = " + findUser)
 
         if(req.session.role === "ADMIN"){
             req.logger.info("findUser en delete = " + findUser);
@@ -245,7 +275,7 @@ deleteProductById = async(req, res) => {
             sendEmail(
                 req.session.user,
                 "Aviso de producto eliminado",
-                `Hola, el producto ${product[0].title} fue eliminado por ${ req.session.user}.`
+                `Hola, el producto ${product.title} fue eliminado por ${ req.session.user}.`
             );
         }
 
@@ -256,8 +286,11 @@ deleteProductById = async(req, res) => {
             message: 'Producto eliminado.',
             productDeleted,
         })
+    
     }catch(error){
         req.logger.error("Error ", error);
+        return this.handleResponse(req, res, {message: "Error interno del servidor."}, 500);          
+     
     }
 }
 

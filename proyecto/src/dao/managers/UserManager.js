@@ -78,6 +78,26 @@ export default class UserManager {
   }
 
 
+  getUserByRole = async(unRol)=> { 
+    try{  
+       let userData = null;
+        try{
+          userData = await userModel.findOne({role:unRol})
+          
+        }catch(error){ }
+        if(!userData){
+           return null;
+        }
+
+        return userData;
+
+    }catch(error){
+      
+    }
+}
+
+
+
   addCartInUserPorVista = async(userId, cartId) => {
     let r = await this.getUserByEmail(userId);
     
