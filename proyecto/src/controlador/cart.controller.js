@@ -1,5 +1,6 @@
 import {CartService} from '../repository/index.js';
 import { sendEmail } from '../routing/email.routes.js';
+import { ObjectId} from 'mongodb';
 
 export default class CartController{
     cartService;
@@ -132,6 +133,13 @@ creaCarritoConProductosDesdeLaVista = async(req, res) => {
                 const cartData2 = req.body;
                 req.logger.info("Agrega desde la vista = " + cartData2)
 
+                for(const unP of cartData2){
+                    if (!ObjectId.isValid(unP.id)) {
+                        console.error('El formato del ID no es válido');
+                        return this.handleResponse(req, res, {message: "Error, El formato del ID no es válido."}, 500);          
+                    }
+                }
+
                let newCart = await this.cartService.addCart4(cartData2, req.session.user, req.session.role); 
     
                 if(!newCart || newCart === null){
@@ -175,12 +183,30 @@ creaCarritoConProductosDesdeLaVista = async(req, res) => {
         }
         */
 
+        let newCart;
         try{
 
            const { products} = req.body;
-                   
+            
+           
+           for(const unP of products){
+            if (!ObjectId.isValid(unP.id)) {
+                console.error('El formato del ID no es válido');
+                return this.handleResponse(req, res, {message: "Error, El formato del ID no es válido."}, 500);          
+            }
+        }
+
+            const productosConCantidadValida = products.filter(product => product.quantity > 0);
+
+            console.log("largo = " + productosConCantidadValida.length)
+         
+             //Para supertest:
+             req.session.user = "dennis@gmail.com";
+
            // let newCart = await this.cartService.addCart3(cartBody); 
-           let newCart = await this.cartService.addCart3(products, req.session.user); 
+           newCart = await this.cartService.addCart3(productosConCantidadValida, req.session.user); 
+
+           req.logger.info("newCart = " + newCart)
 
             if(!newCart || newCart === null){
                 return res
@@ -197,7 +223,15 @@ creaCarritoConProductosDesdeLaVista = async(req, res) => {
                 cart: newCart
            })     
         }catch(error){
-            req.logger.error("Error... ", error)
+            try {
+            if (newCart && newCart._id) {
+                await cartModel.deleteOne({ _id: newCart._id });
+            }
+        } catch (deleteError) {
+            req.logger.error('Error al eliminar el carrito:', deleteError);
+        }
+        req.logger.error('Error ->', error);
+        return null;
         }
 }
 
@@ -374,6 +408,14 @@ creaCarritoConProductosDesdeLaVista = async(req, res) => {
                     return res.status(statusCode).json(response);
                 } else {
                     return res.status(statusCode).render('purcharse', response);
+                }
+              };
+
+              handleResponse = (req, res, response, statusCode) => {
+                if (req.headers['content-type'] === 'application/json' || req.xhr) {
+                    return res.status(statusCode).json(response);
+                } else {
+                    return res.status(statusCode).render('cart', response);
                 }
               };
  }

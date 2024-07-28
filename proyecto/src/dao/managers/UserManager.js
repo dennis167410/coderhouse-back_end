@@ -106,6 +106,47 @@ export default class UserManager {
   }
 
   addCartInUser = async(userId, cartId) => {
+    try {
+        // Buscar usuario
+        let datosDelUsuario = await userModel.findById({ _id: userId });
+        if (!datosDelUsuario) {
+            return null;
+        }
+
+        let cartService = new CartManager();
+        let carritoFueCreado = await cartService.getCartById(cartId);
+        if (!carritoFueCreado) {
+            return null;
+        }
+
+        console.log("carritoFueCreado = " + carritoFueCreado);
+
+        const carritoExistente = datosDelUsuario.carts.find(cart => cart.cart.toString() === cartId);
+
+        if (carritoExistente) {
+            console.log("El carrito ya estaba agregado");
+            return datosDelUsuario;
+        }
+
+        // Agregar el carrito al array
+        datosDelUsuario.carts.push({ cart: cartId });
+
+        const usuarioActualizado = await userModel.updateOne(
+            { _id: userId },
+            { $set: { carts: datosDelUsuario.carts } }
+        );
+
+        console.log("Carrito asociado con éxito");
+        return usuarioActualizado;
+    } catch (error) {
+        console.log("Error al intentar agregar el carrito al usuario. ", error);
+        return null;
+    }
+};
+
+
+
+  addCartInUser_resplado = async(userId, cartId) => {
     
     try{
       // BUSCAR USUARIO

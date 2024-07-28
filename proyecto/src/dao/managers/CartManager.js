@@ -176,44 +176,62 @@ class CartManager {
     */
     
     addCart3 = async (products, user) => {
+        let newCart;
         try {
-            let newCart = await cartModel.create({});
-            
+            newCart = await cartModel.create({});
+                    
             let r1 = await userManager.getUserByEmail(user);
-            let r =  await userManager.addCartInUser(r1._id, newCart._id);
+            console.log("r1 = " + r1)
          
             for (const unP of products) {
+                console.log("unP en  add = " + unP.id)
                 const product = await productManager.getProductById(unP.id);
-
-                if (!ObjectId.isValid(unP.id)) {
-                    req.logger.error('El formato del ID no es válido');
+                console.log("product en add = " + product)
+  /*              if (!ObjectId.isValid(unP.id)) {
+                    console.error('El formato del ID no es válido');
+                    await cartModel.deleteOne({ _id: newCart._id });
                     return this.handleResponse(req, res, {message: "Error, El formato del ID no es válido."}, 500);          
                 }
-
-                if (product && product.length > 0 ){// product.every(p => p.stock >= unP.quantity)) {
+*/
+                console.log("product = " + product);
+                console.log("largo = " +product.length > 0)
+                console.log("comprobacion = " + product && product.length > 0)
+                if (product){// product.every(p => p.stock >= unP.quantity)) {
                     newCart.products.push({product: unP.id, quantity: unP.quantity})
                     //const product2 = await productManager.discountStock(unP.product, unP.quantity);
                     //pDisponibles.push({ productId: unP.product, quantity: unP.quantity });
                   }
                 }
-        
-           
-                
+       
             if(!newCart.products || newCart.products.length ==0){
+                console.log("en !newCart")
                await cartModel.deleteOne({ _id: newCart._id });
                return null;
             }else{
 
-            let r = await cartModel.updateOne({_id:newCart._id}, newCart)
-            return r;
+                await cartModel.updateOne({ _id: newCart._id }, newCart);
+                await userManager.addCartInUser(r1._id, newCart._id); // Solo llamamos a addCartInUser aquí una vez
+                return newCart;
+           /* let r = await cartModel.updateOne({_id:newCart._id}, newCart)
+            await userManager.addCartInUser(r1._id, newCart._id);
+         
+            return r;*/
             }
         } catch (error) {
+            try {
+                if (newCart && newCart._id) {
+                    await cartModel.deleteOne({ _id: newCart._id });
+                }
+            } catch (deleteError) {
+                req.logger.error('Error al eliminar el carrito:', deleteError);
+            }
+            console.error('Error -> ', error);
             return null;
-            
         }
     };
 
 
+    
     addCart4 = async (cartData, userId, rol) => {
         try {
             let newCart = await cartModel.create({});
