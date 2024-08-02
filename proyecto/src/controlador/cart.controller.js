@@ -187,7 +187,8 @@ creaCarritoConProductosDesdeLaVista = async(req, res) => {
         try{
 
            const { products} = req.body;
-            
+           
+           req.logger.info(products)
            
            for(const unP of products){
             if (!ObjectId.isValid(unP.id)) {
@@ -254,6 +255,12 @@ creaCarritoConProductosDesdeLaVista = async(req, res) => {
  getCartById = async(req, res) =>{
     try{
         const cartId = req.params.cid;
+        
+        if (!ObjectId.isValid(cartId)) {
+            req.logger.error('El formato del ID no es válido');
+            return this.handleResponse(req, res, {message: "Error, El formato del ID no es válido."}, 500);          
+        }
+
         const cart = await this.cartService.getCartById(cartId); 
 
         console.log(cart)

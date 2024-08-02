@@ -78,23 +78,50 @@ describe("Test funcional para los endpoints de Productos - POST", () => {
   });
 
 
+  it("TEST POST /api/carts - Cart con error, el producto o los productos no existe, deberá retornar código 400", async () => {
+    const bodyCart= [
+      {
+          id: "668619938e7e75844d249122",
+          quantity: 1
+      },
+      {
+          id: "668619938e7e75844d249129",
+          quantity: 2
+      }
+    ]
 
-/*
-  it("TEST POST /api/carts - Cart con error, el prodcuto o los productos no existe, deberá retornar código 404", async () => {
-      
+    const { statusCode, ok, _body } = await requester
+    .post(`${CARTS_ROUTE}/todo`)
+    .send({ products: bodyCart });
+
+    expect(ok).to.be.false; 
+    expect(statusCode).to.eq(400);
+    
   });
 
-  it("TEST POST /api/carts - Cart con error, al producto o los productos le faltan datos, deberá retornar código 404", async () => {
-      
-  });
-
-  it("TEST POST /api/carts - Cart con error, el o los campos no existen, deberá retornar código 404", async () => {
-      
-  });
-
+  
   it("TEST POST /api/carts - Cart creado correctamente, deberá retornar código 200", async () => {
-      
+  
+    const bodyCart= [
+      {
+          id: "668619da8e7e75844d249133",
+          quantity: 3
+      },
+      {
+          id: "668619938e7e75844d249128",
+          quantity: 2
+      }
+    ]
+
+    const { statusCode, ok, _body } = await requester
+    .post(`${CARTS_ROUTE}/todo`)
+    .send({ products: bodyCart });
+
+    console.log(statusCode + " body = " +_body)
+    expect(ok).to.be.true; 
+    expect(statusCode).to.eq(200);
+
   });
-*/
+
 
 });

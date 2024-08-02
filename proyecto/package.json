@@ -14,7 +14,7 @@
     "test:produpdate": "mocha test/products/supertest.products.update.test.js",
     "test:proddelete": "mocha test/products/supertest.products.delete.test.js",
     "test:cartadd": "mocha test/carts/supertest.carts.add.test.js",
-
+    "test:cartget": "mocha test/carts/supertest.carts.get.test.js",
     "test:watch": "npm run test -- --watch"
   },
   "keywords": [],
