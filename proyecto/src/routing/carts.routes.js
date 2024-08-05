@@ -68,13 +68,13 @@ router.post("/:cid/product/:pid", handlePolicies(["USER", "PREMIUM"]), cartCtrol
 /*
 Deberá eliminar del carrito el producto seleccionado.
 */
-router.delete("/:cid/products/:pid", handlePolicies(["USER", "ADMIN", "PREMIUM"]), cartCtrol.deleteCart);
+router.delete("/:cid/products/:pid",/* handlePolicies(["USER", "ADMIN", "PREMIUM"]),*/ cartCtrol.deleteCart);
 
 //////////////////////////////////////////////////
 
  /* DELETE api/carts/:cid 
   Deberá eliminar todos los productos del carrito */
-  router.delete("/:cid", handlePolicies(["USER", "ADMIN", "PREMIUM"]), cartCtrol.deleteAllProductByCartId);
+  router.delete("/:cid",/* handlePolicies(["USER", "ADMIN", "PREMIUM"]),*/ cartCtrol.deleteAllProductByCartId);
     
  ///////////////////////////////////////////////////////////////
 
@@ -89,6 +89,6 @@ router.delete("/:cid/products/:pid", handlePolicies(["USER", "ADMIN", "PREMIUM"]
  Deberá poder actualizar SÓLO la cantidad de ejemplares del producto por cualquier cantidad pasada desde req.body.
  Si el producto no existe le agrega el producto con la cantidad, de lo contrario incrementa su cantidad.
  */
- router.put("/:cid/products/:pid", handlePolicies(["USER","PREMIUN","ADMIN"]), cartCtrol.updateQuantity);
+ router.put("/:cid/products/:pid", /*handlePolicies(["USER","PREMIUN","ADMIN"]),*/ cartCtrol.updateQuantity);
    
 export default router;

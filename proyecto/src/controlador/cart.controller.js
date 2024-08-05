@@ -263,7 +263,7 @@ creaCarritoConProductosDesdeLaVista = async(req, res) => {
 
         const cart = await this.cartService.getCartById(cartId); 
 
-        console.log(cart)
+        req.logger.info(cart)
         if(!cart || cart == null){
             req.logger.error("El carrito no existe");
             return res
@@ -283,6 +283,8 @@ creaCarritoConProductosDesdeLaVista = async(req, res) => {
         })       
     }catch(error){
         res.logger.error("Error... ", error)
+        return this.handleResponse(req, res, {message: "Error, El formato del ID no es válido."}, 500);          
+  
     }
 }
 
@@ -351,18 +353,31 @@ creaCarritoConProductosDesdeLaVista = async(req, res) => {
          deleteAllProductByCartId = async(req, res) =>{
             try{
                 const cId =  req.params.cid;
-            
+                req.logger.info("CID = " + cId);
+
+                if (!ObjectId.isValid(cId)) {
+                    req.logger.error('El formato del ID no es válido');
+                    return this.handleResponse(req, res, {message: "Error, El formato del ID no es válido."}, 500);          
+                }
+
                 const respuesta = await this.cartService.deleteAllProductByCartId(cId); 
                 
-                if(respuesta === null){
-                    return res
+                req.logger.info("respuesta = " + respuesta);
+
+                if(!respuesta || respuesta === null || respuesta === undefined){
+                    req.logger.info("Error al intenar vaciar el carrtio");
+
+                    return this.handleResponse(req, res, {message: "Error al intentar vaciar el carrito."}, 400);          
+             /*       return res
                     .status(400)
-                    .json({ok: false, message: "Error al intentar vaciar el carrito."}); 
+                    .json({ok: false, message: "Error al intentar vaciar el carrito."}); */
                 }
                 
-                return res
-                .status(200)
-                .json({ok: true, message: "Fueron eliminados todos los productos del carrito.", Carrito: respuesta});
+                return this.handleResponse(req, res, {ok: true, message: "Fueron eliminados todos los productos del carrito.", Carrito: respuesta}, 200);      
+             
+               /* return res
+                 .status(200)
+                .json({ok: true, message: "Fueron eliminados todos los productos del carrito.", Carrito: respuesta}); */
             
                 }catch(error){
                     req.logger.error(error);
@@ -422,7 +437,7 @@ creaCarritoConProductosDesdeLaVista = async(req, res) => {
                 if (req.headers['content-type'] === 'application/json' || req.xhr) {
                     return res.status(statusCode).json(response);
                 } else {
-                    return res.status(statusCode).render('cart', response);
+                    return res.status(statusCode).render('carts', response);
                 }
               };
  }
