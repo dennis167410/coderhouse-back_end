@@ -329,6 +329,7 @@ creaCarritoConProductosDesdeLaVista = async(req, res) => {
        }
 
 
+       En los test, estoy aca.
       deleteCart = async(req, res) =>{
         
         try{
@@ -336,16 +337,35 @@ creaCarritoConProductosDesdeLaVista = async(req, res) => {
             const cId =  req.params.cid;
             const pId =  req.params.pid;
     
+            req.logger.info("Recibe= Cart = " + cId + " Product = " + pId)
+
+            if (!ObjectId.isValid(cId)) {
+                req.logger.error('El formato del ID del carrito no es válido (500).');
+                return this.handleResponse(req, res, {message: "Error, El formato del ID del carrito no es válido."}, 500);          
+            }
+    
+            if (!ObjectId.isValid(pId)) {
+                req.logger.error('El formato del ID del producto no es válido (500).');
+                return this.handleResponse(req, res, {message: "Error, El formato del ID del producto no es válido."}, 500);          
+            }
+
             const respuesta = await this.cartService.deleteProductByCart(cId, pId); 
             if(respuesta === null){
-                req.logger.error("Error al intentar eliminar el producto del carrito.");
-                return res.json({ok: false, message: "Error al intentar eliminar el producto del carrito."}); 
+                req.logger.error("Error al intentar eliminar el producto del carrito (400).");
+                return this.handleResponse(req, res, {ok: false, message: "Error al intentar eliminar el producto del carrito."}, 400);          
+     
+                //  return res.json({ok: false, message: "Error al intentar eliminar el producto del carrito."}); 
             }
+       
+            req.logger.info("Producto eliminado con éxito del carrito(200).");
+       
+            return this.handleResponse(req, res, {ok: true, message: "Producto eliminado del carrito."}, 200);          
             
-            return res.json({ok: true, message: "Producto eliminado del carrito.", Carrito: respuesta});
+     //       return res.json({ok: true, message: "Producto eliminado del carrito.", Carrito: respuesta});
         
             }catch(error){
                 req.logger.error(error);
+                return this.handleResponse(req, res, {ok: false, message: "Error al intentar eliminar el producto del carrito."}, 400);          
             }
         }
 
