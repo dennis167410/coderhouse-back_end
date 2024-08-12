@@ -126,14 +126,58 @@ agregaProductoAlCarrito = async(req, res) => {
     }
 }
 
+creaCarritoConProductosDesdeLaVista = async (req, res) => {
+    try {
+        req.logger.info("Body desde la vista = " + JSON.stringify(req.body));
+        let cartData2 = req.body.products;
+
+        // Si products no es un array, convertirlo en un array
+        if (!Array.isArray(cartData2)) {
+            cartData2 = [cartData2];
+        }
+
+        req.logger.info("Agrega desde la vista = " + JSON.stringify(cartData2));
+
+        for (const unP of cartData2) {
+            //req.logger.info("Product ID: " + unP.id);
+            if (!ObjectId.isValid(unP.id)) {
+                console.error('El formato del ID no es válido');
+                return this.handleResponse(req, res, { message: "Error, El formato del ID no es válido." }, 500);
+            }
+        }
+
+        req.logger.info("cartData2 " + cartData2 + "  " + req.session.user + " " + req.session.role);
+
+        let newCart = await this.cartService.addCart4(cartData2, req.session.user, req.session.role);
+
+        req.logger.info("newCart ", newCart)
+
+        if (!newCart || newCart === null) {
+            return this.handleResponsePurcharse(req, res, { message: "El carrito no pudo ser creado, faltan datos o no existe el producto." }, 400);
+        }
+
+        return this.handleResponsePurcharse(req, res, { message: "Nuevo carrito con productos creado correctamente", cart: newCart }, 200);
+
+    } catch (error) {
+        req.logger.error("Error... ", error);
+        return this.handleResponse(req, res, { message: "Ocurrió un error al crear el carrito." }, 500);
+    }
+}
+
+
+/*
 creaCarritoConProductosDesdeLaVista = async(req, res) => { 
      
             try{
-    
+                req.logger.info("Body desde la vista = " + req.body)  
                 const cartData2 = req.body;
                 req.logger.info("Agrega desde la vista = " + cartData2)
 
+                req.logger.info("Body desde la vista = " + JSON.stringify(req.body));
+                
+
                 for(const unP of cartData2){
+                    req.logger.info(unP.id)
                     if (!ObjectId.isValid(unP.id)) {
                         console.error('El formato del ID no es válido');
                         return this.handleResponse(req, res, {message: "Error, El formato del ID no es válido."}, 500);          
@@ -144,27 +188,17 @@ creaCarritoConProductosDesdeLaVista = async(req, res) => {
     
                 if(!newCart || newCart === null){
                     return this.handleResponsePurcharse(req, res, {message: "El carrito no pudo ser creado, faltan datos o no existe el producto."}, 400); 
-                  /*  return res
-                    .status(400)
-                    .json({
-                    message: `El carrito no pudo ser creado, faltan datos o no existe el prodcuto.`,
-                    })*/
+                 
                 }
     
                
                 return this.handleResponsePurcharse(req, res, {message: "Nuevo carrito con productos creado correctamente ", cart:newCart}, 200);
-              /*  return res
-                    .status(200)
-                    .json({
-                    message: `Nuevo carrito con productos creado correctamente`,
-                    cart: newCart
-            })*/
-            
+                        
              
             }catch(error){
                 req.logger.error("Error... ", error)
             }
-    }
+    }*/
 
  creaCarritoConProductos = async(req, res) => { 
 // POSMAN - body:
@@ -199,10 +233,10 @@ creaCarritoConProductosDesdeLaVista = async(req, res) => {
 
             const productosConCantidadValida = products.filter(product => product.quantity > 0);
 
-            console.log("largo = " + productosConCantidadValida.length)
+            reg.logger.info("largo = " + productosConCantidadValida.length)
          
              //Para supertest:
-             req.session.user = "dennis@gmail.com";
+           //  req.session.user = "dennis@gmail.com";
 
            // let newCart = await this.cartService.addCart3(cartBody); 
            newCart = await this.cartService.addCart3(productosConCantidadValida, req.session.user); 
@@ -329,7 +363,7 @@ creaCarritoConProductosDesdeLaVista = async(req, res) => {
        }
 
 
-       En los test, estoy aca.
+      //En los test, estoy aca.
       deleteCart = async(req, res) =>{
         
         try{

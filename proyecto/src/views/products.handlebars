@@ -23,17 +23,16 @@
         </article>
     </section>
 
-
-    <section class="row">
+    <section class="row mt-2">
         <h2 class="col-12">
             Lista de productos
         </h2>
 
-        <form action="/api/views/purcharse" method="POST">
+        <form action="/api/views/purcharse" method="POST" id="purchaseForm">
             <input type="hidden" name="first_name" value="{{first_name}}">
             <input type="hidden" name="rol" value="{{rol}}">
 
-        <table class="table table-sm table-striped">
+        <table class="table table-sm table-striped mt-3">
             <thead>
                 <tr>
                     <th>Id.</th>
@@ -86,3 +85,16 @@
     </section>
 
 </main>
+
+<script>
+    document.getElementById('purchaseForm').addEventListener('submit', function(event) {
+        // Obtener todos los checkbox de productos
+        const checkboxes = document.querySelectorAll('input[name="selectedProducts"]:checked');
+        
+        // Verificar si hay al menos un producto seleccionado
+        if (checkboxes.length === 0) {
+            event.preventDefault(); // Prevenir el envío del formulario
+            alert('Por favor, seleccione al menos un producto antes de proceder a la compra.');
+        }
+    });
+</script>

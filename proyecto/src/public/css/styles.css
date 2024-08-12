@@ -1,4 +1,11 @@
 
+form{
+    background-color: skyblue;
+    border-color: 2px solid solid black;
+}
+
+
+
 input{
     padding: 5px;
     border: 0;

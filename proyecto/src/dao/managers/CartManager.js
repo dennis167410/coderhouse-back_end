@@ -182,9 +182,10 @@ class CartManager {
                     
             let r1 = await userManager.getUserByEmail(user);
         
+            console.log("r1 = " + r1);
          
             for (const unP of products) {
-  //              console.log("unP en  add = " + unP.id)
+                console.log("unP en  add = " + unP.id)
                 const product = await productManager.getProductById(unP.id);
     //            console.log("product en add = " + product)
   /*              if (!ObjectId.isValid(unP.id)) {
@@ -230,46 +231,44 @@ class CartManager {
         }
     };
 
-
-    
+//Método para la vista
     addCart4 = async (cartData, userId, rol) => {
         try {
             let newCart = await cartModel.create({});
-            const {products} = cartData;
             
-            for (const unP of products) {
-                const product = await productManager.getProductById(unP.id);
-            
-
-                if (product && product.length > 0 ){
-                    newCart.products.push({product: unP.id, quantity: unP.quantity})
-                  }
-                }
-        
-
-            if(!newCart.products || newCart.products.length ==0){
-               await cartModel.deleteOne({ _id: newCart._id });
-               return null;
-            }else{
-
-            // Asocia el carrito al usuario:
-            let userService = new UserManager();
-            console.log("userId = " + userId)
-            console.log("newCartId = " + newCart._id)
+            // Asegurarse de que cartData es un array
+            const products = Array.isArray(cartData) ? cartData : [cartData];
     
-           let r =  await userService.addCartInUserPorVista(userId, newCart._id);
-                console.log("r = " + r)
+            for (const unP of products) {
+                const product = await productManager.getProductById2(unP.id);
+                if (product || product.length > 0) {
+                    if (!newCart.products) {
+                        newCart.products = [];  // Inicializar el array si aún no está definido
+                    }
 
-            await cartModel.updateOne({_id:newCart._id}, newCart)
-            return newCart._id;
+                    newCart.products.push({ product: unP.id, quantity: unP.quantity });
+                }
+            }
+    
+            if (!newCart.products || newCart.products.length === 0) {
+                await cartModel.deleteOne({ _id: newCart._id });
+                return null;
+            } else {
+                // Asocia el carrito al usuario
+                let userService = new UserManager();
+             
+                let r = await userService.addCartInUserPorVista(userId, newCart._id);
+                console.log("r = " + r);
+    
+                await cartModel.updateOne({ _id: newCart._id }, newCart);
+                return newCart._id;
             }
         } catch (error) {
+            console.error("Error en addCart4: ", error);
             return null;
-            
         }
     };
-
-
+    
 
 /////////////////////////////////////////////////////////////
 

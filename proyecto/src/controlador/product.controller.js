@@ -106,7 +106,8 @@ getProductById = async( req, res) =>{
             return this.handleResponse(req, res, {message: "Error, El formato del ID no es válido."}, 500);          
         }
 
-        const product = await this.productService.getProductById(productId); 
+        // const product = await this.productService.getProductById2(productId); 
+        const product = await this.productService.getProductById2(productId); 
 
         if(!product || product.length == 0){
             req.logger.warning('El producto no existe.');

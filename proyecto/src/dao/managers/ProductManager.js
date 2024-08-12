@@ -32,9 +32,33 @@ class ProductManager {
         }
     }
 
+    getProductById2 = async (unPid) => {
+        try {
+        //    console.log("unpid en getP() " + unPid)
+            const product = await productModel.findOne({_id: unPid}); 
+            
+            return product; 
+        } catch (error) {
+            return null;
+        }
+        /* try{
+            try{
+            const products = await productModel.find({_id: unPid});
+            return products;
+            }catch(error){
+                return null;
+            }
+        }catch(error){
+            return null;
+        }*/
+    }
+
+
     getProductById = async (unPid) => {
         try {
+            comnsole.log("unpid en getP() " + unPid)
             const product = await productModel.findById(unPid); 
+            
             return product; 
         } catch (error) {
             return null;

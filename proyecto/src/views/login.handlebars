@@ -1,49 +1,48 @@
+
 <main class="container-fluid">
-
-<section class="row">
-<h1 class="col-12 text-center text-uppercase">
-    Login de usuario
-</h1>
-</section>
-
-<section class="container">
-    <section class="row justify-content-center align-items-center">
-        <article class="col-md-5 mt-4 text-center">
-            <form action="/api/session/login" method="post">
-                <input type="email" name="email" id="email" placeholder="email" required />
-                <input type="password" name="password" id="password" placeholder="contraseña" required />
-                <button type="submit" class="btn col-8 mt-1 login">login</button>     
-            </form>
-        </article>
+    <section class="row">
+        <h1 class="col-12 text-center text-uppercase">
+            Login de usuario
+        </h1>
     </section>
 
-    <section class="row justify-content-center align-items-center">
-        <form class="col-12 mt-4 text-center" action="/api/views/register" method="get">
-                <button type="submit" class="btn registro">registrarse</button>   
-        </form>
+    <section class="container">
+        <section class="row justify-content-center">
+            <article class="col-12 col-md-6 col-lg-4 text-center mt-2">
+                <form action="/api/session/login" class="p-3" method="post">
+                    <input type="email" name="email" id="email" class="form-control mt-1" placeholder="email" required />
+                    <input type="password" name="password" id="password" class="form-control mt-1" placeholder="contraseña" required />
+                    <button type="submit" class="btn btn-primary w-100 mt-3 login">Login</button>
+                </form>
+            </article>
+        </section>
+
+        <section class="row justify-content-center">
+            <article class="col-12 col-md-6 col-lg-4 text-center mt-2">
+                <form action="/api/views/register" class="p-3" method="get">
+                    <button type="submit" class="btn btn-secondary w-100 registro">Registrarse</button>
+                </form>
+            </article>
+        </section>
+
+        <section class="row justify-content-center">
+            <article class="col-12 col-md-6 col-lg-4 text-center mt-2">
+                <form action="/api/views/recover" class="p-3" method="get">
+                    <button type="submit" class="btn btn-warning w-100 registro">Restaurar contraseña</button>
+                </form>
+            </article>
+        </section>
+
+        <section class="row justify-content-center">
+            <article class="col-12 text-center">
+                <a href="/api/session/github">Entrar con GitHub</a>
+            </article>
+        </section>
     </section>
-
-
-</section>
-   
-
- <section class="row justify-content-center align-items-center">
-        <form class="col-12 mt-4 text-center" action="/api/views/recover" method="get">
-                <button type="submit" class="btn registro">Restaurar contraseña</button>   
-        </form>
-    </section>
-
-           
- <section class="row">
-    <article class="col text-center">
-            <a href="/api/session/github">Entrar con github</a>
-    </article>
- </section>
 
     <section>
         {{#if message}}
             <p>{{message}}</p>
         {{/if}}
     </section>
-
 </main>
